@@ -9,10 +9,6 @@ extends Control
 
 
 func _ready():
-	start_button.pressed.connect(_on_start_button_pressed)
-	settings_button.pressed.connect(_on_settings_button_pressed)
-	quit_button.pressed.connect(_on_quit_button_pressed)
-	
 	# settings visability
 	setting_menu.visible = false
 
