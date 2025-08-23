@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://cxiwktsaqivrw"]
 
 [ext_resource type="Texture2D" uid="uid://8wy1pqyi5y1u" path="res://assets/ui/gun_sprites.png" id="1_3vyb7"]
-[ext_resource type="Script" uid="uid://b7w4fmdis1d2d" path="res://scenes/player.gd" id="1_g2els"]
+[ext_resource type="Script" uid="uid://b7w4fmdis1d2d" path="res://scripts/player.gd" id="1_g2els"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_u8vuu"]
 
@@ -55,8 +55,7 @@ animations = [{
 "speed": 10.0
 }]
 
-[node name="CharacterBody3D" type="CharacterBody3D"]
-transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+[node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_g2els")
 
 [node name="Camera3D" type="Camera3D" parent="."]
