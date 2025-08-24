@@ -1,12 +1,22 @@
 extends Node3D
 
-@onready var spawn_timer: Timer = $SpawnTimer
-
 @export var entity_scene : PackedScene = Prefabs.ENEMY
+
+var next_spawn_time : float = Time.get_ticks_msec()
+var spawn_cooldown : float = 1000.0
+
+var enabled : bool = false
+
+enum BruteState { APPROACH, WINDUP, DASH, EXHAUSTED }
 
 func _ready() -> void:
 	add_to_group("spawner")
-	spawn_timer.timeout.connect(_on_spawn_timer_timeout)
+	
+func _process(_delta: float) -> void:
+	if enabled and Time.get_ticks_msec() > next_spawn_time:
+		next_spawn_time = Time.get_ticks_msec() + spawn_cooldown
+		attempt_spawn()
+	
 
 func attempt_spawn() -> void:
 	if GameManager.current_num_enemies < GameManager.max_num_enemies:
@@ -14,12 +24,3 @@ func attempt_spawn() -> void:
 		add_child(entity)
 		entity.global_position = global_position
 		GameManager.current_num_enemies += 1
-
-func start() -> void:
-	spawn_timer.start()
-	
-func stop() -> void:
-	spawn_timer.stop()
-
-func _on_spawn_timer_timeout() -> void:
-	attempt_spawn()

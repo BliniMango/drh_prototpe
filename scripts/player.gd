@@ -1,31 +1,21 @@
 class_name Player
-extends CharacterBody3D
+extends Entity
 
 signal player_died
 
-@export var speed = 5.0
 @export var mouse_sensitivity = 0.002
-@export var max_health = 100
-@export var current_health = 100
 
 @onready var camera = $Camera3D
 @onready var health_bar = $UICanvas/HealthBar
 @onready var shoot_anim = $UICanvas/ShootAnim
 @onready var crosshair = $UICanvas/Crosshair
 
-var dash_decay_speed : float = 2.0
-var max_dash_speed : float = 40.0
-var dash_speed : float = max_dash_speed
-var next_dash_time : float = Time.get_ticks_msec()
-var dash_cooldown : float = 1000.0
-var dash_direction : Vector3 = Vector3.ZERO
-
 var fire_rate : float = 5.0
-var is_dead : bool = false
 var shoot_cone_threshold : float = deg_to_rad(3)
 var shoot_timer : float = 0.0
 
-func _ready():
+func _ready() -> void:
+	super._ready()
 	add_to_group("player")
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
@@ -36,7 +26,7 @@ func _ready():
 		#get_viewport().size.y / 2 - crosshair.size.y / 2
 	#)
 
-func _input(event):
+func _input(event) -> void:
 	if is_dead:
 		return
 	# mouse perspective
@@ -52,7 +42,7 @@ func _input(event):
 		else:
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED) 
 
-func _physics_process(delta):
+func _physics_process(delta) -> void:
 	if is_dead:
 		return
 	
@@ -96,12 +86,9 @@ func _physics_process(delta):
 		if dash_speed <= 0:
 			dash_speed = 0
 
-	if not is_on_floor():
-		velocity.y += get_gravity().y * delta
-
-	move_and_slide()
+	super._physics_process(delta)
 	
-func _process(delta):
+func _process(delta) -> void:
 	if shoot_anim.animation == "shoot" and !shoot_anim.is_playing():
 		shoot_anim.play("idle")
 		
@@ -119,7 +106,7 @@ func shoot():
 	var camera_forward : Vector3 = -camera.global_transform.basis.z
 	var enemies : Array[Node] = GameManager.get_enemies_in_scene()
 	
-	var closest_enemy : Enemy = null
+	var closest_enemy : Node = null
 	var smallest_distance : float = INF
 	for enemy in enemies:
 		var distance : Vector3 = enemy.global_position - global_position
@@ -133,31 +120,17 @@ func shoot():
 	
 	if closest_enemy != null:
 		print("Shot {0}".format([closest_enemy]))
-		closest_enemy.take_damage(50.0)
+		closest_enemy.take_damage(100.0)
 
-func take_damage(amount: int):
-	if is_dead:
-		return
-	current_health -= amount
-	current_health = max(0, current_health)
+func take_damage(amount: float) -> void:
+	super.take_damage(amount)
 	update_health_ui()
-	
-	if current_health <= 0:
-		die()
 
-func update_health_ui():
+func update_health_ui() -> void:
 	if health_bar:
 		health_bar.value = current_health
-
-func die():
-	if is_dead:
-		return
-	is_dead = true
+		
+func die() -> void:
+	super.die()
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	player_died.emit()
-
-func respawn():
-	current_health = max_health
-	is_dead = false
-	update_health_ui()
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)

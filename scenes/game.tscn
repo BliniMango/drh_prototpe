@@ -12,6 +12,8 @@ script = ExtResource("1_yqjtg")
 
 [node name="CSGMesh3D" type="CSGMesh3D" parent="."]
 use_collision = true
+collision_layer = 2
+collision_mask = 0
 mesh = SubResource("BoxMesh_lnu2h")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]

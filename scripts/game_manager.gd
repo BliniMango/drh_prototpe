@@ -13,12 +13,12 @@ func _ready() -> void:
 func start_spawners() -> void:
 	var spawners : Array[Node] = get_tree().get_nodes_in_group("spawner")
 	for spawner in spawners:
-		spawner.start()
+		spawner.enabled = true
 		
 func stop_spawners() -> void:
 	var spawners : Array[Node] = get_tree().get_nodes_in_group("spawner")
 	for spawner in spawners:
-		spawner.stop()
+		spawner.enabled = false
 
 func get_total_enemies() -> int:
 	return get_tree().get_nodes_in_group("enemy").size()
