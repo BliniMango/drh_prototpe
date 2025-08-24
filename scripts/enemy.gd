@@ -2,8 +2,9 @@ class_name Enemy
 extends Entity
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
-@onready var hurt_box: Area3D = $HurtBox
- 
+@onready var hit_box: Area3D = $HitBox
+
+
 signal enemy_died
 
 func _ready() -> void:

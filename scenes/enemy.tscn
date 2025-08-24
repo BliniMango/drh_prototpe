@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dwji84q36xvaa"]
+[gd_scene load_steps=9 format=3 uid="uid://dwji84q36xvaa"]
 
 [ext_resource type="Script" uid="uid://cnt6oqsdbktwn" path="res://scripts/enemy.gd" id="1_7p1mj"]
 [ext_resource type="Texture2D" uid="uid://t3x6w4jm2cyc" path="res://assets/sprites/enemies/monster_sprites.png" id="2_md0e3"]
@@ -100,6 +100,8 @@ _data = {
 &"walk": SubResource("Animation_md0e3")
 }
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_4ra3w"]
+
 [node name="Enemy" type="CharacterBody3D" node_paths=PackedStringArray("entity_sprite")]
 collision_mask = 2
 script = ExtResource("1_7p1mj")
@@ -121,3 +123,11 @@ vframes = 2
 libraries = {
 &"": SubResource("AnimationLibrary_5uy6h")
 }
+
+[node name="HitBox" type="Area3D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitBox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_4ra3w")

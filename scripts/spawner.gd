@@ -1,13 +1,11 @@
 extends Node3D
 
-@export var entity_scene : PackedScene = Prefabs.ENEMY
+@export var entity_scene : PackedScene = Prefabs.BRUTE
 
 var next_spawn_time : float = Time.get_ticks_msec()
 var spawn_cooldown : float = 1000.0
 
 var enabled : bool = false
-
-enum BruteState { APPROACH, WINDUP, DASH, EXHAUSTED }
 
 func _ready() -> void:
 	add_to_group("spawner")

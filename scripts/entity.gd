@@ -4,15 +4,23 @@ extends CharacterBody3D
 @export var entity_sprite : Sprite3D
 
 @export var speed = 5.0
+
 @export var max_health = 100
 @export var current_health = 100
+@export var damage = 10.0
 
+# dash
 var dash_decay_speed : float = 2.0
 var max_dash_speed : float = 40.0
-var dash_speed : float = max_dash_speed
+var dash_speed : float = 0.0
 var next_dash_time : float = Time.get_ticks_msec()
 var dash_cooldown : float = 1000.0
 var dash_direction : Vector3 = Vector3.ZERO
+
+# knockback
+var knockback_velocity : Vector3 = Vector3.ZERO
+var knockback_decay : float = 50.0
+var knockback_force : float = 50.0
 
 var is_dead : bool = false
 var spawn_position : Vector3
@@ -23,7 +31,11 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity.y += get_gravity().y * delta
-
+		
+	if knockback_velocity.length() > 0:
+		velocity += knockback_velocity
+		knockback_velocity = knockback_velocity.move_toward(Vector3.ZERO, knockback_decay * delta)
+		print_debug("knockback_velocity {0}".format([knockback_velocity.length()]))
 	move_and_slide()
 
 func take_damage(amount: float) -> void:

@@ -6,9 +6,10 @@ signal player_died
 @export var mouse_sensitivity = 0.002
 
 @onready var camera = $Camera3D
-@onready var health_bar = $UICanvas/HealthBar
-@onready var shoot_anim = $UICanvas/ShootAnim
 @onready var crosshair = $UICanvas/Crosshair
+@onready var health_bar = $UICanvas/HealthBar
+@onready var hurt_box: Area3D = $HurtBox
+@onready var shoot_anim = $UICanvas/ShootAnim
 
 var fire_rate : float = 5.0
 var shoot_cone_threshold : float = deg_to_rad(3)
@@ -25,6 +26,7 @@ func _ready() -> void:
 		#get_viewport().size.x / 2 - crosshair.size.x / 2,
 		#get_viewport().size.y / 2 - crosshair.size.y / 2
 	#)
+	hurt_box.area_entered.connect(_on_hurt_box_entered)
 
 func _input(event) -> void:
 	if is_dead:
@@ -134,3 +136,12 @@ func die() -> void:
 	super.die()
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	player_died.emit()
+	
+func _on_hurt_box_entered(area: Area3D) -> void:
+	var enemy = area.get_parent()
+	var knockback_direction = (global_position - enemy.global_position).normalized()
+	var knockback_force = enemy.knockback_force
+	knockback_velocity = knockback_direction * knockback_force
+	
+	take_damage(enemy.damage)
+	print("Hit by: {0}".format([area.name]))
