@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cxiwktsaqivrw"]
+[gd_scene load_steps=11 format=3 uid="uid://cxiwktsaqivrw"]
 
 [ext_resource type="Texture2D" uid="uid://8wy1pqyi5y1u" path="res://assets/ui/gun_sprites.png" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://b7w4fmdis1d2d" path="res://scripts/player.gd" id="1_g2els"]
@@ -54,8 +54,6 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_g2els"]
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_g2els"]
 
 [node name="Player" type="CharacterBody3D"]
 collision_mask = 18
@@ -139,12 +137,12 @@ text = "Main Menu"
 
 [node name="HurtBox" type="Area3D" parent="."]
 collision_layer = 8
-collision_mask = 6
+collision_mask = 68
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HurtBox"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_g2els")
+debug_color = Color(0, 0.646441, 0.236951, 0.42)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-mesh = SubResource("CapsuleMesh_g2els")
+[node name="Muzzle" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.48046, 0)

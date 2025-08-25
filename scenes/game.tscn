@@ -1,32 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://cfcfi0jd7014y"]
+[gd_scene load_steps=3 format=3 uid="uid://cfcfi0jd7014y"]
 
-[ext_resource type="PackedScene" uid="uid://cxiwktsaqivrw" path="res://scenes/player.tscn" id="1_uwrxv"]
 [ext_resource type="Script" uid="uid://g1ku8xs8kfvu" path="res://scripts/game_manager.gd" id="1_yqjtg"]
-[ext_resource type="PackedScene" uid="uid://cy6t3hdyq2a7" path="res://scenes/spawner.tscn" id="4_lbhrr"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_lnu2h"]
-size = Vector3(50, 1, 50)
+[ext_resource type="PackedScene" uid="uid://demh0rtg15j6j" path="res://scenes/main_level.tscn" id="2_yqjtg"]
 
 [node name="Game" type="Node3D"]
 script = ExtResource("1_yqjtg")
 
-[node name="CSGMesh3D" type="CSGMesh3D" parent="."]
-use_collision = true
-collision_layer = 2
-collision_mask = 0
-mesh = SubResource("BoxMesh_lnu2h")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.533703, 0.845672, 0, -0.845672, 0.533703, 0, 2.33933, 0)
-
 [node name="UILayer" type="CanvasLayer" parent="."]
 
-[node name="Player" parent="." instance=ExtResource("1_uwrxv")]
+[node name="StageManager" type="Node3D" parent="."]
 
-[node name="Spawners" type="Node3D" parent="."]
-
-[node name="Spawner" parent="Spawners" instance=ExtResource("4_lbhrr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 0, 0)
-
-[node name="Spawner2" parent="Spawners" instance=ExtResource("4_lbhrr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23, 0, 0)
+[node name="MainLevel" parent="StageManager" instance=ExtResource("2_yqjtg")]

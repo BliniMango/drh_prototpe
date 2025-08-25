@@ -9,6 +9,7 @@ signal player_died
 @onready var crosshair = $UICanvas/Crosshair
 @onready var health_bar = $UICanvas/HealthBar
 @onready var hurt_box: Area3D = $HurtBox
+@onready var muzzle: Marker3D = $Muzzle
 @onready var shoot_anim = $UICanvas/ShootAnim
 
 var fire_rate : float = 5.0
@@ -27,6 +28,8 @@ func _ready() -> void:
 		#get_viewport().size.y / 2 - crosshair.size.y / 2
 	#)
 	hurt_box.area_entered.connect(_on_hurt_box_entered)
+	for i in range(10):
+		throwable_inventory.append(Prefabs.DYNAMITE)
 
 func _input(event) -> void:
 	if is_dead:
@@ -99,7 +102,15 @@ func _process(delta) -> void:
 		if shoot_timer >= (1.0 / fire_rate):
 			shoot()
 			shoot_timer = 0.0
-			
+		
+	if Input.is_action_just_pressed("throw"):
+		if throwable_inventory.size() > 0:
+			var throwable : PackedScene = throwable_inventory.pop_back()
+			var projectile = throwable.instantiate()
+			projectile.global_position = muzzle.global_position
+			projectile.thrower = self
+			get_tree().current_scene.add_child(projectile)
+				
 
 func shoot():
 	if shoot_anim.animation != "shoot":
@@ -121,7 +132,7 @@ func shoot():
 				smallest_distance = distance.length()
 	
 	if closest_enemy != null:
-		print("Shot {0}".format([closest_enemy]))
+		#print("Shot {0}".format([closest_enemy]))
 		closest_enemy.take_damage(100.0)
 
 func take_damage(amount: float) -> void:
@@ -138,10 +149,12 @@ func die() -> void:
 	player_died.emit()
 	
 func _on_hurt_box_entered(area: Area3D) -> void:
+	if not area.is_in_group("enemy"):
+		return
 	var enemy = area.get_parent()
 	var knockback_direction = (global_position - enemy.global_position).normalized()
 	var knockback_force = enemy.knockback_force
 	knockback_velocity = knockback_direction * knockback_force
 	
 	take_damage(enemy.damage)
-	print("Hit by: {0}".format([area.name]))
+	#print("Hit by: {0}".format([area.name]))

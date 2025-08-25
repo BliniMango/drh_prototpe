@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://blnm8713h35no"]
+[gd_scene load_steps=15 format=3 uid="uid://demh0rtg15j6j"]
 
 [ext_resource type="Texture2D" uid="uid://mg4gd5scffch" path="res://assets/sprites/Textures/Grass_11-256x256.png" id="1_ufxs0"]
 [ext_resource type="PackedScene" uid="uid://cxiwktsaqivrw" path="res://scenes/player.tscn" id="2_6we3w"]

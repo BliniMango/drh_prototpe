@@ -14,8 +14,14 @@ var dash_decay_speed : float = 2.0
 var max_dash_speed : float = 40.0
 var dash_speed : float = 0.0
 var next_dash_time : float = Time.get_ticks_msec()
-var dash_cooldown : float = 1000.0
+var dash_cooldown : float = 1000.0 # miliseconds
 var dash_direction : Vector3 = Vector3.ZERO
+
+# throwable
+var throwable_inventory : Array[PackedScene]
+var throw_cooldown : float = 5000.0 # miliseconds
+var next_throw_time : float = Time.get_ticks_msec()
+var throw_range : float = 17.0
 
 # knockback
 var knockback_velocity : Vector3 = Vector3.ZERO
@@ -35,7 +41,7 @@ func _physics_process(delta: float) -> void:
 	if knockback_velocity.length() > 0:
 		velocity += knockback_velocity
 		knockback_velocity = knockback_velocity.move_toward(Vector3.ZERO, knockback_decay * delta)
-		print_debug("knockback_velocity {0}".format([knockback_velocity.length()]))
+		#print_debug("knockback_velocity {0}".format([knockback_velocity.length()]))
 	move_and_slide()
 
 func take_damage(amount: float) -> void:

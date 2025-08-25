@@ -1,4 +1,4 @@
-class_name Brute
+class_name Gunner
 extends Entity
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -48,19 +48,19 @@ func enter_state(state: State) -> void: # setup
 		State.APPROACH: 
 			animation_player.play("walk")
 		State.WINDUP: 
-			#animation_player.play("windup")
+			animation_player.play("windup")
 			velocity = Vector3.ZERO
 			await get_tree().create_timer(windup_time).timeout
 			change_state(State.DASH)
 		State.DASH:
-			#animation_player.play("dash")
+			animation_player.play("dash")
 			var player_vec = GameManager.player.global_position - global_position
 			var direction = player_vec.normalized()
 			dash_speed = max_dash_speed
 			dash_direction = direction
 			next_dash_time = Time.get_ticks_msec() + dash_cooldown
 		State.EXHAUSTED: 
-			#animation_player.play("exhausted")
+			animation_player.play("exhausted")
 			velocity = Vector3.ZERO
 			await get_tree().create_timer(windup_time).timeout
 			change_state(State.APPROACH)

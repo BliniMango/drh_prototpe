@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://bj4d8v5n0xgeu"]
+
+[ext_resource type="PackedScene" uid="uid://dwji84q36xvaa" path="res://scenes/enemy.tscn" id="1_obhag"]
+[ext_resource type="Script" uid="uid://c8eak877m85ef" path="res://scripts/dynamite_bandit.gd" id="2_ubfmw"]
+
+[node name="DynamiteBandit" instance=ExtResource("1_obhag")]
+script = ExtResource("2_ubfmw")
