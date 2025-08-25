@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://bv1g0qos77s0f"]
+[gd_scene load_steps=8 format=3 uid="uid://bv1g0qos77s0f"]
 
 [ext_resource type="PackedScene" uid="uid://c5aase6p6ftky" path="res://scenes/brute.tscn" id="1_nwf76"]
 [ext_resource type="Script" uid="uid://cr0ebp6qjr0ra" path="res://scripts/gunner.gd" id="2_58u8n"]
+[ext_resource type="Texture2D" uid="uid://t3x6w4jm2cyc" path="res://assets/sprites/enemies/monster_sprites.png" id="3_ougl3"]
 
 [sub_resource type="Animation" id="Animation_5uy6h"]
 length = 0.001
@@ -101,6 +102,9 @@ _data = {
 [node name="Gunner" instance=ExtResource("1_nwf76")]
 collision_layer = 1
 script = ExtResource("2_58u8n")
+
+[node name="Sprite3D" parent="." index="1"]
+texture = ExtResource("3_ougl3")
 
 [node name="AnimationPlayer" parent="." index="2"]
 libraries = {

@@ -18,7 +18,7 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	if not is_dead:
-		update_sprite_direction()
+		super.update_sprite_direction()
 		match current_state:
 			State.APPROACH: handle_approach(delta)
 			State.WINDUP: handle_windup()
@@ -32,33 +32,7 @@ func die() -> void:
 	animation_player.play("die")
 	GameManager.current_num_enemies -= 1
 
-	var bounce_direction = Vector3(1, 1, 0).normalized()
-	velocity = bounce_direction + Vector3(0, 3, 0)
-
-	var tween = create_tween()
-	tween.tween_property(entity_sprite, "modulate:a", 0.0, .8)
-	tween.tween_callback(queue_free)
-
-func update_sprite_direction() -> void:
-	if GameManager.player == null:
-		print_debug("[brute.gd] player is null")
-
-	if velocity.length() < 0.1: return
-	
-	var to_player = GameManager.player.global_position - global_position
-	var enemy_forward = global_transform.basis.z
-
-
-	var angle = rad_to_deg(enemy_forward.angle_to(Vector3(to_player.x, 0, to_player.z)))
-
-	if angle < 60 or angle > 300:
-		entity_sprite.texture = front_texture
-	elif angle > 150 and angle < 210:
-		entity_sprite.texture = back_texture
-	else:
-		entity_sprite.texture = side_texture
-	
-	entity_sprite.flip_h = (angle > 180)
+	super.create_death_effect()
 
 # state machine
 func change_state(new_state: State) -> void:
@@ -100,15 +74,11 @@ func handle_approach(delta: float) -> void:
 	if GameManager.player == null:
 		printerr("[brute.gd] player is null")
 		return
+
 	var player_vec = GameManager.player.global_position - global_position
-	var direction = player_vec.normalized()
 
-	var target_angle = atan2(direction.x, direction.z)
-	rotation.y = lerp_angle(rotation.y, target_angle, 3.0 * delta)
+	super.move_forward_and_rotate_toward_player(delta, player_vec)
 
-	var forward = global_transform.basis.z
-	velocity.x = forward.x * speed
-	velocity.z = forward.z * speed
 	if dash_range > player_vec.length() and next_dash_time < Time.get_ticks_msec():
 		change_state(State.WINDUP)
 		

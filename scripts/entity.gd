@@ -77,3 +77,44 @@ func respawn():
 	current_health = max_health
 	is_dead = false
 	_reset_sprite()
+
+func create_death_effect():
+	set_collision_layer(0)
+	set_collision_mask(0)
+
+	var bounce_direction = Vector3(1, 1, 0).normalized()
+	velocity = bounce_direction + Vector3(0, 3, 0)
+
+	var tween = create_tween()
+	tween.tween_property(entity_sprite, "modulate:a", 0.0, .8)
+	tween.tween_callback(queue_free)
+
+func update_sprite_direction() -> void:
+	if GameManager.player == null:
+		print_debug("[brute.gd] player is null")
+
+	if velocity.length() < 0.1: return
+	
+	var to_player = GameManager.player.global_position - global_position
+	var enemy_forward = global_transform.basis.z
+
+
+	var angle = rad_to_deg(enemy_forward.angle_to(Vector3(to_player.x, 0, to_player.z)))
+
+	if angle < 60 or angle > 300:
+		entity_sprite.texture = front_texture
+	elif angle > 150 and angle < 210:
+		entity_sprite.texture = back_texture
+	else:
+		entity_sprite.texture = side_texture
+	
+	entity_sprite.flip_h = (angle > 180)
+
+func move_forward_and_rotate_toward_player(delta: float, player_vec: Vector3):
+	var direction = player_vec.normalized()
+	var target_angle = atan2(direction.x, direction.z)
+	rotation.y = lerp_angle(rotation.y, target_angle, 3.0 * delta)
+
+	var forward = global_transform.basis.z
+	velocity.x = forward.x * speed
+	velocity.z = forward.z * speed

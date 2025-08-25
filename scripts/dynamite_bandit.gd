@@ -17,20 +17,24 @@ func _ready() -> void:
 	dash_cooldown = 5000.0 # 5 seconds
 	enter_state(State.APPROACH)
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if not is_dead:
+		super.update_sprite_direction()
 		match current_state:
-			State.APPROACH: handle_approach()
+			State.APPROACH: handle_approach(delta)
 			State.THROW: handle_throw()
 			State.SUICIDE_CHARGE: handle_suicide_charge()
 			State.EXPLODE: handle_explode()
 	
-	super._physics_process(_delta)
+	super._physics_process(delta)
 
 func die() -> void:
 	super.die()
 	animation_player.play("die")
 	GameManager.current_num_enemies -= 1
+
+	super.create_death_effect()
+
 
 func throw_dynamite() -> void:
 	if GameManager.player == null:
@@ -71,7 +75,6 @@ func exit_state(state: State) -> void: # cleanup
 	match state:
 		State.APPROACH: 
 			animation_player.stop()
-		State.SUICIDE_CHARGE: dash_speed = 0.0
 		
 func enter_state(state: State) -> void: # setup
 	#print("Entering {0} State".format([state]))
@@ -79,13 +82,13 @@ func enter_state(state: State) -> void: # setup
 		State.APPROACH: 
 			animation_player.play("walk")
 		State.THROW: 
-			#animation_player.play("throw") # maybe keyframe animation to spawn a projectile to throw at the player?
+			animation_player.play("idle")
 			velocity = Vector3.ZERO
 		State.SUICIDE_CHARGE:
-			#animation_player.play("dash")
+			animation_player.play("walk")
 			pass
 		State.EXPLODE: 
-			#animation_player.play("exhausted")
+			animation_player.play("idle")
 			velocity = Vector3.ZERO
 			# spawn an instant dynamite and blow it 
 			var d = Prefabs.DYNAMITE.instantiate()
@@ -96,14 +99,14 @@ func enter_state(state: State) -> void: # setup
 			get_tree().current_scene.add_child(d)
 
 		
-func handle_approach() -> void:
+func handle_approach(delta: float) -> void:
 	if GameManager.player == null:
 		printerr("[dynamite_bandit.gd] player is null")
 		return
 	var player_vec = GameManager.player.global_position - global_position
-	var direction = player_vec.normalized()
-	velocity.x = direction.x * speed
-	velocity.z = direction.z * speed
+
+	super.move_forward_and_rotate_toward_player(delta, player_vec)
+
 	if throw_range > player_vec.length():
 		change_state(State.THROW)
 		
@@ -120,7 +123,9 @@ func handle_throw() -> void:
 		
 	if throw_range > player_vec.length():
 		if next_throw_time < Time.get_ticks_msec():
-			throw_dynamite()
+			animation_player.play("attack")
+		else:
+			animation_player.play("idle")
 	else:
 		change_state(State.APPROACH)
 	

@@ -1,7 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://dwji84q36xvaa"]
+[gd_scene load_steps=4 format=3 uid="uid://dwji84q36xvaa"]
 
 [ext_resource type="Script" uid="uid://cnt6oqsdbktwn" path="res://scripts/enemy.gd" id="1_7p1mj"]
-[ext_resource type="Texture2D" uid="uid://t3x6w4jm2cyc" path="res://assets/sprites/enemies/monster_sprites.png" id="2_md0e3"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_md0e3"]
 
@@ -21,7 +20,6 @@ shape = SubResource("CapsuleShape3D_md0e3")
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.28395, 0)
 billboard = 2
-texture = ExtResource("2_md0e3")
 hframes = 5
 vframes = 2
 

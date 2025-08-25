@@ -1,10 +1,130 @@
-[gd_scene load_steps=3 format=3 uid="uid://bj4d8v5n0xgeu"]
+[gd_scene load_steps=12 format=3 uid="uid://bj4d8v5n0xgeu"]
 
 [ext_resource type="PackedScene" uid="uid://dwji84q36xvaa" path="res://scenes/enemy.tscn" id="1_obhag"]
 [ext_resource type="Script" uid="uid://c8eak877m85ef" path="res://scripts/dynamite_bandit.gd" id="2_ubfmw"]
+[ext_resource type="Texture2D" uid="uid://bl43edlhty4lx" path="res://assets/sprites/Mobs/Coyote/Coyote Front Sheet.png" id="3_16shx"]
+[ext_resource type="Texture2D" uid="uid://crkhyglr6qlir" path="res://assets/sprites/Mobs/Coyote/Coyote Back Sheet.png" id="4_58oi0"]
+[ext_resource type="Texture2D" uid="uid://bukxm61lp0rgn" path="res://assets/sprites/Mobs/Coyote/Coyote Side Sheet.png" id="5_lmo8l"]
+
+[sub_resource type="Animation" id="Animation_16shx"]
+resource_name = "idle"
+length = 0.3
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.0666667, 0.1, 0.133333, 0.166667, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6]
+}
+
+[sub_resource type="Animation" id="Animation_58oi0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_lmo8l"]
+resource_name = "walk"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.0666667, 0.1, 0.133333, 0.166667, 0.2, 0.233333, 0.266667, 0.3, 0.333333, 0.366667, 0.4, 0.433333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37]
+}
+
+[sub_resource type="Animation" id="Animation_wefl4"]
+resource_name = "attack"
+length = 0.9
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.0666667, 0.1, 0.133333, 0.166667, 0.2, 0.233333, 0.266667, 0.3, 0.333333, 0.366667, 0.4, 0.433333, 0.466667, 0.5, 0.533333, 0.566667, 0.6, 0.633333, 0.666667, 0.7, 0.733333, 0.766667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.566667),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"throw_dynamite"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_ogg6l"]
+resource_name = "die"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [72]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_58oi0"]
+_data = {
+&"RESET": SubResource("Animation_58oi0"),
+&"attack": SubResource("Animation_wefl4"),
+&"die": SubResource("Animation_ogg6l"),
+&"idle": SubResource("Animation_16shx"),
+&"walk": SubResource("Animation_lmo8l")
+}
 
 [node name="DynamiteBandit" instance=ExtResource("1_obhag")]
 script = ExtResource("2_ubfmw")
+front_texture = ExtResource("3_16shx")
+back_texture = ExtResource("4_58oi0")
+side_texture = ExtResource("5_lmo8l")
 
-[node name="CollisionShape3D" parent="HitBox" index="0"]
-debug_color = Color(0.948062, 0, 0.20631, 0.42)
+[node name="Sprite3D" parent="." index="1"]
+transform = Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 1, 0, 1, 0)
+offset = Vector2(9, -3)
+texture_filter = 0
+texture = ExtResource("3_16shx")
+hframes = 24
+vframes = 4
+
+[node name="AnimationPlayer" parent="." index="4"]
+libraries = {
+&"": SubResource("AnimationLibrary_58oi0")
+}
