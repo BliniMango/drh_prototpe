@@ -2,12 +2,17 @@ class_name Entity
 extends CharacterBody3D
 
 @export var entity_sprite : Sprite3D
+@export var front_texture: Texture2D
+@export var back_texture: Texture2D
+@export var side_texture: Texture2D
 
 @export var speed = 5.0
 
 @export var max_health = 100
 @export var current_health = 100
 @export var damage = 10.0
+
+var sprite_locked: bool = false
 
 # dash
 var dash_decay_speed : float = 2.0
@@ -27,6 +32,8 @@ var throw_range : float = 17.0
 var knockback_velocity : Vector3 = Vector3.ZERO
 var knockback_decay : float = 50.0
 var knockback_force : float = 50.0
+var is_stunned : bool = false
+var stun_duration : float = 0.0
 
 var is_dead : bool = false
 var spawn_position : Vector3
@@ -45,6 +52,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func take_damage(amount: float) -> void:
+	print_debug("Took {0} damage".format([amount]))
 	if is_dead:
 		return
 	current_health -= amount

@@ -2,15 +2,19 @@ class_name Gunner
 extends Entity
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var hit_box: Area3D = $HitBox
 
-var dash_range : float = 7.0
+var shoot_range : float = 7.0
 var current_state : State
-var windup_time = 1.5
-enum State { APPROACH, WINDUP, DASH, EXHAUSTED }
+var aim_time = 1.5
+var reload_time = 1.5
+enum State { APPROACH, AIM, SHOOT, RELOAD }
 
 func _ready() -> void:
 	super._ready()
 	add_to_group("enemy")
+	hit_box.add_to_group("gunner")
+
 	dash_cooldown = 5000.0 # 5 seconds
 	enter_state(State.APPROACH)
 
@@ -18,9 +22,9 @@ func _physics_process(_delta: float) -> void:
 	if not is_dead:
 		match current_state:
 			State.APPROACH: handle_approach()
-			State.WINDUP: handle_windup()
-			State.DASH: handle_dash()
-			State.EXHAUSTED: handle_exhausted()
+			State.AIM: handle_aim()
+			State.SHOOT: handle_shoot()
+			State.RELOAD: handle_reload()
 	
 	super._physics_process(_delta)
 
@@ -39,30 +43,28 @@ func change_state(new_state: State) -> void:
 func exit_state(state: State) -> void: # cleanup
 	match state:
 		State.APPROACH: 
-			animation_player.stop()
-		State.DASH: dash_speed = 0.0
+			pass
+		State.AIM:
+			pass
+		State.SHOOT: 
+			pass
+		State.RELOAD:
+			pass
 		
 func enter_state(state: State) -> void: # setup
 	#print("Entering {0} State".format([state]))
 	match state:
 		State.APPROACH: 
 			animation_player.play("walk")
-		State.WINDUP: 
-			animation_player.play("windup")
+		State.AIM: 
 			velocity = Vector3.ZERO
-			await get_tree().create_timer(windup_time).timeout
-			change_state(State.DASH)
-		State.DASH:
-			animation_player.play("dash")
-			var player_vec = GameManager.player.global_position - global_position
-			var direction = player_vec.normalized()
-			dash_speed = max_dash_speed
-			dash_direction = direction
-			next_dash_time = Time.get_ticks_msec() + dash_cooldown
-		State.EXHAUSTED: 
-			animation_player.play("exhausted")
+			await get_tree().create_timer(aim_time).timeout
+			change_state(State.SHOOT)
+		State.SHOOT:
+			pass
+		State.RELOAD: 
 			velocity = Vector3.ZERO
-			await get_tree().create_timer(windup_time).timeout
+			await get_tree().create_timer(reload_time).timeout
 			change_state(State.APPROACH)
 		
 func handle_approach() -> void:
@@ -73,20 +75,15 @@ func handle_approach() -> void:
 	var direction = player_vec.normalized()
 	velocity.x = direction.x * speed
 	velocity.z = direction.z * speed
-	if dash_range > player_vec.length() and next_dash_time < Time.get_ticks_msec():
-		change_state(State.WINDUP)
+	if shoot_range > player_vec.length():
+		change_state(State.AIM)
 		
-func handle_windup() -> void:
+func handle_aim() -> void:
 	pass # handled in enter state setup once
 
-func handle_dash() -> void:
-	if dash_speed > 0:
-		velocity.x = dash_direction.x * dash_speed
-		velocity.z = dash_direction.z * dash_speed
-		dash_speed -= dash_decay_speed
-	else:
-		change_state(State.EXHAUSTED)
+func handle_shoot() -> void:
+	pass # TODO
 
-func handle_exhausted() -> void:
+func handle_reload() -> void:
 	pass # handled in enter state setup once
 	

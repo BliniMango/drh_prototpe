@@ -12,8 +12,10 @@ signal player_died
 @onready var muzzle: Marker3D = $Muzzle
 @onready var shoot_anim = $UICanvas/ShootAnim
 
+var dash_input_pressed : bool = false
+var movement_input : Vector2 = Vector2.ZERO
 var fire_rate : float = 5.0
-var shoot_cone_threshold : float = deg_to_rad(3)
+var shoot_cone_threshold : float = deg_to_rad(8)
 var shoot_timer : float = 0.0
 
 func _ready() -> void:
@@ -51,40 +53,31 @@ func _physics_process(delta) -> void:
 	if is_dead:
 		return
 	
-	var input_dir = Vector2.ZERO
 	if dash_speed == 0:
-		# only update input_dir and dash_direction if not dashing
-		if Input.is_action_pressed("move_left"):
-			input_dir.x -= 1
-		if Input.is_action_pressed("move_right"):
-			input_dir.x += 1
-		if Input.is_action_pressed("move_foward"):
-			input_dir.y -= 1
-		if Input.is_action_pressed("move_backward"):
-			input_dir.y += 1
-
-		if Input.is_action_just_pressed("dash") and input_dir.length() > 0 and next_dash_time < Time.get_ticks_msec():
-			if input_dir.x == -1:
+		if Input.is_action_just_pressed("dash") and movement_input.length() > 0 and next_dash_time < Time.get_ticks_msec():
+			if movement_input.x == -1:
 				dash_direction = -transform.basis.x
-			elif input_dir.x == 1:
+			elif movement_input.x == 1:
 				dash_direction = transform.basis.x
-			elif input_dir.y == -1:
+			elif movement_input.y == -1:
 				dash_direction = -transform.basis.z
-			elif input_dir.y == 1:
+			elif movement_input.y == 1:
 				dash_direction = transform.basis.z
 			dash_speed = max_dash_speed
 			next_dash_time = Time.get_ticks_msec() + dash_cooldown
 
 		# normal movement
 		var direction = Vector3.ZERO
-		if input_dir != Vector2.ZERO:
-			direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+		if movement_input != Vector2.ZERO:
+			direction = (transform.basis * Vector3(movement_input.x, 0, movement_input.y)).normalized()
 		velocity.x = direction.x * speed
 		velocity.z = direction.z * speed
 	else:
 		# lock movement while dashing
 		velocity.x = dash_direction.x * dash_speed
 		velocity.z = dash_direction.z * dash_speed
+
+	dash_input_pressed = false
 
 	if dash_speed > 0:
 		dash_speed -= dash_decay_speed
@@ -94,6 +87,25 @@ func _physics_process(delta) -> void:
 	super._physics_process(delta)
 	
 func _process(delta) -> void:
+	if is_stunned:
+		stun_duration -= delta
+		if stun_duration <= 0:
+			is_stunned = false
+		dash_input_pressed = false
+		movement_input = Vector2.ZERO
+		return
+
+	movement_input = Vector2.ZERO
+	# only update input_dir and dash_direction if not dashing
+	if Input.is_action_pressed("move_left"):
+		movement_input.x -= 1
+	if Input.is_action_pressed("move_right"):
+		movement_input.x += 1
+	if Input.is_action_pressed("move_foward"):
+		movement_input.y -= 1
+	if Input.is_action_pressed("move_backward"):
+		movement_input.y += 1
+
 	if shoot_anim.animation == "shoot" and !shoot_anim.is_playing():
 		shoot_anim.play("idle")
 		
@@ -149,12 +161,13 @@ func die() -> void:
 	player_died.emit()
 	
 func _on_hurt_box_entered(area: Area3D) -> void:
-	if not area.is_in_group("enemy"):
-		return
-	var enemy = area.get_parent()
-	var knockback_direction = (global_position - enemy.global_position).normalized()
-	var knockback_force = enemy.knockback_force
-	knockback_velocity = knockback_direction * knockback_force
-	
-	take_damage(enemy.damage)
-	#print("Hit by: {0}".format([area.name]))
+	if area.is_in_group("brute"):
+		var enemy = area.get_parent()
+		var knockback_direction = (global_position - enemy.global_position).normalized()
+		var knockback_force = enemy.knockback_force
+		knockback_velocity = knockback_direction * knockback_force
+		
+		take_damage(enemy.damage)
+		if not is_stunned:
+			is_stunned = true
+			stun_duration = 1.5

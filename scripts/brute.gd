@@ -2,6 +2,7 @@ class_name Brute
 extends Entity
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var hit_box: Area3D = $HitBox
 
 var dash_range : float = 7.0
 var current_state : State
@@ -11,23 +12,53 @@ enum State { APPROACH, WINDUP, DASH, EXHAUSTED }
 func _ready() -> void:
 	super._ready()
 	add_to_group("enemy")
+	hit_box.add_to_group("brute")
 	dash_cooldown = 5000.0 # 5 seconds
 	enter_state(State.APPROACH)
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if not is_dead:
+		update_sprite_direction()
 		match current_state:
-			State.APPROACH: handle_approach()
+			State.APPROACH: handle_approach(delta)
 			State.WINDUP: handle_windup()
 			State.DASH: handle_dash()
 			State.EXHAUSTED: handle_exhausted()
 	
-	super._physics_process(_delta)
+	super._physics_process(delta)
 
 func die() -> void:
 	super.die()
 	animation_player.play("die")
 	GameManager.current_num_enemies -= 1
+
+	var bounce_direction = Vector3(1, 1, 0).normalized()
+	velocity = bounce_direction + Vector3(0, 3, 0)
+
+	var tween = create_tween()
+	tween.tween_property(entity_sprite, "modulate:a", 0.0, .8)
+	tween.tween_callback(queue_free)
+
+func update_sprite_direction() -> void:
+	if GameManager.player == null:
+		print_debug("[brute.gd] player is null")
+
+	if velocity.length() < 0.1: return
+	
+	var to_player = GameManager.player.global_position - global_position
+	var enemy_forward = global_transform.basis.z
+
+
+	var angle = rad_to_deg(enemy_forward.angle_to(Vector3(to_player.x, 0, to_player.z)))
+
+	if angle < 60 or angle > 300:
+		entity_sprite.texture = front_texture
+	elif angle > 150 and angle < 210:
+		entity_sprite.texture = back_texture
+	else:
+		entity_sprite.texture = side_texture
+	
+	entity_sprite.flip_h = (angle > 180)
 
 # state machine
 func change_state(new_state: State) -> void:
@@ -48,31 +79,36 @@ func enter_state(state: State) -> void: # setup
 		State.APPROACH: 
 			animation_player.play("walk")
 		State.WINDUP: 
-			#animation_player.play("windup")
+			animation_player.play("idle")
 			velocity = Vector3.ZERO
 			await get_tree().create_timer(windup_time).timeout
 			change_state(State.DASH)
 		State.DASH:
-			#animation_player.play("dash")
+			animation_player.play("attack")
 			var player_vec = GameManager.player.global_position - global_position
 			var direction = player_vec.normalized()
 			dash_speed = max_dash_speed
 			dash_direction = direction
 			next_dash_time = Time.get_ticks_msec() + dash_cooldown
 		State.EXHAUSTED: 
-			#animation_player.play("exhausted")
+			animation_player.play("idle")
 			velocity = Vector3.ZERO
 			await get_tree().create_timer(windup_time).timeout
 			change_state(State.APPROACH)
 		
-func handle_approach() -> void:
+func handle_approach(delta: float) -> void:
 	if GameManager.player == null:
 		printerr("[brute.gd] player is null")
 		return
 	var player_vec = GameManager.player.global_position - global_position
 	var direction = player_vec.normalized()
-	velocity.x = direction.x * speed
-	velocity.z = direction.z * speed
+
+	var target_angle = atan2(direction.x, direction.z)
+	rotation.y = lerp_angle(rotation.y, target_angle, 3.0 * delta)
+
+	var forward = global_transform.basis.z
+	velocity.x = forward.x * speed
+	velocity.z = forward.z * speed
 	if dash_range > player_vec.length() and next_dash_time < Time.get_ticks_msec():
 		change_state(State.WINDUP)
 		

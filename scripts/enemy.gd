@@ -4,7 +4,6 @@ extends Entity
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var hit_box: Area3D = $HitBox
 
-
 signal enemy_died
 
 func _ready() -> void:

@@ -2,6 +2,7 @@ class_name DynamiteBandit
 extends Entity
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var hit_box: Area3D = $HitBox
 @onready var muzzle: Marker3D = $Muzzle
 
 var suicide_range = abs(throw_range - 10.0)
@@ -12,6 +13,7 @@ enum State { APPROACH, THROW, SUICIDE_CHARGE, EXPLODE }
 func _ready() -> void:
 	super._ready()
 	add_to_group("enemy")
+	hit_box.add_to_group("bomber")
 	dash_cooldown = 5000.0 # 5 seconds
 	enter_state(State.APPROACH)
 
@@ -54,6 +56,7 @@ func throw_dynamite() -> void:
 	dynamite.global_position = start
 	dynamite.linear_velocity = vxz + Vector3(0, vy, 0)
 	dynamite.thrower = self
+	dynamite.fuse_duration = T
 	get_tree().current_scene.add_child(dynamite)
 	next_throw_time = Time.get_ticks_msec() + throw_cooldown
 

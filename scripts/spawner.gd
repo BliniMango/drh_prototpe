@@ -1,6 +1,6 @@
 extends Node3D
 
-@export var entity_scene : PackedScene = Prefabs.DYNAMITE_BANDIT
+@export var entity_scene : PackedScene = Prefabs.BRUTE
 
 var next_spawn_time : float = Time.get_ticks_msec()
 var spawn_cooldown : float = 1000.0

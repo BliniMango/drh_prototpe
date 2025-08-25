@@ -1,7 +1,115 @@
-[gd_scene load_steps=3 format=3 uid="uid://c5aase6p6ftky"]
+[gd_scene load_steps=12 format=3 uid="uid://c5aase6p6ftky"]
 
 [ext_resource type="PackedScene" uid="uid://dwji84q36xvaa" path="res://scenes/enemy.tscn" id="1_xg6qc"]
 [ext_resource type="Script" uid="uid://bbkukloibdsi4" path="res://scripts/brute.gd" id="2_16csq"]
+[ext_resource type="Texture2D" uid="uid://8rgxc80pjjks" path="res://assets/sprites/Mobs/Coffin/Coffin Front Sheet.png" id="3_jqsto"]
+[ext_resource type="Texture2D" uid="uid://d2ir3kcnt581v" path="res://assets/sprites/Mobs/Coffin/Coffin Back Sheet.png" id="4_opy8e"]
+[ext_resource type="Texture2D" uid="uid://bkrwgwjjwmfdj" path="res://assets/sprites/Mobs/Coffin/Coffin Side Sheet.png" id="5_jr8ks"]
+
+[sub_resource type="Animation" id="Animation_t30v1"]
+resource_name = "idle"
+length = 0.25
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.0666667, 0.1, 0.133333, 0.166667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+
+[sub_resource type="Animation" id="Animation_8xcth"]
+resource_name = "walk"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.0666667, 0.1, 0.133333, 0.166667, 0.2, 0.233333, 0.266667, 0.3, 0.333333, 0.366667, 0.4, 0.433333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
+}
+
+[sub_resource type="Animation" id="Animation_lr5cc"]
+resource_name = "attack"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.0666667, 0.1, 0.133333, 0.166667, 0.2, 0.233333, 0.266667, 0.3, 0.333333, 0.366667, 0.4, 0.433333, 0.466667, 0.5, 0.533333, 0.566667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53]
+}
+
+[sub_resource type="Animation" id="Animation_0u1qh"]
+resource_name = "die"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [54]
+}
+
+[sub_resource type="Animation" id="Animation_k2fxb"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_eh251"]
+_data = {
+&"RESET": SubResource("Animation_k2fxb"),
+&"attack": SubResource("Animation_lr5cc"),
+&"die": SubResource("Animation_0u1qh"),
+&"idle": SubResource("Animation_t30v1"),
+&"walk": SubResource("Animation_8xcth")
+}
 
 [node name="Brute" instance=ExtResource("1_xg6qc")]
 script = ExtResource("2_16csq")
+front_texture = ExtResource("3_jqsto")
+back_texture = ExtResource("4_opy8e")
+side_texture = ExtResource("5_jr8ks")
+
+[node name="Sprite3D" parent="." index="1"]
+transform = Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 1.163, 0, 1, 0)
+offset = Vector2(9, 0)
+texture_filter = 0
+texture = ExtResource("3_jqsto")
+hframes = 18
+vframes = 4
+
+[node name="AnimationPlayer" parent="." index="4"]
+libraries = {
+&"": SubResource("AnimationLibrary_eh251")
+}
