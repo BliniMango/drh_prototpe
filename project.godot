@@ -25,7 +25,6 @@ Prefabs="*res://scripts/prefabs.gd"
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
-window/size/mode=3
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
 
@@ -68,6 +67,7 @@ dash={
 3d_physics/layer_2="Ground"
 3d_physics/layer_3="EnemyHitBox"
 3d_physics/layer_4="PlayerHurtBox"
+3d_physics/layer_5="Builings"
 
 [rendering]
 
