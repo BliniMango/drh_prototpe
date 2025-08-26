@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://dsnh6y1f2vr3h"]
+
+[ext_resource type="PackedScene" uid="uid://cbbqlg05m7lnl" path="res://assets/bullet.glb" id="1_mkf8s"]
+[ext_resource type="Script" uid="uid://beewy84u0brwl" path="res://scripts/bullet.gd" id="1_y25gk"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_y25gk"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_l5glv"]
+
+[node name="Bullet" type="RigidBody3D"]
+collision_layer = 0
+collision_mask = 18
+gravity_scale = 0.0
+script = ExtResource("1_y25gk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_y25gk")
+
+[node name="bullet" parent="." instance=ExtResource("1_mkf8s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.408421, 0)
+
+[node name="HitBox" type="Area3D" parent="."]
+collision_layer = 64
+collision_mask = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitBox"]
+shape = SubResource("SphereShape3D_l5glv")

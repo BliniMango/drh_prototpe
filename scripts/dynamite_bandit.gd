@@ -86,7 +86,6 @@ func enter_state(state: State) -> void: # setup
 			velocity = Vector3.ZERO
 		State.SUICIDE_CHARGE:
 			animation_player.play("walk")
-			pass
 		State.EXPLODE: 
 			animation_player.play("idle")
 			velocity = Vector3.ZERO

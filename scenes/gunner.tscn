@@ -1,8 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://bv1g0qos77s0f"]
+[gd_scene load_steps=12 format=3 uid="uid://bv1g0qos77s0f"]
 
 [ext_resource type="PackedScene" uid="uid://c5aase6p6ftky" path="res://scenes/brute.tscn" id="1_nwf76"]
 [ext_resource type="Script" uid="uid://cr0ebp6qjr0ra" path="res://scripts/gunner.gd" id="2_58u8n"]
-[ext_resource type="Texture2D" uid="uid://t3x6w4jm2cyc" path="res://assets/sprites/enemies/monster_sprites.png" id="3_ougl3"]
+[ext_resource type="Texture2D" uid="uid://bkqv6783a4hhp" path="res://assets/sprites/Mobs/Cactus/Cactus Front Sheet.png" id="3_ougl3"]
+[ext_resource type="Texture2D" uid="uid://j4q8cis86vji" path="res://assets/sprites/Mobs/Cactus/Cactus Back Sheet.png" id="4_u6qrg"]
+[ext_resource type="Texture2D" uid="uid://dyfp7yq2a870v" path="res://assets/sprites/Mobs/Cactus/Cactus Side Sheet.png" id="5_driy3"]
 
 [sub_resource type="Animation" id="Animation_5uy6h"]
 length = 0.001
@@ -18,22 +20,10 @@ tracks/0/keys = {
 "update": 1,
 "values": [0]
 }
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite3D:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
 
-[sub_resource type="Animation" id="Animation_4ra3w"]
-resource_name = "die"
-length = 0.8
+[sub_resource type="Animation" id="Animation_kw1lf"]
+resource_name = "attack"
+length = 1.1
 step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -42,40 +32,32 @@ tracks/0/path = NodePath("Sprite3D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [5, 6, 7, 8, 9]
-}
-tracks/1/type = "method"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.8),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"respawn"
-}]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Sprite3D:modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.443244, 0.8),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+"values": [22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32]
 }
 
-[sub_resource type="Animation" id="Animation_md0e3"]
-resource_name = "walk"
+[sub_resource type="Animation" id="Animation_4ra3w"]
+resource_name = "die"
+length = 0.8
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [33]
+}
+
+[sub_resource type="Animation" id="Animation_ougl3"]
+resource_name = "idle"
 length = 0.4
 loop_mode = 1
 step = 0.1
@@ -92,24 +74,48 @@ tracks/0/keys = {
 "values": [0, 1, 2, 3]
 }
 
+[sub_resource type="Animation" id="Animation_md0e3"]
+resource_name = "walk"
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5uy6h"]
 _data = {
 &"RESET": SubResource("Animation_5uy6h"),
+&"attack": SubResource("Animation_kw1lf"),
 &"die": SubResource("Animation_4ra3w"),
+&"idle": SubResource("Animation_ougl3"),
 &"walk": SubResource("Animation_md0e3")
 }
 
 [node name="Gunner" instance=ExtResource("1_nwf76")]
-collision_layer = 1
 script = ExtResource("2_58u8n")
+front_texture = ExtResource("3_ougl3")
+back_texture = ExtResource("4_u6qrg")
+side_texture = ExtResource("5_driy3")
 
 [node name="Sprite3D" parent="." index="1"]
+transform = Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 1, 0, 1.1, 0)
+offset = Vector2(0, 0)
 texture = ExtResource("3_ougl3")
+hframes = 11
 
-[node name="AnimationPlayer" parent="." index="2"]
+[node name="HitBox" parent="." index="2"]
+collision_mask = 0
+
+[node name="AnimationPlayer" parent="." index="4"]
 libraries = {
 &"": SubResource("AnimationLibrary_5uy6h")
 }
-
-[node name="HitBox" parent="." index="3"]
-collision_mask = 2

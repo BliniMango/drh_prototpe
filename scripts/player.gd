@@ -160,6 +160,7 @@ func die() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	player_died.emit()
 	
+# TODO: Refactor this
 func _on_hurt_box_entered(area: Area3D) -> void:
 	if area.is_in_group("brute"):
 		var enemy = area.get_parent()
@@ -171,3 +172,33 @@ func _on_hurt_box_entered(area: Area3D) -> void:
 		if not is_stunned:
 			is_stunned = true
 			stun_duration = 1.5
+
+	elif area.is_in_group("gunner"):
+		var enemy = area.get_parent()
+		var knockback_direction = (global_position - enemy.global_position).normalized()
+		var knockback_force = enemy.knockback_force
+		knockback_velocity = knockback_direction * knockback_force
+
+		take_damage(enemy.damage)
+		# Gunner melee contact - no stun
+
+	elif area.is_in_group("dynamite_bandit"):
+		var enemy = area.get_parent()
+		var knockback_direction = (global_position - enemy.global_position).normalized()
+		var knockback_force = enemy.knockback_force
+		knockback_velocity = knockback_direction * knockback_force
+
+		take_damage(enemy.damage)
+		# Trigger suicide explosion
+		if enemy.has_method("trigger_suicide_explosion"):
+			enemy.trigger_suicide_explosion()
+
+	elif area.is_in_group("bullet"):
+		var bullet = area.get_parent()
+		var knockback_direction = (global_position - bullet.global_position).normalized()
+		var knockback_force = bullet.knockback_force
+		knockback_velocity = knockback_direction * knockback_force
+
+		take_damage(bullet.damage)
+		# Bullet gets destroyed on hit (handled in bullet script)
+		bullet.impact()
