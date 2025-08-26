@@ -11,6 +11,7 @@ enum State { APPROACH, WINDUP, DASH, EXHAUSTED }
 
 func _ready() -> void:
 	super._ready()
+	super.setup_nav_agent()
 	add_to_group("enemy")
 	hit_box.add_to_group("brute")
 	dash_cooldown = 5000.0 # 5 seconds

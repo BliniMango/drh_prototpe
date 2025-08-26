@@ -16,9 +16,9 @@ enum State { APPROACH, SHOOT }
 
 func _ready() -> void:
 	super._ready()
+	super.setup_nav_agent()
 	add_to_group("enemy")
 	hit_box.add_to_group("gunner")
-
 	enter_state(State.APPROACH)
 
 func _physics_process(delta: float) -> void:

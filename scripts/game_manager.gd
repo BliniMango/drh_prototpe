@@ -4,7 +4,7 @@ signal start_wave
 signal stop_wave
 
 var player: Player
-var max_num_enemies = 1
+var max_num_enemies = 50
 var current_num_enemies = 0
 
 func _ready() -> void:

@@ -38,6 +38,8 @@ var stun_duration : float = 0.0
 var is_dead : bool = false
 var spawn_position : Vector3
 
+var nav_agent : NavigationAgent3D = null
+
 func _ready() -> void:
 	spawn_position = global_position
 
@@ -111,10 +113,28 @@ func update_sprite_direction() -> void:
 	entity_sprite.flip_h = (angle > 180)
 
 func move_forward_and_rotate_toward_player(delta: float, player_vec: Vector3):
-	var direction = player_vec.normalized()
-	var target_angle = atan2(direction.x, direction.z)
-	rotation.y = lerp_angle(rotation.y, target_angle, 3.0 * delta)
+	if nav_agent != null:
+		nav_agent.target_position = GameManager.player.global_position
 
-	var forward = global_transform.basis.z
-	velocity.x = forward.x * speed
-	velocity.z = forward.z * speed
+		var next_position = nav_agent.get_next_path_position()
+		var direction = (next_position - global_position).normalized()
+		var target_angle = atan2(direction.x, direction.z)
+		rotation.y = lerp_angle(rotation.y, target_angle, 3.0 * delta)
+
+		var forward = global_transform.basis.z
+		velocity.x = forward.x * speed
+		velocity.z = forward.z * speed
+	else:
+		var direction = player_vec.normalized()
+		var target_angle = atan2(direction.x, direction.z)
+		rotation.y = lerp_angle(rotation.y, target_angle, 3.0 * delta)
+
+		var forward = global_transform.basis.z
+		velocity.x = forward.x * speed
+		velocity.z = forward.z * speed
+
+func setup_nav_agent():
+	nav_agent = NavigationAgent3D.new()
+	nav_agent.radius = 0.5
+	nav_agent.path_desired_distance = 0.5
+	add_child(nav_agent)
