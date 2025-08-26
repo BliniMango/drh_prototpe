@@ -7,6 +7,7 @@ enum Type {
 	PLAYER_DASH,
 	PLAYER_HURT,
 	PLAYER_DIE,
+	PLAYER_BULLET_HIT,
 
 
 	# spatial
@@ -22,7 +23,6 @@ enum Type {
 	BOMBER_DIE,
 	BOMBER_HURT,
 
-	BULLET_HIT,
 	EXPLOSION,
 }
 
@@ -32,6 +32,7 @@ enum Type {
 	Type.PLAYER_DASH: $PlayerDash,
 	Type.PLAYER_HURT: $PlayerHurt,
 	Type.PLAYER_DIE: $PlayerDie,
+	Type.PLAYER_BULLET_HIT: $PlayerBulletHit,
 }
 @onready var spatial_audio = {
 	Type.BRUTE_ATTACK: $BruteAttack,
@@ -43,7 +44,6 @@ enum Type {
 	Type.BOMBER_THROW: $BomberThrow,
 	Type.BOMBER_DIE: $BomberDie,
 	Type.BOMBER_HURT: $BomberHurt,
-	Type.BULLET_HIT: $BulletHit,
 	Type.EXPLOSION: $Explosion,
 }
 

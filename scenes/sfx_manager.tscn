@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://dceq41df18pgl"]
+[gd_scene load_steps=6 format=3 uid="uid://dceq41df18pgl"]
 
 [ext_resource type="Script" uid="uid://4bs3ipw30rbe" path="res://scripts/sfx_manager.gd" id="1_wd8mt"]
 [ext_resource type="AudioStream" uid="uid://bd5dvh6chht6d" path="res://assets/sfx/monster_die.wav" id="2_gx34h"]
 [ext_resource type="AudioStream" uid="uid://c2ud4pnu0ytm6" path="res://assets/sfx/revolver_shot1.wav" id="3_a4b8v"]
+[ext_resource type="AudioStream" uid="uid://cps1r68b2yvof" path="res://assets/sfx/Hit34.wav" id="3_phwnr"]
+[ext_resource type="AudioStream" uid="uid://b16lg2u7tul3j" path="res://assets/sfx/Boom8.wav" id="4_byfxn"]
 
 [node name="SFXManager" type="Node3D"]
 script = ExtResource("1_wd8mt")
@@ -28,9 +30,11 @@ stream = ExtResource("2_gx34h")
 
 [node name="BomberHurt" type="AudioStreamPlayer3D" parent="."]
 
-[node name="BulletHit" type="AudioStreamPlayer3D" parent="."]
-
 [node name="Explosion" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_byfxn")
+
+[node name="PlayerBulletHit" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_phwnr")
 
 [node name="PlayerRevolverShoot" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_a4b8v")

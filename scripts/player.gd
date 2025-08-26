@@ -146,6 +146,7 @@ func shoot():
 	
 	if closest_enemy != null:
 		#print("Shot {0}".format([closest_enemy]))
+		SFXManager.play_player_sfx(SFXManager.Type.PLAYER_BULLET_HIT)
 		closest_enemy.take_damage(100.0)
 
 func take_damage(amount: float) -> void:
