@@ -37,6 +37,7 @@ func explode() -> void:
 	if has_exploded: return
 	has_exploded = true
 
+	SFXManager.play_spatial_sfx(SFXManager.Type.EXPLOSION, global_position)
 	for area in explosion_area.get_overlapping_areas():
 		var e := area.get_parent()
 		if e == thrower: 

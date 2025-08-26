@@ -14,7 +14,7 @@ signal player_died
 
 var dash_input_pressed : bool = false
 var movement_input : Vector2 = Vector2.ZERO
-var fire_rate : float = 5.0
+var fire_rate : float = 2.0
 var shoot_cone_threshold : float = deg_to_rad(8)
 var shoot_timer : float = 0.0
 
@@ -127,7 +127,8 @@ func _process(delta) -> void:
 func shoot():
 	if shoot_anim.animation != "shoot":
 		shoot_anim.play("shoot")
-		
+
+	SFXManager.play_player_sfx(SFXManager.Type.PLAYER_REVOLVER_SHOOT)
 	var camera_forward : Vector3 = -camera.global_transform.basis.z
 	var enemies : Array[Node] = GameManager.get_enemies_in_scene()
 	

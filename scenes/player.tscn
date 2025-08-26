@@ -98,7 +98,7 @@ scale = Vector2(0.55, 0.55)
 position = Vector2(1599, 757)
 scale = Vector2(1.26563, 1.26563)
 sprite_frames = SubResource("SpriteFrames_tuyoq")
-animation = &"shoot"
+animation = &"idle"
 
 [node name="GameOverScreen" type="Control" parent="."]
 visible = false

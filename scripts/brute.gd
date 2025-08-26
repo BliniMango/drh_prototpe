@@ -33,6 +33,7 @@ func die() -> void:
 	animation_player.play("die")
 	GameManager.current_num_enemies -= 1
 
+	SFXManager.play_spatial_sfx(SFXManager.Type.BRUTE_DIE, global_position)
 	super.create_death_effect()
 
 # state machine

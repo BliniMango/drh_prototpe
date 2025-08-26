@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 
 GameManager="*res://scripts/game_manager.gd"
 Prefabs="*res://scripts/prefabs.gd"
+SFXManager="*res://scenes/sfx_manager.tscn"
 
 [display]
 
