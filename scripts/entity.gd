@@ -53,6 +53,9 @@ func _physics_process(delta: float) -> void:
 		#print_debug("knockback_velocity {0}".format([knockback_velocity.length()]))
 	move_and_slide()
 
+func heal(amount: float) -> void:
+	current_health += min(amount + max_health, max_health)
+
 func take_damage(amount: float) -> void:
 	print_debug("Took {0} damage".format([amount]))
 	if is_dead:

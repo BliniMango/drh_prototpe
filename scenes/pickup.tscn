@@ -1,0 +1,33 @@
+[gd_scene load_steps=8 format=3 uid="uid://drxbs66ytns6u"]
+
+[ext_resource type="Script" uid="uid://bttgt2s1ptyxr" path="res://scripts/pickup.gd" id="1_hqyie"]
+[ext_resource type="Texture2D" uid="uid://c383pykibcbt3" path="res://assets/sprites/Textures/Bricks_02-256x256.png" id="2_t0qhb"]
+[ext_resource type="Texture2D" uid="uid://bfluqokl2arbg" path="res://assets/sprites/Textures/Bricks_16-256x256.png" id="3_mj4kx"]
+[ext_resource type="Texture2D" uid="uid://mg4gd5scffch" path="res://assets/sprites/Textures/Grass_11-256x256.png" id="4_ror3w"]
+[ext_resource type="Texture2D" uid="uid://bwc0p85te1c1p" path="res://assets/sprites/Textures/Wood_17-256x256.png" id="5_hlv8s"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_j61ql"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ldxf2"]
+
+[node name="Pickup" type="RigidBody3D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_hqyie")
+health_texture = ExtResource("2_t0qhb")
+ammo_texture = ExtResource("3_mj4kx")
+dynamite_texture = ExtResource("4_ror3w")
+speed_boost_texture = ExtResource("5_hlv8s")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_j61ql")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+billboard = 2
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 128
+collision_mask = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_ldxf2")

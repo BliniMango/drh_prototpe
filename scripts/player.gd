@@ -151,6 +151,7 @@ func shoot():
 
 func take_damage(amount: float) -> void:
 	super.take_damage(amount)
+	SFXManager.play_player_sfx(SFXManager.Type.PLAYER_HURT)
 	update_health_ui()
 
 func update_health_ui() -> void:

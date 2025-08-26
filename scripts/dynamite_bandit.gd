@@ -34,6 +34,10 @@ func die() -> void:
 	animation_player.play("die")
 	GameManager.current_num_enemies -= 1
 	SFXManager.play_spatial_sfx(SFXManager.Type.BOMBER_DIE, global_position)
+	var pickup : Pickup = Prefabs.PICKUP.instantiate()
+	pickup.set_pickup_type(Pickup.Type.DYNAMITE)
+	pickup.global_position = global_position
+	get_tree().current_scene.add_child(pickup)
 	super.create_death_effect()
 
 
