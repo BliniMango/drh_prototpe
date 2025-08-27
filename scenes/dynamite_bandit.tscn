@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://bj4d8v5n0xgeu"]
+[gd_scene load_steps=13 format=3 uid="uid://bj4d8v5n0xgeu"]
 
 [ext_resource type="PackedScene" uid="uid://dwji84q36xvaa" path="res://scenes/enemy.tscn" id="1_obhag"]
 [ext_resource type="Script" uid="uid://c8eak877m85ef" path="res://scripts/dynamite_bandit.gd" id="2_ubfmw"]
 [ext_resource type="Texture2D" uid="uid://bl43edlhty4lx" path="res://assets/sprites/Mobs/Coyote/Coyote Front Sheet.png" id="3_16shx"]
-[ext_resource type="Texture2D" uid="uid://crkhyglr6qlir" path="res://assets/sprites/Mobs/Coyote/Coyote Back Sheet.png" id="4_58oi0"]
-[ext_resource type="Texture2D" uid="uid://bukxm61lp0rgn" path="res://assets/sprites/Mobs/Coyote/Coyote Side Sheet.png" id="5_lmo8l"]
+[ext_resource type="Texture2D" uid="uid://ch3r2rgnog2ll" path="res://assets/sprites/Mobs/Coyote/Coyote Front Sheet-dynamite.png" id="3_58oi0"]
+[ext_resource type="Texture2D" uid="uid://demm4ogcqk7mg" path="res://assets/sprites/Mobs/Coyote/Coyote Back Sheet-dynamite.png" id="4_lmo8l"]
+[ext_resource type="Texture2D" uid="uid://boegv02un287b" path="res://assets/sprites/Mobs/Coyote/Coyote Side Sheet-dynamite.png" id="5_wefl4"]
 
 [sub_resource type="Animation" id="Animation_58oi0"]
 length = 0.001
@@ -112,9 +113,9 @@ _data = {
 
 [node name="DynamiteBandit" instance=ExtResource("1_obhag")]
 script = ExtResource("2_ubfmw")
-front_texture = ExtResource("3_16shx")
-back_texture = ExtResource("4_58oi0")
-side_texture = ExtResource("5_lmo8l")
+front_texture = ExtResource("3_58oi0")
+back_texture = ExtResource("4_lmo8l")
+side_texture = ExtResource("5_wefl4")
 speed = 4.0
 max_health = 80
 current_health = 80

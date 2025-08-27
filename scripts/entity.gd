@@ -10,7 +10,7 @@ extends CharacterBody3D
 
 @export var max_health = 100
 @export var current_health = 100
-@export var damage = 10.0
+@export var damage = 10.0 # collision damage
 
 var sprite_locked: bool = false
 
