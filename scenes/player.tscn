@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cxiwktsaqivrw"]
+[gd_scene load_steps=15 format=3 uid="uid://cxiwktsaqivrw"]
 
 [ext_resource type="Texture2D" uid="uid://8wy1pqyi5y1u" path="res://assets/ui/gun_sprites.png" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://b7w4fmdis1d2d" path="res://scripts/player.gd" id="1_g2els"]
@@ -53,6 +53,18 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g2els"]
+bg_color = Color(0.280175, 0, 0.0230792, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qhqgy"]
+bg_color = Color(0.80407, 9.72241e-05, 0.141246, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dqkch"]
+bg_color = Color(0.249251, 0.113796, 8.42288e-08, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qlg0r"]
+bg_color = Color(0.840717, 0.513903, 0, 1)
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_g2els"]
 
 [node name="Player" type="CharacterBody3D"]
@@ -70,36 +82,74 @@ shape = SubResource("CapsuleShape3D_u8vuu")
 [node name="UICanvas" type="CanvasLayer" parent="."]
 
 [node name="HealthBar" type="ProgressBar" parent="UICanvas"]
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -2.0
-offset_right = 2.0
+anchors_preset = 10
+anchor_right = 1.0
 offset_bottom = 27.0
 grow_horizontal = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 min_value = 100.0
 value = 100.0
-metadata/_edit_use_anchors_ = true
-
-[node name="Crosshair" type="ColorRect" parent="UICanvas"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(0.55, 0.55)
+show_percentage = false
 
 [node name="ShootAnim" type="AnimatedSprite2D" parent="UICanvas"]
 position = Vector2(1599, 757)
 scale = Vector2(1.26563, 1.26563)
 sprite_frames = SubResource("SpriteFrames_tuyoq")
 animation = &"idle"
+
+[node name="HUDRoot" type="Control" parent="UICanvas"]
+layout_mode = 3
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -54.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UICanvas/HUDRoot"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -53.5
+offset_top = -40.0
+offset_right = 53.5
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UICanvas/HUDRoot/HBoxContainer"]
+layout_mode = 2
+
+[node name="HealthLabel" type="Label" parent="UICanvas/HUDRoot/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Health"
+
+[node name="HealthBar" type="ProgressBar" parent="UICanvas/HUDRoot/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/background = SubResource("StyleBoxFlat_g2els")
+theme_override_styles/fill = SubResource("StyleBoxFlat_qhqgy")
+show_percentage = false
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="UICanvas/HUDRoot/HBoxContainer"]
+layout_mode = 2
+
+[node name="Ammo" type="Label" parent="UICanvas/HUDRoot/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "Ammo"
+
+[node name="AmmoBar" type="ProgressBar" parent="UICanvas/HUDRoot/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/background = SubResource("StyleBoxFlat_dqkch")
+theme_override_styles/fill = SubResource("StyleBoxFlat_qlg0r")
+show_percentage = false
 
 [node name="GameOverScreen" type="Control" parent="."]
 visible = false

@@ -62,7 +62,7 @@ func take_damage(amount: float) -> void:
 		return
 	current_health -= amount
 	current_health = max(0, current_health)
-	
+	flash_red()
 	if current_health <= 0:
 		die()
 
@@ -93,6 +93,17 @@ func create_death_effect():
 	var tween = create_tween()
 	tween.tween_property(entity_sprite, "modulate:a", 0.0, .8)
 	tween.tween_callback(queue_free)
+
+func flash_red() -> void:
+	if entity_sprite == null:
+		return
+
+	var original_color = entity_sprite.modulate
+
+	entity_sprite.modulate = Color.RED
+	
+	var tween = create_tween()
+	tween.tween_property(entity_sprite, "modulate", original_color, 0.2)
 
 func update_sprite_direction() -> void:
 	if GameManager.player == null:

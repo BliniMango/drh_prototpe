@@ -1,9 +1,10 @@
 class_name Dynamite
 extends RigidBody3D
 
-@onready var explosion_area: Area3D = $ExplosionArea
+@onready var explosion_area : Area3D = $ExplosionArea
+@onready var fuse_audio : AudioStreamPlayer3D = $FuseAudio
 
-var damage : float = 20.0
+@export var damage : float = 25.0
 var fuse_duration : float = 2.5
 var fuse_timer : float = 0.0
 var has_exploded : bool = false
@@ -17,6 +18,9 @@ var kill_thrower_on_explode : bool = false
 func _ready() -> void:
 	add_to_group("dynamite")
 	is_fuse_lit = true
+	fuse_audio.play()
+
+	SFXManager.play_spatial_sfx(SFXManager.Type.FUSE, global_position)
 		
 	if thrower.is_in_group("player"):
 		target_group = "enemy"
@@ -36,6 +40,7 @@ func _process(delta: float) -> void:
 func explode() -> void:
 	if has_exploded: return
 	has_exploded = true
+	fuse_audio.stop()
 
 	SFXManager.play_spatial_sfx(SFXManager.Type.EXPLOSION, global_position)
 	for area in explosion_area.get_overlapping_areas():

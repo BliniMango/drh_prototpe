@@ -4,10 +4,13 @@ extends Entity
 signal player_died
 
 @export var mouse_sensitivity = 0.002
+@export var revolver : Weapon
+@export var shotgun : Weapon
 
 @onready var camera = $Camera3D
 @onready var crosshair = $UICanvas/Crosshair
-@onready var health_bar = $UICanvas/HealthBar
+@onready var health_bar = $UICanvas/HUDRoot/HBoxContainer/VBoxContainer/HealthBar
+@onready var ammo_bar = $UICanvas/HUDRoot/HBoxContainer/VBoxContainer2/AmmoBar
 @onready var hurt_box: Area3D = $HurtBox
 @onready var muzzle: Marker3D = $Muzzle
 @onready var shoot_anim = $UICanvas/ShootAnim
@@ -15,13 +18,20 @@ signal player_died
 var dash_input_pressed : bool = false
 var movement_input : Vector2 = Vector2.ZERO
 var fire_rate : float = 2.0
-var shoot_cone_threshold : float = deg_to_rad(8)
+var shoot_cone_threshold : float = deg_to_rad(5.6)
 var shoot_timer : float = 0.0
+var current_weapon : Weapon
+var is_reloading : bool = false
+var reload_timer : float = 0.0
 
 func _ready() -> void:
 	super._ready()
 	add_to_group("player")
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+	revolver = Weapon.create_revolver()
+	shotgun = Weapon.create_shotgun()
+	current_weapon = revolver
 	
 	update_health_ui()
 	GameManager.set_player() # player needs to be accessible to enemies
@@ -63,6 +73,7 @@ func _physics_process(delta) -> void:
 				dash_direction = -transform.basis.z
 			elif movement_input.y == 1:
 				dash_direction = transform.basis.z
+			SFXManager.play_player_sfx(SFXManager.Type.PLAYER_DASH)
 			dash_speed = max_dash_speed
 			next_dash_time = Time.get_ticks_msec() + dash_cooldown
 
@@ -95,6 +106,13 @@ func _process(delta) -> void:
 		movement_input = Vector2.ZERO
 		return
 
+	if is_reloading:
+		reload_timer -= delta
+		if reload_timer <= 0:
+			current_weapon.reload()
+			is_reloading = false
+			update_ammo_ui()
+
 	movement_input = Vector2.ZERO
 	# only update input_dir and dash_direction if not dashing
 	if Input.is_action_pressed("move_left"):
@@ -109,12 +127,28 @@ func _process(delta) -> void:
 	if shoot_anim.animation == "shoot" and !shoot_anim.is_playing():
 		shoot_anim.play("idle")
 		
-	if Input.is_action_pressed("shoot"):  # mouse held
+	if Input.is_action_pressed("shoot") and not is_reloading:  # mouse held
+		if current_weapon.current_ammo == 0:
+			start_reload()
+			return
+
 		shoot_timer += delta
 		if shoot_timer >= (1.0 / fire_rate):
 			shoot()
 			shoot_timer = 0.0
 		
+	if Input.is_action_just_pressed("weapon_1"):
+		current_weapon = revolver
+		SFXManager.play_player_sfx(SFXManager.Type.PLAYER_WEAPON_SWAP)
+		update_ammo_ui()
+	elif Input.is_action_just_pressed("weapon_2"):
+		current_weapon = shotgun
+		SFXManager.play_player_sfx(SFXManager.Type.PLAYER_WEAPON_SWAP)
+		update_ammo_ui()
+
+	if Input.is_action_just_pressed("reload"):
+		start_reload()
+
 	if Input.is_action_just_pressed("throw"):
 		if throwable_inventory.size() > 0:
 			var throwable : PackedScene = throwable_inventory.pop_back()
@@ -123,12 +157,21 @@ func _process(delta) -> void:
 			projectile.thrower = self
 			get_tree().current_scene.add_child(projectile)
 				
+func start_reload():
+	if is_reloading:
+		return
+	if current_weapon and current_weapon.current_ammo < current_weapon.max_ammo:
+		SFXManager.play_player_sfx(SFXManager.Type.PLAYER_RELOAD)
+		is_reloading = true
+		reload_timer = current_weapon.reload_time
 
 func shoot():
+	if not current_weapon.can_shoot():
+		return
+
 	if shoot_anim.animation != "shoot":
 		shoot_anim.play("shoot")
 
-	SFXManager.play_player_sfx(SFXManager.Type.PLAYER_REVOLVER_SHOOT)
 	var camera_forward : Vector3 = -camera.global_transform.basis.z
 	var enemies : Array[Node] = GameManager.get_enemies_in_scene()
 	
@@ -146,13 +189,36 @@ func shoot():
 	
 	if closest_enemy != null:
 		#print("Shot {0}".format([closest_enemy]))
+
+		closest_enemy.take_damage(calculate_damage(smallest_distance))
 		SFXManager.play_player_sfx(SFXManager.Type.PLAYER_BULLET_HIT)
-		closest_enemy.take_damage(100.0)
+
+	current_weapon.shoot()
+	update_ammo_ui()
+
+func calculate_damage(distance: float) -> float:
+	if distance > current_weapon.close_range:
+		return current_weapon.damage_far
+	else:
+		return current_weapon.damage_close
 
 func take_damage(amount: float) -> void:
 	super.take_damage(amount)
 	SFXManager.play_player_sfx(SFXManager.Type.PLAYER_HURT)
 	update_health_ui()
+
+func update_ammo_ui() -> void:
+	if ammo_bar: 
+		ammo_bar.max_value = current_weapon.max_ammo
+		ammo_bar.value = current_weapon.current_ammo
+
+		if current_weapon.current_ammo == 0:
+			ammo_bar.modulate = Color.RED
+		elif current_weapon.current_ammo <= 1:
+			ammo_bar.modulate = Color.ORANGE
+		else:
+			ammo_bar.modulate = Color.WHITE
+		
 
 func update_health_ui() -> void:
 	if health_bar:

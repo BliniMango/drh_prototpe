@@ -9,7 +9,8 @@ enum Type {
 	PLAYER_DIE,
 	PLAYER_BULLET_HIT,
 	PLAYER_PICKUP,
-
+	PLAYER_RELOAD,
+	PLAYER_WEAPON_SWAP,
 
 	# spatial
 	BRUTE_ATTACK,
@@ -25,6 +26,7 @@ enum Type {
 	BOMBER_HURT,
 
 	EXPLOSION,
+	FUSE
 }
 
 @onready var player_audio = {
@@ -35,7 +37,10 @@ enum Type {
 	Type.PLAYER_DIE: $PlayerDie,
 	Type.PLAYER_BULLET_HIT: $PlayerBulletHit,
 	Type.PLAYER_PICKUP: $PlayerPickup,
+	Type.PLAYER_RELOAD: $PlayerReload,
+	Type.PLAYER_WEAPON_SWAP: $PlayerWeaponSwap
 }
+
 @onready var spatial_audio = {
 	Type.BRUTE_ATTACK: $BruteAttack,
 	Type.BRUTE_DIE: $BruteDie,
@@ -47,6 +52,7 @@ enum Type {
 	Type.BOMBER_DIE: $BomberDie,
 	Type.BOMBER_HURT: $BomberHurt,
 	Type.EXPLOSION: $Explosion,
+	Type.FUSE: $Fuse,
 }
 
 func play_player_sfx(sfx_type: Type, volume: float = 0.0) -> void:
