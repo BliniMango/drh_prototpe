@@ -24,6 +24,20 @@ var current_weapon : Weapon
 var is_reloading : bool = false
 var reload_timer : float = 0.0
 
+# weapon sway and recoil and bobbing
+var _base_ui_pos := Vector2.ZERO
+var _yaw_prev := 0.0
+var bob_amt := Vector2(3, 5)
+var bob_speed := 5.0
+var _bob_t := 0.0
+var sway_amt_x := 8.0        
+var sway_lerp := 12.0
+var _sway_x := 0.0
+var recoil_kick := Vector2(0, 16)  
+var recoil_recover := 14.0
+var _recoil := Vector2.ZERO
+
+
 func _ready() -> void:
 	super._ready()
 	add_to_group("player")
@@ -32,6 +46,11 @@ func _ready() -> void:
 	revolver = Weapon.create_revolver()
 	shotgun = Weapon.create_shotgun()
 	current_weapon = revolver
+
+
+	apply_weapon_anim()                 
+	_base_ui_pos = shoot_anim.position  
+	_yaw_prev = rotation.y
 	
 	update_health_ui()
 	GameManager.set_player() # player needs to be accessible to enemies
@@ -40,8 +59,6 @@ func _ready() -> void:
 		#get_viewport().size.y / 2 - crosshair.size.y / 2
 	#)
 	hurt_box.area_entered.connect(_on_hurt_box_entered)
-	for i in range(10):
-		throwable_inventory.append(Prefabs.DYNAMITE)
 
 func _input(event) -> void:
 	if is_dead:
@@ -131,32 +148,69 @@ func _process(delta) -> void:
 		if current_weapon.current_ammo == 0:
 			start_reload()
 			return
-
-		shoot_timer += delta
-		if shoot_timer >= (1.0 / fire_rate):
+		if Input.is_action_just_pressed("shoot"):
 			shoot()
 			shoot_timer = 0.0
+		else:
+			shoot_timer += delta
+			if shoot_timer >= (1.0 / fire_rate):
+				shoot()
+				shoot_timer = 0.0
 		
 	if Input.is_action_just_pressed("weapon_1"):
+		cancel_reload()
 		current_weapon = revolver
 		SFXManager.play_player_sfx(SFXManager.Type.PLAYER_WEAPON_SWAP)
 		update_ammo_ui()
+		apply_weapon_anim()
 	elif Input.is_action_just_pressed("weapon_2"):
+		cancel_reload()
 		current_weapon = shotgun
 		SFXManager.play_player_sfx(SFXManager.Type.PLAYER_WEAPON_SWAP)
 		update_ammo_ui()
+		apply_weapon_anim()
 
 	if Input.is_action_just_pressed("reload"):
 		start_reload()
 
-	if Input.is_action_just_pressed("throw"):
-		if throwable_inventory.size() > 0:
-			var throwable : PackedScene = throwable_inventory.pop_back()
-			var projectile = throwable.instantiate()
-			projectile.global_position = muzzle.global_position
-			projectile.thrower = self
-			get_tree().current_scene.add_child(projectile)
-				
+	if throwable_inventory.size() > 0 and Input.is_action_just_pressed("throw"):
+		var throwable : PackedScene = throwable_inventory.pop_back()
+		var dynamite = throwable.instantiate()
+		var fwd = -camera.global_transform.basis.z
+		var throw_dir = (fwd + Vector3.UP * .35).normalized()
+		var throw_speed = 3.0
+		dynamite.linear_velocity = throw_dir * throw_speed
+		dynamite.linear_velocity += Vector3(velocity.x , 0.0, velocity.z) * 0.4
+		dynamite.global_position = muzzle.global_position + fwd
+		dynamite.thrower = self
+		dynamite.fuse_duration = 2.0
+		dynamite.look_at(dynamite.global_position + throw_dir, Vector3.UP)
+
+		get_tree().current_scene.add_child(dynamite)
+
+	# weapon sway stuff
+	var spd := Vector2(velocity.x, velocity.z).length()
+	_bob_t += delta * (bob_speed * clamp(spd / max(1.0, speed), 0.0, 1.0))
+	var bob := Vector2(sin(_bob_t) * bob_amt.x, abs(sin(_bob_t * 2.0)) * bob_amt.y)
+
+	var yaw_now := rotation.y
+	var yaw_delta := wrapf(yaw_now - _yaw_prev, -PI, PI)
+	_yaw_prev = yaw_now
+	_sway_x = lerp(_sway_x, -yaw_delta * sway_amt_x * 60.0, delta * sway_lerp) 
+
+	_recoil = _recoil.lerp(Vector2.ZERO, delta * recoil_recover)
+
+	shoot_anim.rotation = 0.0  
+	shoot_anim.position = _base_ui_pos + Vector2(_sway_x, 0) + bob + _recoil
+
+func apply_weapon_anim():
+	if not current_weapon: return
+	match current_weapon.weapon_type:
+		Weapon.Type.REVOLVER:
+			shoot_anim.play("pistol_idle")
+		Weapon.Type.SHOTGUN:
+			shoot_anim.play("double_barrel_idle")
+
 func start_reload():
 	if is_reloading:
 		return
@@ -164,6 +218,12 @@ func start_reload():
 		SFXManager.play_player_sfx(SFXManager.Type.PLAYER_RELOAD)
 		is_reloading = true
 		reload_timer = current_weapon.reload_time
+
+func cancel_reload():
+	if is_reloading:
+		is_reloading = false
+		reload_timer = 0.0
+		SFXManager.stop_player_sfx(SFXManager.Type.PLAYER_RELOAD)
 
 func shoot():
 	if not current_weapon.can_shoot():
@@ -175,23 +235,49 @@ func shoot():
 	var camera_forward : Vector3 = -camera.global_transform.basis.z
 	var enemies : Array[Node] = GameManager.get_enemies_in_scene()
 	
-	var closest_enemy : Node = null
-	var smallest_distance : float = INF
-	for enemy in enemies:
-		var distance : Vector3 = enemy.global_position - global_position
-		var enemy_dir : Vector3 = distance.normalized()
-		var angle : float = camera_forward.angle_to(enemy_dir)
+	# Different behavior for shotgun vs revolver
+	if current_weapon.weapon_type == Weapon.Type.SHOTGUN:
+		# Shotgun: wider cone, hits multiple enemies
+		var shotgun_cone = deg_to_rad(20.0)  # Much wider cone for shotgun
+		var hit_any_enemy = false
 		
-		if angle < shoot_cone_threshold:
-			if distance.length() < smallest_distance:
-				closest_enemy = enemy
-				smallest_distance = distance.length()
-	
-	if closest_enemy != null:
-		#print("Shot {0}".format([closest_enemy]))
+		for enemy in enemies:
+			var distance_vec : Vector3 = enemy.global_position - global_position
+			var enemy_dir : Vector3 = distance_vec.normalized()
+			var angle : float = camera_forward.angle_to(enemy_dir)
+			
+			# Check if enemy is in front and within shotgun cone
+			if angle < shotgun_cone and camera_forward.dot(enemy_dir) > 0:
+				enemy.take_damage(calculate_damage(distance_vec.length()))
+				hit_any_enemy = true
+		
+		if hit_any_enemy:
+			SFXManager.play_player_sfx(SFXManager.Type.PLAYER_BULLET_HIT)
+	else:
+		# Revolver: narrow cone, hits closest enemy only
+		var closest_enemy : Node = null
+		var smallest_distance : float = INF
+		
+		for enemy in enemies:
+			var distance_vec : Vector3 = enemy.global_position - global_position
+			var enemy_dir : Vector3 = distance_vec.normalized()
+			var angle : float = camera_forward.angle_to(enemy_dir)
 
-		closest_enemy.take_damage(calculate_damage(smallest_distance))
-		SFXManager.play_player_sfx(SFXManager.Type.PLAYER_BULLET_HIT)
+			# Check if enemy is in front and within revolver cone
+			if angle < shoot_cone_threshold and camera_forward.dot(enemy_dir) > 0:
+				if distance_vec.length() < smallest_distance:
+					closest_enemy = enemy
+					smallest_distance = distance_vec.length()
+		
+		if closest_enemy != null:
+			closest_enemy.take_damage(calculate_damage(smallest_distance))
+			SFXManager.play_player_sfx(SFXManager.Type.PLAYER_BULLET_HIT)
+	
+	# weapon recoil
+	if current_weapon.weapon_type == Weapon.Type.SHOTGUN:
+		_recoil += recoil_kick * 1.3
+	else:
+		_recoil += recoil_kick
 
 	current_weapon.shoot()
 	update_ammo_ui()

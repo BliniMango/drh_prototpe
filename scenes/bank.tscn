@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://cw2o855quvnka"]
+
+[ext_resource type="Script" uid="uid://cwiwiojcfs2ra" path="res://scripts/bank.gd" id="1_rjesy"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0aawc"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_3bwp7"]
+
+[node name="Bank" type="StaticBody3D"]
+script = ExtResource("1_rjesy")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.500458, 0)
+shape = SubResource("BoxShape3D_0aawc")
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.505119, 0)
+mesh = SubResource("BoxMesh_3bwp7")

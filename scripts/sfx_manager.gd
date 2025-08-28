@@ -67,3 +67,9 @@ func play_spatial_sfx(sfx_type: Type, world_position: Vector3, volume: float = 0
         player.global_position = world_position
         player.volume_db = volume
         player.play()
+
+func stop_player_sfx(sfx_type: Type) -> void:
+    if player_audio.has(sfx_type):
+        var p: AudioStreamPlayer = player_audio[sfx_type]
+        if p.playing:
+            p.stop()

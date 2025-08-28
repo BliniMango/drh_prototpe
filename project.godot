@@ -93,6 +93,7 @@ reload={
 3d_physics/layer_6="EnemyHurtBox"
 3d_physics/layer_7="ProjectileHitBox"
 3d_physics/layer_8="Pickup"
+3d_physics/layer_9="EnemyPhysicsCollision"
 
 [rendering]
 

@@ -7,7 +7,6 @@ extends Control
 @onready var setting_menu = $SettingMenu
 @onready var main_menu = $VBoxContainer
 
-
 func _ready():
 	# settings visability
 	setting_menu.visible = false

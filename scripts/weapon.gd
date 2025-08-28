@@ -8,6 +8,7 @@ extends Node
 @export var close_range : float
 @export var fire_rate : float
 @export var reload_time : float
+@export var ui_texture : CompressedTexture2D
 
 var current_ammo : int
 
@@ -26,6 +27,7 @@ static func create_revolver() -> Weapon:
 	weapon.close_range = 999.0
 	weapon.fire_rate = 2.0
 	weapon.reload_time = 2.0
+	weapon.ui_texture = preload("res://assets/ui/pistol.png")
 	return weapon
 
 static func create_shotgun() -> Weapon:
@@ -38,6 +40,7 @@ static func create_shotgun() -> Weapon:
 	weapon.close_range = 50.0
 	weapon.fire_rate = 1.0
 	weapon.reload_time = 3.0
+	weapon.ui_texture = preload("res://assets/ui/double-barrel.png")
 	return weapon
 
 

@@ -115,6 +115,8 @@ _data = {
 }
 
 [node name="Gunner" instance=ExtResource("1_nwf76")]
+collision_layer = 0
+collision_mask = 2
 script = ExtResource("2_58u8n")
 front_texture = ExtResource("3_ougl3")
 back_texture = ExtResource("4_u6qrg")
