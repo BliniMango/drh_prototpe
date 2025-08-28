@@ -57,7 +57,7 @@ func heal(amount: float) -> void:
 	current_health += min(amount + max_health, max_health)
 
 func take_damage(amount: float) -> void:
-	print_debug("Took {0} damage".format([amount]))
+	#print_debug("Took {0} damage".format([amount]))
 	if is_dead:
 		return
 	current_health -= amount

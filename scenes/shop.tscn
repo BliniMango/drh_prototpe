@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://c5r4ij7m3pluk"]
+
+[ext_resource type="Script" uid="uid://cf27kcboubist" path="res://scripts/shop.gd" id="1_lx5au"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bdmwb"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_lx5au"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_bdmwb"]
+radius = 1.0
+
+[node name="Shop" type="StaticBody3D"]
+script = ExtResource("1_lx5au")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_bdmwb")
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_lx5au")
+
+[node name="InteractArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.847859, 0)
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractArea"]
+shape = SubResource("SphereShape3D_bdmwb")

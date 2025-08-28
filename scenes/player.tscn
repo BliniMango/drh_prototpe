@@ -1,6 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://cxiwktsaqivrw"]
+[gd_scene load_steps=14 format=3 uid="uid://cxiwktsaqivrw"]
 
 [ext_resource type="Script" uid="uid://b7w4fmdis1d2d" path="res://scripts/player.gd" id="1_g2els"]
+[ext_resource type="FontFile" uid="uid://bq5obgtgiy0su" path="res://assets/fonts/BoldPixels1.4.ttf" id="2_dqkch"]
 [ext_resource type="Texture2D" uid="uid://c4f0ajgqogb20" path="res://assets/ui/pistol.png" id="2_g2els"]
 [ext_resource type="Texture2D" uid="uid://dfx8ipwxei66d" path="res://assets/ui/double-barrel.png" id="3_qhqgy"]
 
@@ -68,6 +69,7 @@ offset_bottom = 27.0
 grow_horizontal = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("2_dqkch")
 min_value = 100.0
 value = 100.0
 show_percentage = false
@@ -108,11 +110,13 @@ layout_mode = 2
 
 [node name="HealthLabel" type="Label" parent="UICanvas/HUDRoot/HBoxContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("2_dqkch")
 text = "Health"
 
 [node name="HealthBar" type="ProgressBar" parent="UICanvas/HUDRoot/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("2_dqkch")
 theme_override_styles/background = SubResource("StyleBoxFlat_g2els")
 theme_override_styles/fill = SubResource("StyleBoxFlat_qhqgy")
 show_percentage = false
@@ -122,11 +126,13 @@ layout_mode = 2
 
 [node name="Ammo" type="Label" parent="UICanvas/HUDRoot/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("2_dqkch")
 text = "Ammo"
 
 [node name="AmmoBar" type="ProgressBar" parent="UICanvas/HUDRoot/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("2_dqkch")
 theme_override_styles/background = SubResource("StyleBoxFlat_dqkch")
 theme_override_styles/fill = SubResource("StyleBoxFlat_qlg0r")
 show_percentage = false

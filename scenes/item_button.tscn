@@ -1,0 +1,34 @@
+[gd_scene load_steps=3 format=3 uid="uid://tp01ugr0btve"]
+
+[ext_resource type="FontFile" uid="uid://bq5obgtgiy0su" path="res://assets/fonts/BoldPixels1.4.ttf" id="1_uqwrt"]
+[ext_resource type="Script" uid="uid://dw213r24fjxic" path="res://scripts/item_button.gd" id="1_wcc7j"]
+
+[node name="ItemButton" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_wcc7j")
+
+[node name="ItemNameLabel" type="Label" parent="."]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_fonts/font = ExtResource("1_uqwrt")
+
+[node name="ItemDescriptionLabel" type="Label" parent="."]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_fonts/font = ExtResource("1_uqwrt")
+
+[node name="PriceLabel" type="Label" parent="."]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_fonts/font = ExtResource("1_uqwrt")
+
+[node name="BuyButton" type="Button" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("1_uqwrt")

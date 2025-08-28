@@ -17,6 +17,7 @@ signal player_died
 
 var dash_input_pressed : bool = false
 var movement_input : Vector2 = Vector2.ZERO
+var money : float = 0.0
 var fire_rate : float = 2.0
 var shoot_cone_threshold : float = deg_to_rad(5.6)
 var shoot_timer : float = 0.0
@@ -357,3 +358,28 @@ func _on_hurt_box_entered(area: Area3D) -> void:
 		take_damage(bullet.damage)
 		# Bullet gets destroyed on hit (handled in bullet script)
 		bullet.impact()
+
+func apply_item_effect(item_key):
+	match item_key:
+		"health_pack":
+			heal(max_health - current_health)
+		"ammo_refill":
+			current_weapon.reload()
+		"speed_demon":
+			speed *= 1.4
+		"trigger_happy":
+			fire_rate *= 2.0
+		"tank_mode":
+			max_health += 25
+			current_health += 25
+			speed *= .8
+			update_health_ui()
+		"dash_master":
+			dash_cooldown = int(dash_cooldown * 0.5)
+		"dynamite_cache":
+			for i in range(3):
+				throwable_inventory.append(Prefabs.DYNAMITE)
+		"gunslinger":
+			if revolver:
+				revolver.reload_time = 0.1
+		

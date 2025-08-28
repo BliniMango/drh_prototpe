@@ -1,12 +1,15 @@
 extends Node3D
 
-@onready var announce_label: Label = $WaveDisplay/AnnounceLabel
+@onready var announce_label: Label = $UICanvas/HUD/AnnounceLabel
+@onready var shop_menu: Control = $UICanvas/Menus/ShopMenu
 
 enum WaveState {
 	COMBAT,
 	SHOP,
 	TRANSITION,
 }
+
+var current_shop: Shop
 
 var player: Player
 
@@ -112,6 +115,11 @@ var wave_timelines = {
 }
 
 func _ready() -> void:
+	var shop = get_tree().get_nodes_in_group("shop")
+	if shop.size() > 0:
+		current_shop = shop[0]
+		current_shop.shop_interaction_requested.connect(_on_shop_requested)
+		print("Shop is setup")
 	change_state(WaveState.COMBAT)
 
 func enter_state(state: WaveState) -> void:
@@ -207,3 +215,11 @@ func get_spawner_by_id(id: String) -> Node:
 			return spawner
 
 	return null
+
+func _on_shop_requested(shop: Shop) -> void:
+	if current_wave_state != WaveState.SHOP:
+		return
+	
+	shop_menu.setup_shop(shop)
+	shop_menu.show()
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
