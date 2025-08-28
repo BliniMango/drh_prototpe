@@ -1,0 +1,62 @@
+[gd_scene load_steps=7 format=3 uid="uid://cf2im3nxwft0d"]
+
+[ext_resource type="Script" uid="uid://g1ku8xs8kfvu" path="res://scripts/game_manager.gd" id="1_xfgpo"]
+[ext_resource type="FontFile" uid="uid://bq5obgtgiy0su" path="res://assets/fonts/BoldPixels1.4.ttf" id="2_3qsn5"]
+[ext_resource type="PackedScene" uid="uid://cbsmnx7wbcdtm" path="res://scenes/shop_menu.tscn" id="3_56oht"]
+[ext_resource type="PackedScene" uid="uid://c76d7l0yriuks" path="res://scenes/pause_menu.tscn" id="4_rv2fh"]
+[ext_resource type="PackedScene" uid="uid://demh0rtg15j6j" path="res://scenes/main_level.tscn" id="5_4a7uk"]
+[ext_resource type="PackedScene" uid="uid://c5r4ij7m3pluk" path="res://scenes/shop.tscn" id="6_qbqbn"]
+
+[node name="Game" type="Node3D"]
+script = ExtResource("1_xfgpo")
+
+[node name="UICanvas" type="CanvasLayer" parent="."]
+
+[node name="HUD" type="Control" parent="UICanvas"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="AnnounceLabel" type="Label" parent="UICanvas/HUD"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 917.5
+offset_top = 129.0
+offset_right = 962.5
+offset_bottom = 196.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("2_3qsn5")
+theme_override_font_sizes/font_size = 48
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Menus" type="Control" parent="UICanvas"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ShopMenu" parent="UICanvas/Menus" instance=ExtResource("3_56oht")]
+visible = false
+layout_mode = 1
+
+[node name="PauseMenu" parent="UICanvas/Menus" instance=ExtResource("4_rv2fh")]
+visible = false
+layout_mode = 1
+
+[node name="StageManager" type="Node3D" parent="."]
+
+[node name="MainLevel" parent="StageManager" instance=ExtResource("5_4a7uk")]
+
+[node name="Shop" parent="StageManager/MainLevel" instance=ExtResource("6_qbqbn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.482, 0.0300064, 2.55434)
+
+[node name="AssetPlacer" type="Node3D" parent="StageManager/MainLevel"]
+
+[editable path="StageManager/MainLevel"]
