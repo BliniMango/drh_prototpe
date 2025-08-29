@@ -4,31 +4,35 @@
 [ext_resource type="Script" uid="uid://dw213r24fjxic" path="res://scripts/item_button.gd" id="1_wcc7j"]
 
 [node name="ItemButton" type="VBoxContainer"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+custom_minimum_size = Vector2(100, 100)
+offset_right = 36.0
+offset_bottom = 76.0
 script = ExtResource("1_wcc7j")
 
 [node name="ItemNameLabel" type="Label" parent="."]
 layout_mode = 2
 size_flags_vertical = 6
 theme_override_fonts/font = ExtResource("1_uqwrt")
+text = "Name	"
+horizontal_alignment = 1
 
 [node name="ItemDescriptionLabel" type="Label" parent="."]
 layout_mode = 2
 size_flags_vertical = 6
 theme_override_fonts/font = ExtResource("1_uqwrt")
+text = "Description"
+horizontal_alignment = 1
 
 [node name="PriceLabel" type="Label" parent="."]
 layout_mode = 2
 size_flags_vertical = 6
+theme_override_colors/font_color = Color(0, 1, 0, 1)
 theme_override_fonts/font = ExtResource("1_uqwrt")
+text = "Price"
+horizontal_alignment = 1
 
 [node name="BuyButton" type="Button" parent="."]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_fonts/font = ExtResource("1_uqwrt")
+text = "Buy"

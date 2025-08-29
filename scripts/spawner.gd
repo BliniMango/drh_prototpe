@@ -8,19 +8,24 @@ var spawn_rate : float = 1.0
 var spawn_timer : float = 0.0
 
 var enabled : bool = false
+var is_spawning : bool = false
 
 func _ready() -> void:
 	add_to_group("spawner")
 	
 func _process(delta: float) -> void:
+	if spawn_queue.size() == 0 and is_spawning:
+		is_spawning = false
+		
+	if not enabled:
+		return
+
 	if spawn_queue.size() > 0:
 		spawn_timer += delta
 		if spawn_timer >= spawn_rate:
 			spawn_next_enemy()
 			spawn_timer = 0
-
 	
-
 func attempt_spawn() -> void:
 	if GameManager.current_num_enemies < GameManager.max_num_enemies:
 		var entity = entities.pick_random().instantiate()
@@ -30,6 +35,7 @@ func attempt_spawn() -> void:
 
 func spawn_next_enemy() -> void:
 	if spawn_queue.size() == 0:
+		is_spawning = false
 		return
 
 	var enemy = spawn_queue.pop_front()
@@ -51,3 +57,4 @@ func spawn_next_enemy() -> void:
 func spawn_enemies(enemy: String, count: int) -> void:
 	for i in count:
 		spawn_queue.append(enemy)
+	is_spawning = true

@@ -1,10 +1,11 @@
 class_name Entity
 extends CharacterBody3D
 
+@export var bank_target_distance : float = 8.0
 @export var entity_sprite : Sprite3D
-@export var front_texture: Texture2D
-@export var back_texture: Texture2D
-@export var side_texture: Texture2D
+@export var front_texture : Texture2D
+@export var back_texture : Texture2D
+@export var side_texture : Texture2D
 
 @export var speed = 5.0
 
@@ -12,7 +13,9 @@ extends CharacterBody3D
 @export var current_health = 100
 @export var damage = 10.0 # collision damage
 
-var sprite_locked: bool = false
+var current_target : Node3D
+var bank_ref : Bank
+var sprite_locked : bool = false
 
 # dash
 var dash_decay_speed : float = 2.0
@@ -54,7 +57,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func heal(amount: float) -> void:
-	current_health += min(amount + max_health, max_health)
+	current_health = clamp(amount + max_health, 0, max_health)
 
 func take_damage(amount: float) -> void:
 	#print_debug("Took {0} damage".format([amount]))
@@ -106,29 +109,36 @@ func flash_red() -> void:
 	tween.tween_property(entity_sprite, "modulate", original_color, 0.2)
 
 func update_sprite_direction() -> void:
-	if GameManager.player == null:
-		print_debug("[brute.gd] player is null")
+	if GameManager.player == null or entity_sprite == null:
+		return
 
-	if velocity.length() < 0.1: return
-	
-	var to_player = GameManager.player.global_position - global_position
-	var enemy_forward = global_transform.basis.z
+	var enemy_fwd: Vector3  = (-global_transform.basis.z).normalized()
+	var enemy_right: Vector3 = (global_transform.basis.x).normalized()
+	var to_player: Vector3 = (GameManager.player.global_position - global_position)
+	to_player.y = 0.0
+	if to_player.length_squared() == 0.0:
+		return
+	to_player = to_player.normalized()
 
+	const FRONT_COS := cos(deg_to_rad(45.0))  # within 45° = "front"
+	const BACK_COS  := cos(deg_to_rad(135.0)) # beyond 135° = "back"
 
-	var angle = rad_to_deg(enemy_forward.angle_to(Vector3(to_player.x, 0, to_player.z)))
+	var facing_dot := enemy_fwd.dot(to_player)  # 1 = looking straight at player, -1 = away
 
-	if angle < 60 or angle > 300:
-		entity_sprite.texture = front_texture
-	elif angle > 150 and angle < 210:
+	if facing_dot >= FRONT_COS:
 		entity_sprite.texture = back_texture
+	elif facing_dot <= -FRONT_COS:
+		entity_sprite.texture = front_texture
 	else:
 		entity_sprite.texture = side_texture
-	
-	entity_sprite.flip_h = (angle > 180)
+
+	var side_dot := enemy_right.dot(to_player)
+
+	entity_sprite.flip_h = (side_dot > 0.0) 
 
 func move_forward_and_rotate_toward_player(delta: float, player_vec: Vector3):
-	if nav_agent != null:
-		nav_agent.target_position = GameManager.player.global_position
+	if nav_agent != null and current_target != null:
+		nav_agent.target_position = current_target.global_position
 
 		var next_position = nav_agent.get_next_path_position()
 		var direction = (next_position - global_position).normalized()
@@ -152,3 +162,22 @@ func setup_nav_agent():
 	nav_agent.radius = 0.5
 	nav_agent.path_desired_distance = 0.5
 	add_child(nav_agent)
+
+func update_target() -> void:
+	if not bank_ref and GameManager:
+		bank_ref = GameManager.get_bank()
+	
+	if not bank_ref or bank_ref.is_destroyed:
+		current_target = GameManager.player
+		return
+	
+	if not GameManager.player:
+		current_target = bank_ref
+		return
+
+	var distance_to_player = global_position.distance_to(GameManager.player.global_position)
+
+	if distance_to_player <= bank_target_distance:
+		current_target = GameManager.player
+	else:
+		current_target = bank_ref

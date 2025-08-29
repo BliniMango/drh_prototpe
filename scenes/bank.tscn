@@ -4,15 +4,20 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_0aawc"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_3bwp7"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_rjesy"]
 
 [node name="Bank" type="StaticBody3D"]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
 script = ExtResource("1_rjesy")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.500458, 0)
 shape = SubResource("BoxShape3D_0aawc")
 
-[node name="CSGMesh3D" type="CSGMesh3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.505119, 0)
-mesh = SubResource("BoxMesh_3bwp7")
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_rjesy")

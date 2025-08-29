@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://84xk0wd52vsi"]
+[gd_scene load_steps=22 format=3 uid="uid://dhy5ejdsd8uy"]
 
 [ext_resource type="PackedScene" uid="uid://cxiwktsaqivrw" path="res://scenes/player.tscn" id="1_evi7h"]
 [ext_resource type="Texture2D" uid="uid://mg4gd5scffch" path="res://assets/sprites/Textures/Grass_11-256x256.png" id="2_26vhg"]
@@ -171,121 +171,121 @@ spawn_id = "right"
 
 [node name="AssetPlacer" type="Node3D" parent="."]
 
-[node name="Root Scene" type="Node3D" parent="AssetPlacer" instance=ExtResource("4_w4vbw")]
+[node name="Root Scene" parent="AssetPlacer" instance=ExtResource("4_w4vbw")]
 transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, -19.0197, 0.0201256, 34.6277)
 metadata/asset_placer_res_id = "uid://br4yl7o235q10"
 
-[node name="@Node3D@66760" type="Node3D" parent="AssetPlacer" instance=ExtResource("5_2lq20")]
+[node name="@Node3D@66760" parent="AssetPlacer" instance=ExtResource("5_2lq20")]
 transform = Transform3D(1.29874, 0, -1.52095, 0, 2, 0, 1.52095, 0, 1.29874, -31.3989, -0.0361173, 8.63494)
 metadata/asset_placer_res_id = "uid://2xlnl6twhkrg"
 
-[node name="Root Scene (1)" type="Node3D" parent="AssetPlacer" instance=ExtResource("5_2lq20")]
+[node name="Root Scene (1)" parent="AssetPlacer" instance=ExtResource("5_2lq20")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -41.5926, -0.0361173, 8.68628)
 metadata/asset_placer_res_id = "uid://2xlnl6twhkrg"
 
-[node name="Root Scene (2)" type="Node3D" parent="AssetPlacer" instance=ExtResource("5_2lq20")]
+[node name="Root Scene (2)" parent="AssetPlacer" instance=ExtResource("5_2lq20")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -40.0208, -0.0361173, 31.6366)
 metadata/asset_placer_res_id = "uid://2xlnl6twhkrg"
 
-[node name="Root Scene (3)" type="Node3D" parent="AssetPlacer" instance=ExtResource("5_2lq20")]
+[node name="Root Scene (3)" parent="AssetPlacer" instance=ExtResource("5_2lq20")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -22.9642, -0.0361173, 29.879)
 metadata/asset_placer_res_id = "uid://2xlnl6twhkrg"
 
-[node name="Root Scene (4)" type="Node3D" parent="AssetPlacer" instance=ExtResource("5_2lq20")]
+[node name="Root Scene (4)" parent="AssetPlacer" instance=ExtResource("5_2lq20")]
 transform = Transform3D(0.114187, 0, 1.99674, 0, 2, 0, -1.99674, 0, 0.114187, -11.1369, -0.0361173, 31.4102)
 metadata/asset_placer_res_id = "uid://2xlnl6twhkrg"
 
-[node name="@Node3D@67448" type="Node3D" parent="AssetPlacer" instance=ExtResource("6_jnu35")]
+[node name="@Node3D@67448" parent="AssetPlacer" instance=ExtResource("6_jnu35")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -9.35373, -0.0361176, 41.0566)
 metadata/asset_placer_res_id = "uid://bqcttudlcrjqx"
 
-[node name="@Node3D@67449" type="Node3D" parent="AssetPlacer" instance=ExtResource("6_jnu35")]
+[node name="@Node3D@67449" parent="AssetPlacer" instance=ExtResource("6_jnu35")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -39.2909, -0.0361176, 42.4569)
 metadata/asset_placer_res_id = "uid://bqcttudlcrjqx"
 
-[node name="@Node3D@67450" type="Node3D" parent="AssetPlacer" instance=ExtResource("6_jnu35")]
+[node name="@Node3D@67450" parent="AssetPlacer" instance=ExtResource("6_jnu35")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -6.10188, -0.0361176, 26.4827)
 metadata/asset_placer_res_id = "uid://bqcttudlcrjqx"
 
-[node name="@Node3D@67451" type="Node3D" parent="AssetPlacer" instance=ExtResource("6_jnu35")]
+[node name="@Node3D@67451" parent="AssetPlacer" instance=ExtResource("6_jnu35")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -16.7169, -0.0361176, -42.541)
 metadata/asset_placer_res_id = "uid://bqcttudlcrjqx"
 
-[node name="@Node3D@67452" type="Node3D" parent="AssetPlacer" instance=ExtResource("6_jnu35")]
+[node name="@Node3D@67452" parent="AssetPlacer" instance=ExtResource("6_jnu35")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -26.3996, -0.0361185, -31.9465)
 metadata/asset_placer_res_id = "uid://bqcttudlcrjqx"
 
-[node name="Root Scene (5)" type="Node3D" parent="AssetPlacer" instance=ExtResource("6_jnu35")]
+[node name="Root Scene (5)" parent="AssetPlacer" instance=ExtResource("6_jnu35")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -45.5797, -0.0361176, -40.094)
 metadata/asset_placer_res_id = "uid://bqcttudlcrjqx"
 
-[node name="Root Scene (6)" type="Node3D" parent="AssetPlacer" instance=ExtResource("6_jnu35")]
+[node name="Root Scene (6)" parent="AssetPlacer" instance=ExtResource("6_jnu35")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -42.5071, -0.0361185, -46.6193)
 metadata/asset_placer_res_id = "uid://bqcttudlcrjqx"
 
-[node name="@Node3D@67453" type="Node3D" parent="AssetPlacer" instance=ExtResource("7_2g4ut")]
+[node name="@Node3D@67453" parent="AssetPlacer" instance=ExtResource("7_2g4ut")]
 transform = Transform3D(1.08121, 0, -1.68255, 0, 2, 0, 1.68255, 0, 1.08121, -24.1278, -0.0459969, -39.712)
 metadata/asset_placer_res_id = "uid://cevv2wyy1sxhw"
 
-[node name="@Node3D@67454" type="Node3D" parent="AssetPlacer" instance=ExtResource("7_2g4ut")]
+[node name="@Node3D@67454" parent="AssetPlacer" instance=ExtResource("7_2g4ut")]
 transform = Transform3D(1.26368, 0, -1.5502, 0, 2, 0, 1.5502, 0, 1.26368, -39.2802, -0.0459969, -36.5886)
 metadata/asset_placer_res_id = "uid://cevv2wyy1sxhw"
 
-[node name="@Node3D@67753" type="Node3D" parent="AssetPlacer" instance=ExtResource("7_2g4ut")]
+[node name="@Node3D@67753" parent="AssetPlacer" instance=ExtResource("7_2g4ut")]
 transform = Transform3D(1.20221, 0, 1.4565, 0, 1.77846, 0, -3.48772, 0, 0.502052, -24.2335, -0.0459988, 46.0853)
 metadata/asset_placer_res_id = "uid://cevv2wyy1sxhw"
 
-[node name="@Node3D@67756" type="Node3D" parent="AssetPlacer" instance=ExtResource("8_bl0fr")]
+[node name="@Node3D@67756" parent="AssetPlacer" instance=ExtResource("8_bl0fr")]
 transform = Transform3D(1.32932, 0, 0, 0, 1.42208, 0, 0, 0, 1.3235, -31.8865, -0.0318512, 41.5441)
 metadata/asset_placer_res_id = "uid://bw1xn5wwy1iek"
 
-[node name="@Node3D@67757" type="Node3D" parent="AssetPlacer" instance=ExtResource("8_bl0fr")]
+[node name="@Node3D@67757" parent="AssetPlacer" instance=ExtResource("8_bl0fr")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -11.5058, -0.0318531, 45.0414)
 metadata/asset_placer_res_id = "uid://bw1xn5wwy1iek"
 
-[node name="@Node3D@67758" type="Node3D" parent="AssetPlacer" instance=ExtResource("8_bl0fr")]
+[node name="@Node3D@67758" parent="AssetPlacer" instance=ExtResource("8_bl0fr")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 32.8435, -0.0318531, 42.6805)
 metadata/asset_placer_res_id = "uid://bw1xn5wwy1iek"
 
-[node name="@Node3D@67759" type="Node3D" parent="AssetPlacer" instance=ExtResource("8_bl0fr")]
+[node name="@Node3D@67759" parent="AssetPlacer" instance=ExtResource("8_bl0fr")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 21.8965, -0.0318531, 41.3098)
 metadata/asset_placer_res_id = "uid://bw1xn5wwy1iek"
 
-[node name="@Node3D@67760" type="Node3D" parent="AssetPlacer" instance=ExtResource("8_bl0fr")]
+[node name="@Node3D@67760" parent="AssetPlacer" instance=ExtResource("8_bl0fr")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -44.0833, -0.0318531, 25.0983)
 metadata/asset_placer_res_id = "uid://bw1xn5wwy1iek"
 
-[node name="@Node3D@69038" type="Node3D" parent="AssetPlacer" instance=ExtResource("7_2g4ut")]
+[node name="@Node3D@69038" parent="AssetPlacer" instance=ExtResource("7_2g4ut")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.5017, -0.00800002, 49.3401)
 metadata/asset_placer_res_id = "uid://cevv2wyy1sxhw"
 
-[node name="@Node3D@69039" type="Node3D" parent="AssetPlacer" instance=ExtResource("7_2g4ut")]
+[node name="@Node3D@69039" parent="AssetPlacer" instance=ExtResource("7_2g4ut")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.6152, -0.00799906, 32.9894)
 metadata/asset_placer_res_id = "uid://cevv2wyy1sxhw"
 
-[node name="@Node3D@69040" type="Node3D" parent="AssetPlacer" instance=ExtResource("7_2g4ut")]
+[node name="@Node3D@69040" parent="AssetPlacer" instance=ExtResource("7_2g4ut")]
 transform = Transform3D(-0.200291, 0, 0.979736, 0, 1, 0, -0.979736, 0, -0.200291, -28.2302, -0.00800002, 34.5167)
 metadata/asset_placer_res_id = "uid://cevv2wyy1sxhw"
 
-[node name="@Node3D@69041" type="Node3D" parent="AssetPlacer" instance=ExtResource("7_2g4ut")]
+[node name="@Node3D@69041" parent="AssetPlacer" instance=ExtResource("7_2g4ut")]
 transform = Transform3D(0.863572, 0, 0.504226, 0, 1, 0, -0.504226, 0, 0.863572, -30.3447, -0.00800002, 24.6429)
 metadata/asset_placer_res_id = "uid://cevv2wyy1sxhw"
 
-[node name="Root Scene (7)" type="Node3D" parent="AssetPlacer" instance=ExtResource("7_2g4ut")]
+[node name="Root Scene (7)" parent="AssetPlacer" instance=ExtResource("7_2g4ut")]
 transform = Transform3D(0.793619, 0, 0.608415, 0, 1, 0, -0.608415, 0, 0.793619, -45.4589, -0.00799811, 29.9424)
 metadata/asset_placer_res_id = "uid://cevv2wyy1sxhw"
 
-[node name="Root Scene (8)" type="Node3D" parent="AssetPlacer" instance=ExtResource("7_2g4ut")]
+[node name="Root Scene (8)" parent="AssetPlacer" instance=ExtResource("7_2g4ut")]
 transform = Transform3D(1.29906, 0, 0.355895, 0, 1, 0, -0.76927, 0, 0.600995, -35.5415, -0.00800097, 39.2636)
 metadata/asset_placer_res_id = "uid://cevv2wyy1sxhw"
 
-[node name="Root Scene (9)" type="Node3D" parent="AssetPlacer" instance=ExtResource("7_2g4ut")]
+[node name="Root Scene (9)" parent="AssetPlacer" instance=ExtResource("7_2g4ut")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.4559, -0.00799811, 36.5351)
 metadata/asset_placer_res_id = "uid://cevv2wyy1sxhw"
 
 [node name="doctor" type="Node" parent="AssetPlacer"]
 
-[node name="doc_window1" type="Node3D" parent="AssetPlacer/doctor" instance=ExtResource("9_bl0fr")]
+[node name="doc_window1" parent="AssetPlacer/doctor" instance=ExtResource("9_bl0fr")]
 transform = Transform3D(-1.09497e-07, 0, 2.505, 0, 2.505, 0, -2.505, 0, -1.09497e-07, 15.8506, -0.0265349, -28.6832)
 metadata/asset_placer_res_id = "uid://c57mah0642lkp"
 
@@ -293,11 +293,11 @@ metadata/asset_placer_res_id = "uid://c57mah0642lkp"
 transform = Transform3D(-1.09497e-07, 0, 2.505, 0, 2.505, 0, -2.505, 0, -1.09497e-07, 15.8506, -0.0265349, -36.3063)
 metadata/asset_placer_res_id = "uid://c57mah0642lkp"
 
-[node name="doc_doorframe" type="Node3D" parent="AssetPlacer/doctor" instance=ExtResource("10_ij5h5")]
+[node name="doc_doorframe" parent="AssetPlacer/doctor" instance=ExtResource("10_ij5h5")]
 transform = Transform3D(-1.04252e-07, 0, 2.385, 0, 2.385, 0, -2.385, 0, -1.04252e-07, 22.9383, -0.008389, -30.2706)
 metadata/asset_placer_res_id = "uid://dyqody2b54m1i"
 
-[node name="doc_wall1" type="Node3D" parent="AssetPlacer/doctor" instance=ExtResource("11_gv4hm")]
+[node name="doc_wall1" parent="AssetPlacer/doctor" instance=ExtResource("11_gv4hm")]
 transform = Transform3D(5, 0, 0, 0, 2.38695, 0, 0, 0, 2.00384, 26.2764, -0.0265343, -33.3173)
 metadata/asset_placer_res_id = "uid://2svpvp5fynbm"
 
@@ -313,14 +313,14 @@ metadata/asset_placer_res_id = "uid://2svpvp5fynbm"
 transform = Transform3D(2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 19.4952, -0.0265343, -32.5416)
 metadata/asset_placer_res_id = "uid://2svpvp5fynbm"
 
-[node name="doc_sign" type="Node3D" parent="AssetPlacer/doctor" instance=ExtResource("12_3pm08")]
+[node name="doc_sign" parent="AssetPlacer/doctor" instance=ExtResource("12_3pm08")]
 transform = Transform3D(-4.28372e-08, 0, 0.98, 0, 0.98, 0, -0.98, 0, -4.28372e-08, 23.1381, 5.16698, -30.0375)
 metadata/asset_placer_res_id = "uid://brqj8rkdqkn4v"
 
-[node name="doc_door" type="Node3D" parent="AssetPlacer/doctor" instance=ExtResource("13_ntglq")]
+[node name="doc_door" parent="AssetPlacer/doctor" instance=ExtResource("13_ntglq")]
 transform = Transform3D(-1.09716e-07, 0, 2.5, 0, 2.51, 0, -2.51, 0, -1.09278e-07, 24.646, -0.094815, -30.1242)
 metadata/asset_placer_res_id = "uid://dhkedxob7mgcm"
 
-[node name="@Node3D@147367" type="Node3D" parent="AssetPlacer" instance=ExtResource("14_ij5h5")]
+[node name="@Node3D@147367" parent="AssetPlacer" instance=ExtResource("14_ij5h5")]
 transform = Transform3D(2.05, 0, 0, 0, 2.05, 0, 0, 0, 2.05, 24.4655, 5.08125, -34.7786)
 metadata/asset_placer_res_id = "uid://c8eeuqdmlq2da"

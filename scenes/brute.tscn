@@ -107,9 +107,9 @@ damage = 40.0
 
 [node name="Sprite3D" parent="." index="1"]
 transform = Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 1, 0, 1, 0)
-offset = Vector2(9, 0)
+offset = Vector2(8, 0)
 texture_filter = 0
-texture = ExtResource("3_jqsto")
+texture = ExtResource("5_jr8ks")
 hframes = 18
 vframes = 4
 

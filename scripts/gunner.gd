@@ -35,10 +35,11 @@ func die() -> void:
 	animation_player.play("die")
 	GameManager.current_num_enemies -= 1
 	SFXManager.play_spatial_sfx(SFXManager.Type.GUNNER_DIE, global_position)
-	var pickup : Pickup = Prefabs.PICKUP.instantiate()
-	pickup.set_pickup_type(Pickup.Type.AMMO)
-	pickup.global_position = global_position
-	get_tree().current_scene.add_child(pickup)
+	if randf() < .3:
+		var pickup : Pickup = Prefabs.PICKUP.instantiate()
+		pickup.set_pickup_type(Pickup.Type.AMMO)
+		pickup.global_position = global_position
+		get_tree().current_scene.add_child(pickup)
 	super.create_death_effect()
 
 # state machine
@@ -65,37 +66,45 @@ func enter_state(state: State) -> void: # setup
 			animation_player.play("idle")
 		
 func handle_approach(delta) -> void:
-	if GameManager.player == null:
-		printerr("[gunner.gd] player is null")
+	update_target()
+
+	if current_target == null:
 		return
 
-	var player_vec = GameManager.player.global_position - global_position
-	super.move_forward_and_rotate_toward_player(delta, player_vec)
+	var target_vec = current_target.global_position - global_position
+	super.move_forward_and_rotate_toward_player(delta, target_vec)
 
-	if shoot_range > player_vec.length():
+	if shoot_range > target_vec.length():
 		change_state(State.SHOOT)
 		
 func handle_shoot() -> void:
-	if GameManager.player == null:
-		print_debug("[gunner.gd] player is null")
+	update_target()
+
+	if current_target == null:
+		change_state(State.APPROACH)
 		return
 
-	var player_vec = GameManager.player.global_position - global_position
-	if shoot_range > player_vec.length():
-		if Time.get_ticks_msec() > next_shoot_time:
-			animation_player.play("attack")
-		else:
-			animation_player.play("idle")
-	else:
+	var target_vec = current_target.global_position - global_position
+
+	var direction = target_vec.normalized()
+	var target_angle = atan2(direction.x, direction.z)
+	rotation.y = target_angle
+
+	if shoot_range <= target_vec.length():
 		change_state(State.APPROACH)
+		return
+
+	if Time.get_ticks_msec() > next_shoot_time:
+		animation_player.play("attack")
+	else:
+		animation_player.play("idle")
 	
 func shoot() -> void:
+	SFXManager.play_spatial_sfx(SFXManager.Type.GUNNER_SHOOT, global_position)
 	var bullet = Prefabs.BULLET.instantiate()
 	bullet.global_position = muzzle.global_position
 	bullet.shooter = self
-	var bullet_dir : Vector3 = GameManager.player.global_position - muzzle.global_position
+	var bullet_dir : Vector3 = current_target.global_position - muzzle.global_position
 	bullet.dir = Vector3(bullet_dir.x, 0.0, bullet_dir.z)
 	get_tree().current_scene.add_child(bullet)
 	next_shoot_time = Time.get_ticks_msec() + shoot_cooldown
-
-

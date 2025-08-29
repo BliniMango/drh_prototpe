@@ -1,9 +1,12 @@
-[gd_scene load_steps=14 format=3 uid="uid://cxiwktsaqivrw"]
+[gd_scene load_steps=13 format=3 uid="uid://cxiwktsaqivrw"]
 
 [ext_resource type="Script" uid="uid://b7w4fmdis1d2d" path="res://scripts/player.gd" id="1_g2els"]
 [ext_resource type="FontFile" uid="uid://bq5obgtgiy0su" path="res://assets/fonts/BoldPixels1.4.ttf" id="2_dqkch"]
 [ext_resource type="Texture2D" uid="uid://c4f0ajgqogb20" path="res://assets/ui/pistol.png" id="2_g2els"]
 [ext_resource type="Texture2D" uid="uid://dfx8ipwxei66d" path="res://assets/ui/double-barrel.png" id="3_qhqgy"]
+[ext_resource type="Texture2D" uid="uid://07q4wc81fhsr" path="res://assets/sprites/health-no-bg.png" id="5_fjrip"]
+[ext_resource type="Texture2D" uid="uid://cmymvu2wai2rb" path="res://assets/sprites/dynamite-no-bg.png" id="5_qlg0r"]
+[ext_resource type="Texture2D" uid="uid://60il1vyh6yeg" path="res://assets/sprites/ammo.png" id="6_smehm"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_u8vuu"]
 
@@ -33,18 +36,6 @@ animations = [{
 "name": &"pistol_idle",
 "speed": 5.0
 }]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g2els"]
-bg_color = Color(0.280175, 0, 0.0230792, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qhqgy"]
-bg_color = Color(0.80407, 9.72241e-05, 0.141246, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dqkch"]
-bg_color = Color(0.249251, 0.113796, 8.42288e-08, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qlg0r"]
-bg_color = Color(0.840717, 0.513903, 0, 1)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_g2els"]
 
@@ -86,7 +77,8 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -54.0
+offset_top = -99.0
+offset_bottom = -45.0
 grow_horizontal = 2
 grow_vertical = 0
 size_flags_horizontal = 3
@@ -99,43 +91,61 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -53.5
-offset_top = -40.0
-offset_right = 53.5
+offset_left = -774.0
+offset_top = -116.0
+offset_right = -554.0
+offset_bottom = -38.0
 grow_horizontal = 2
 grow_vertical = 0
+scale = Vector2(2, 2)
+theme_override_constants/separation = 20
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UICanvas/HUDRoot/HBoxContainer"]
+custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="UICanvas/HUDRoot/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+texture = ExtResource("5_fjrip")
+expand_mode = 4
 
 [node name="HealthLabel" type="Label" parent="UICanvas/HUDRoot/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_dqkch")
-text = "Health"
-
-[node name="HealthBar" type="ProgressBar" parent="UICanvas/HUDRoot/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_fonts/font = ExtResource("2_dqkch")
-theme_override_styles/background = SubResource("StyleBoxFlat_g2els")
-theme_override_styles/fill = SubResource("StyleBoxFlat_qhqgy")
-show_percentage = false
+text = "6/6"
+horizontal_alignment = 1
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="UICanvas/HUDRoot/HBoxContainer"]
+custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 
-[node name="Ammo" type="Label" parent="UICanvas/HUDRoot/HBoxContainer/VBoxContainer2"]
+[node name="TextureRect" type="TextureRect" parent="UICanvas/HUDRoot/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_dqkch")
-text = "Ammo"
+texture = ExtResource("6_smehm")
+expand_mode = 4
 
-[node name="AmmoBar" type="ProgressBar" parent="UICanvas/HUDRoot/HBoxContainer/VBoxContainer2"]
+[node name="AmmoLabel" type="Label" parent="UICanvas/HUDRoot/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
-size_flags_vertical = 3
 theme_override_fonts/font = ExtResource("2_dqkch")
-theme_override_styles/background = SubResource("StyleBoxFlat_dqkch")
-theme_override_styles/fill = SubResource("StyleBoxFlat_qlg0r")
-show_percentage = false
+text = "6/6"
+horizontal_alignment = 1
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="UICanvas/HUDRoot/HBoxContainer"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="UICanvas/HUDRoot/HBoxContainer/VBoxContainer3"]
+custom_minimum_size = Vector2(0, 27)
+layout_mode = 2
+texture = ExtResource("5_qlg0r")
+expand_mode = 4
+stretch_mode = 4
+
+[node name="DynamiteLabel" type="Label" parent="UICanvas/HUDRoot/HBoxContainer/VBoxContainer3"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_dqkch")
+text = "6/6"
+horizontal_alignment = 1
 
 [node name="GameOverScreen" type="Control" parent="."]
 visible = false

@@ -10,42 +10,42 @@ var shop_items = {
 	"health_pack": {
 		"price": 50, 
 		"name": "Health Pack",
-		"description": "Restore full health"
+		"description": "Heal"
 	},
 	"ammo_refill": {
 		"price": 30, 
 		"name": "Ammo Refill",
-		"description": "Reload current weapon"
+		"description": "Reload"
 	},
 	"speed_demon": {
 		"price": 75, 
 		"name": "Speed Demon",
-		"description": "+40% movement speed"
+		"description": "Speed+"
 	},
 	"trigger_happy": {
 		"price": 100, 
 		"name": "Trigger Happy",
-		"description": "Double fire rate"
+		"description": "Fire Rate+"
 	},
 	"tank_mode": {
 		"price": 125, 
 		"name": "Tank Mode",
-		"description": "+25 max health, -20% speed"
+		"description": "Health+"
 	},
 	"dash_master": {
 		"price": 80, 
 		"name": "Dash Master",
-		"description": "50% faster dash cooldown"
+		"description": "Dash+"
 	},
 	"dynamite_cache": {
 		"price": 60, 
 		"name": "Dynamite Cache",
-		"description": "Gain 3 dynamite"
+		"description": "Bombs"
 	},
 	"gunslinger": {
 		"price": 90, 
 		"name": "Gunslinger",
-		"description": "Near-instant revolver reload"
+		"description": "Quick Reload"
 	}
 }
 
@@ -62,7 +62,6 @@ func _on_player_entered(area: Area3D):
 	var entity = area.get_parent()
 	if entity.is_in_group("player"):
 		player_nearby = true
-		print("yo")
 
 
 func _on_player_exited(area: Area3D):
@@ -70,10 +69,8 @@ func _on_player_exited(area: Area3D):
 		player_nearby = false
 
 func open_shop():
-	print("trying to open shop")
 	if GameManager.current_wave_state == GameManager.WaveState.SHOP:
 		shop_interaction_requested.emit(self)
-		print("opening shop")
 
 func can_purchase(item_key: String, money: float) -> bool:
 	if shop_items.has(item_key):

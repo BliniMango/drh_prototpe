@@ -1,7 +1,7 @@
 extends Control
-@onready var money_label: Label = $MoneyLabel
-@onready var item_container: HBoxContainer = $ItemContainer
-@onready var close_button: Button = $ItemContainer/CloseButton
+@onready var money_label: Label = $ColorRect/MoneyLabel
+@onready var item_container: GridContainer = $ColorRect/ItemContainer
+@onready var close_button: Button = $ColorRect/CloseButton
 
 const item_button_prefab : PackedScene = preload("res://scenes/item_button.tscn")
 
@@ -14,6 +14,9 @@ func setup_shop(shop: Shop) -> void:
 	update_money_display()
 	populate_items()
 	show()
+	player.set_physics_process(false)
+	player.set_process(false)
+	close_button.pressed.connect(_on_close_button_pressed)
 
 func populate_items() -> void:
 	for child in item_container.get_children():
@@ -40,3 +43,9 @@ func _on_item_purchased(item_key: String) -> void:
 	update_money_display()
 	for child in item_container.get_children():
 		child.update_affordability(player.money)
+
+func _on_close_button_pressed() -> void:
+	hide()
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	player.set_physics_process(true)
+	player.set_process(true)

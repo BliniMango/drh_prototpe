@@ -115,8 +115,6 @@ _data = {
 }
 
 [node name="Gunner" instance=ExtResource("1_nwf76")]
-collision_layer = 0
-collision_mask = 2
 script = ExtResource("2_58u8n")
 front_texture = ExtResource("3_ougl3")
 back_texture = ExtResource("4_u6qrg")
@@ -128,12 +126,8 @@ damage = 10.0
 
 [node name="Sprite3D" parent="." index="1"]
 transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 1, 0, 1.47471, 0)
-offset = Vector2(0, 0)
 texture = ExtResource("3_ougl3")
 hframes = 11
-
-[node name="HitBox" parent="." index="2"]
-collision_mask = 0
 
 [node name="AnimationPlayer" parent="." index="4"]
 libraries = {

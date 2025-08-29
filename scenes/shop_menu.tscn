@@ -4,6 +4,7 @@
 [ext_resource type="FontFile" uid="uid://bq5obgtgiy0su" path="res://assets/fonts/BoldPixels1.4.ttf" id="1_uj65v"]
 
 [node name="ShopMenu" type="Control"]
+top_level = true
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -15,51 +16,71 @@ size_flags_vertical = 3
 script = ExtResource("1_5pe57")
 
 [node name="ColorRect" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(700, 500)
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -25.0
+offset_top = -25.0
+offset_right = 25.0
+offset_bottom = 25.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.0784314, 0.0784314, 0.0784314, 1)
 
-[node name="TitleLabel" type="Label" parent="."]
+[node name="TitleLabel" type="Label" parent="ColorRect"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -20.0
+offset_top = 11.0
 offset_right = 20.0
-offset_bottom = 23.0
+offset_bottom = 34.0
 grow_horizontal = 2
 theme_override_fonts/font = ExtResource("1_uj65v")
 text = "Shop"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MoneyLabel" type="Label" parent="."]
+[node name="MoneyLabel" type="Label" parent="ColorRect"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -20.0
-offset_top = 29.0
-offset_right = 20.0
-offset_bottom = 52.0
+offset_left = 167.0
+offset_top = 11.0
+offset_right = 207.0
+offset_bottom = 34.0
 grow_horizontal = 2
 theme_override_fonts/font = ExtResource("1_uj65v")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ItemContainer" type="HBoxContainer" parent="."]
+[node name="ItemContainer" type="GridContainer" parent="ColorRect"]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+offset_left = 53.0
+offset_top = 69.0
+offset_right = 165.0
+offset_bottom = 169.0
+columns = 6
 
-[node name="CloseButton" type="Button" parent="ItemContainer"]
-layout_mode = 2
+[node name="CloseButton" type="Button" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -22.5
+offset_top = -66.0
+offset_right = 22.5
+offset_bottom = -44.0
+grow_horizontal = 2
+grow_vertical = 0
 size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("1_uj65v")
+text = "Close"

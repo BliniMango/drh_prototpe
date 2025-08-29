@@ -3,6 +3,7 @@ extends Node
 
 @export var weapon_type: Type
 @export var max_ammo : int
+@export var ammo_stock : int
 @export var damage_close : float
 @export var damage_far : float
 @export var close_range : float
@@ -22,6 +23,7 @@ static func create_revolver() -> Weapon:
 	weapon.weapon_type = Type.REVOLVER
 	weapon.max_ammo = 6
 	weapon.current_ammo = 6
+	weapon.ammo_stock = 24
 	weapon.damage_close = 50.0
 	weapon.damage_far = 50.0
 	weapon.close_range = 999.0
@@ -35,6 +37,7 @@ static func create_shotgun() -> Weapon:
 	weapon.weapon_type = Type.SHOTGUN
 	weapon.max_ammo = 2
 	weapon.current_ammo = 2
+	weapon.ammo_stock = 10
 	weapon.damage_close = 100.0
 	weapon.damage_far = 50.0
 	weapon.close_range = 50.0
@@ -50,6 +53,7 @@ func _init():
 func can_shoot() -> bool:
 	return current_ammo > 0
 
+
 func shoot() -> void:
 	match weapon_type:
 		Weapon.Type.REVOLVER:
@@ -60,7 +64,14 @@ func shoot() -> void:
 		current_ammo -= 1
 
 func reload() -> void:
-	current_ammo = max_ammo
+	if current_ammo < max_ammo and ammo_stock > 0:
+		var ammo_needed = max_ammo - current_ammo
+		var ammo_to_add = min(ammo_needed, ammo_stock)
+
+		current_ammo += ammo_to_add
+		ammo_stock -= ammo_to_add
+
+		current_ammo = max_ammo
 
 func is_empty() -> bool:
 	return current_ammo <= 0

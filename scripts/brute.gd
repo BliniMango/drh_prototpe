@@ -34,10 +34,11 @@ func die() -> void:
 	GameManager.current_num_enemies -= 1
 
 	SFXManager.play_spatial_sfx(SFXManager.Type.BRUTE_DIE, global_position)
-	var pickup : Pickup = Prefabs.PICKUP.instantiate()
-	pickup.set_pickup_type(Pickup.Type.HEALTH)
-	pickup.global_position = global_position
-	get_tree().current_scene.add_child(pickup)
+	if randf() < .2:
+		var pickup : Pickup = Prefabs.PICKUP.instantiate()
+		pickup.set_pickup_type(Pickup.Type.HEALTH)
+		pickup.global_position = global_position
+		get_tree().current_scene.add_child(pickup)
 	super.create_death_effect()
 
 # state machine
@@ -70,6 +71,7 @@ func enter_state(state: State) -> void: # setup
 			dash_speed = max_dash_speed
 			dash_direction = direction
 			next_dash_time = Time.get_ticks_msec() + dash_cooldown
+			SFXManager.play_spatial_sfx(SFXManager.Type.BRUTE_ATTACK, global_position)
 		State.EXHAUSTED: 
 			animation_player.play("idle")
 			velocity = Vector3.ZERO
@@ -77,15 +79,16 @@ func enter_state(state: State) -> void: # setup
 			change_state(State.APPROACH)
 		
 func handle_approach(delta: float) -> void:
-	if GameManager.player == null:
-		printerr("[brute.gd] player is null")
+	update_target()
+
+	if current_target == null:
 		return
 
-	var player_vec = GameManager.player.global_position - global_position
+	var target_vec = current_target.global_position - global_position
 
-	super.move_forward_and_rotate_toward_player(delta, player_vec)
+	super.move_forward_and_rotate_toward_player(delta, target_vec)
 
-	if dash_range > player_vec.length() and next_dash_time < Time.get_ticks_msec():
+	if current_target == GameManager.player and dash_range > target_vec.length() and next_dash_time < Time.get_ticks_msec():
 		change_state(State.WINDUP)
 		
 func handle_windup() -> void:

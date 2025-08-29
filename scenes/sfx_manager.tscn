@@ -1,11 +1,15 @@
-[gd_scene load_steps=13 format=3 uid="uid://dceq41df18pgl"]
+[gd_scene load_steps=17 format=3 uid="uid://dceq41df18pgl"]
 
 [ext_resource type="Script" uid="uid://4bs3ipw30rbe" path="res://scripts/sfx_manager.gd" id="1_wd8mt"]
-[ext_resource type="AudioStream" uid="uid://bd5dvh6chht6d" path="res://assets/sfx/monster_die.wav" id="2_gx34h"]
+[ext_resource type="AudioStream" uid="uid://bdcagsadwsnhj" path="res://assets/sfx/bruteattack.wav" id="2_1yplg"]
 [ext_resource type="AudioStream" uid="uid://cps1r68b2yvof" path="res://assets/sfx/Hit34.wav" id="3_phwnr"]
+[ext_resource type="AudioStream" uid="uid://ce7bc2eatlfvy" path="res://assets/sfx/Die32.wav" id="3_vapnd"]
 [ext_resource type="AudioStream" uid="uid://dphl62gn8ckv2" path="res://assets/sfx/713344__maximumplay3r__fuse-ignition.wav" id="4_4unml"]
 [ext_resource type="AudioStream" uid="uid://b16lg2u7tul3j" path="res://assets/sfx/Boom8.wav" id="4_byfxn"]
+[ext_resource type="AudioStream" uid="uid://pnow0a2hex5s" path="res://assets/sfx/Hurt82.wav" id="4_fqu3m"]
+[ext_resource type="AudioStream" uid="uid://b7dud4w1grmgs" path="res://assets/sfx/Shoot56.wav" id="5_5ngy1"]
 [ext_resource type="AudioStream" uid="uid://dl75xh084m8fg" path="res://assets/sfx/PowerUp6.wav" id="5_byfxn"]
+[ext_resource type="AudioStream" uid="uid://bcv6lltx78sm4" path="res://assets/sfx/throw33.wav" id="6_udoau"]
 [ext_resource type="AudioStream" uid="uid://boao8etianyhx" path="res://assets/sfx/734057__dthetech__dd-shotgun-2.wav" id="7_df6my"]
 [ext_resource type="AudioStream" uid="uid://phdqbok65oyp" path="res://assets/sfx/Hit75.wav" id="7_h2k0q"]
 [ext_resource type="AudioStream" uid="uid://drcsvgd7ykeyq" path="res://assets/sfx/231248__augustsandberg__smith-wesson-686-plus-4-inch-barrel.wav" id="7_ymotv"]
@@ -17,25 +21,31 @@
 script = ExtResource("1_wd8mt")
 
 [node name="BruteAttack" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_1yplg")
 
 [node name="BruteDie" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("2_gx34h")
+stream = ExtResource("3_vapnd")
 
 [node name="BruteHurt" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_fqu3m")
 
 [node name="GunnerShoot" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("5_5ngy1")
 
 [node name="GunnerDie" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("2_gx34h")
+stream = ExtResource("3_vapnd")
 
 [node name="GunnerHurt" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_fqu3m")
 
 [node name="BomberThrow" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("6_udoau")
 
 [node name="BomberDie" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("2_gx34h")
+stream = ExtResource("3_vapnd")
 
 [node name="BomberHurt" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_fqu3m")
 
 [node name="Explosion" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("4_byfxn")

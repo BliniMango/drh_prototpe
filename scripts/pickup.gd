@@ -56,14 +56,17 @@ func _on_area_entered(area: Area3D) -> void:
 		match pickup_type:
 			Type.HEALTH:
 				player.heal(pickup_value)
+				player.update_health_ui()
 			Type.DYNAMITE:
 				for i in range(int(pickup_value)):
 					player.throwable_inventory.append(Prefabs.DYNAMITE)
+				player.update_dynamite_ui()
 			Type.SPEED_BOOST:
 				pass
 				# TODO?
 			Type.AMMO:
-				pass
+				player.current_weapon.ammo_stock += 5
+				player.update_ammo_ui()
 
 		queue_free()
 
