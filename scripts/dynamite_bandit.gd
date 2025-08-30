@@ -21,7 +21,7 @@ func _ready() -> void:
 		speed *= randf_range(1.1, 1.3)
 		# Color modulation for strong enemies
 		if entity_sprite:
-			entity_sprite.modulate = Color(randf_range(0.2), randf_range(0.2, 0.5), 1.0)
+			entity_sprite.modulate = Color(randf_range(0.2, 0.5), randf_range(0.2, 0.5), 1.0)
 		var scale_factor = randf_range(1.2, 1.5)
 		scale = Vector3.ONE * scale_factor
 	else:
