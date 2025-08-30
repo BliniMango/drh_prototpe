@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://drxbs66ytns6u"]
+[gd_scene load_steps=9 format=3 uid="uid://drxbs66ytns6u"]
 
 [ext_resource type="Script" uid="uid://bttgt2s1ptyxr" path="res://scripts/pickup.gd" id="1_hqyie"]
 [ext_resource type="Texture2D" uid="uid://07q4wc81fhsr" path="res://assets/sprites/health-no-bg.png" id="2_hqyie"]
 [ext_resource type="Texture2D" uid="uid://bny3tsex030am" path="res://assets/sprites/ammo-no-bgt.png" id="3_t0qhb"]
 [ext_resource type="Texture2D" uid="uid://cmymvu2wai2rb" path="res://assets/sprites/dynamite-no-bg.png" id="4_mj4kx"]
+[ext_resource type="Texture2D" uid="uid://cdng2asubybn6" path="res://assets/sprites/shotgun-shell.png" id="4_t0qhb"]
 [ext_resource type="Texture2D" uid="uid://bwc0p85te1c1p" path="res://assets/sprites/Textures/Wood_17-256x256.png" id="5_hlv8s"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_j61ql"]
@@ -15,7 +16,8 @@ collision_layer = 0
 collision_mask = 2
 script = ExtResource("1_hqyie")
 health_texture = ExtResource("2_hqyie")
-ammo_texture = ExtResource("3_t0qhb")
+pistol_ammo_texture = ExtResource("3_t0qhb")
+shotgun_ammo_texture = ExtResource("4_t0qhb")
 dynamite_texture = ExtResource("4_mj4kx")
 speed_boost_texture = ExtResource("5_hlv8s")
 

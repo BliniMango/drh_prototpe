@@ -8,20 +8,23 @@ extends RigidBody3D
 @export var pickup_value : float = 0.0
 
 @export var health_texture : CompressedTexture2D
-@export var ammo_texture : CompressedTexture2D
+@export var pistol_ammo_texture : CompressedTexture2D
+@export var shotgun_ammo_texture : CompressedTexture2D
 @export var dynamite_texture : CompressedTexture2D
 @export var speed_boost_texture : CompressedTexture2D
 
 enum Type {
 	HEALTH,
-	AMMO,
+	PISTOL_AMMO,
+	SHOTGUN_AMMO,
 	DYNAMITE,
 	SPEED_BOOST
 }
 
 const DEFAULT_VALUES = {
 	Type.HEALTH: 25.0,
-	Type.AMMO: 20.0,
+	Type.PISTOL_AMMO: 12.0,
+	Type.SHOTGUN_AMMO: 8.0,
 	Type.DYNAMITE: 2.0,
 	Type.SPEED_BOOST: 1.5,
 }
@@ -41,8 +44,10 @@ func update_sprite() -> void:
 	match pickup_type:
 		Type.HEALTH:
 			sprite.texture = health_texture
-		Type.AMMO:
-			sprite.texture = ammo_texture
+		Type.PISTOL_AMMO:
+			sprite.texture = pistol_ammo_texture
+		Type.SHOTGUN_AMMO:
+			sprite.texture = shotgun_ammo_texture
 		Type.DYNAMITE:
 			sprite.texture = dynamite_texture
 		Type.SPEED_BOOST:
@@ -57,6 +62,12 @@ func _on_area_entered(area: Area3D) -> void:
 			Type.HEALTH:
 				player.heal(pickup_value)
 				player.update_health_ui()
+			Type.PISTOL_AMMO:
+				player.revolver.ammo_stock += int(pickup_value)
+				player.update_ammo_ui()
+			Type.SHOTGUN_AMMO:
+				player.shotgun.ammo_stock += int(pickup_value)
+				player.update_ammo_ui()
 			Type.DYNAMITE:
 				for i in range(int(pickup_value)):
 					player.throwable_inventory.append(Prefabs.DYNAMITE)
@@ -64,13 +75,10 @@ func _on_area_entered(area: Area3D) -> void:
 			Type.SPEED_BOOST:
 				pass
 				# TODO?
-			Type.AMMO:
-				player.current_weapon.ammo_stock += 5
-				player.update_ammo_ui()
 
 		player.pickup_flash()
 		queue_free()
 
 func set_pickup_type(type: Type) -> void:
 	pickup_type = type
-	pickup_value = DEFAULT_VALUES[type] 
+	pickup_value = DEFAULT_VALUES[type]

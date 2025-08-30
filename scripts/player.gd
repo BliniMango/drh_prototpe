@@ -6,6 +6,8 @@ signal player_died
 @export var mouse_sensitivity = 0.002
 @export var revolver : Weapon
 @export var shotgun : Weapon
+@export var pistol_icon : CompressedTexture2D
+@export var shotgun_icon : CompressedTexture2D
 
 @onready var camera = $Camera3D
 @onready var crosshair = $UICanvas/Crosshair
@@ -18,6 +20,7 @@ signal player_died
 @onready var shoot_anim = $UICanvas/ShootAnim
 @onready var grenade_rethrow_label: Label = $UICanvas/GrenadeRethrowLabel
 @onready var muzzle_flash: AnimatedSprite2D = $UICanvas/MuzzleFlash
+@onready var ammo_texture: TextureRect = $UICanvas/HUDRoot/HBoxContainer/VBoxContainer2/AmmoTexture
 
 var grenade_prompt_timer: float = 0.0
 
@@ -506,6 +509,13 @@ func update_dynamite_ui() -> void:
 
 func update_ammo_ui() -> void:
 	ammo_label.text = str(current_weapon.current_ammo) + " | " + str(current_weapon.ammo_stock)
+	
+	# Update weapon icon based on current weapon
+	if current_weapon.weapon_type == Weapon.Type.REVOLVER:
+		ammo_texture.texture = pistol_icon
+	elif current_weapon.weapon_type == Weapon.Type.SHOTGUN:
+		ammo_texture.texture = shotgun_icon
+	
 	if current_weapon.current_ammo == 0:
 		ammo_label.modulate = Color.RED
 	elif current_weapon.current_ammo <= 1:

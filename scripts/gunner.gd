@@ -56,7 +56,11 @@ func die() -> void:
 	SFXManager.play_spatial_sfx(SFXManager.Type.GUNNER_DIE, global_position)
 	if randf() < .3:
 		var pickup : Pickup = Prefabs.PICKUP.instantiate()
-		pickup.set_pickup_type(Pickup.Type.AMMO)
+		# Randomly choose between pistol and shotgun ammo
+		if randf() < 0.5:
+			pickup.set_pickup_type(Pickup.Type.PISTOL_AMMO)
+		else:
+			pickup.set_pickup_type(Pickup.Type.SHOTGUN_AMMO)
 		pickup.global_position = global_position
 		get_tree().current_scene.add_child(pickup)
 	super.create_death_effect()
