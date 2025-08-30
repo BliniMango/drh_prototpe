@@ -5,10 +5,11 @@ signal bank_money_changed(new_amount)
 signal bank_destroyed()
 signal bank_took_damage(damage_amount, money_lost)
 
+@onready var label_3d: Label3D = $Label3D
+
 @export var starting_money: int = 1000
 @export var damage_to_money_ratio: float = 10.0
 
-# Jiggle options
 @export var visual_node: NodePath
 @export var jiggle_scale: float = 0.1
 @export var jiggle_time: float = 0.12
@@ -23,17 +24,21 @@ func _ready() -> void:
 	if visual_node != NodePath():
 		_visual = get_node_or_null(visual_node)
 	GameManager.register_bank(self)
+	label_3d.text = "${0}".format([starting_money])
+
 
 func deposit_money(amount: int) -> bool:
 	if is_destroyed: return false
 	bank_money += amount
 	bank_money_changed.emit(bank_money)
+	label_3d.text = "${0}".format([bank_money])
 	return true
 
 func withdraw_money(amount: int) -> bool:
 	if is_destroyed or amount > bank_money: return false
 	bank_money -= amount
 	bank_money_changed.emit(bank_money)
+	label_3d.text = "${0}".format([bank_money])
 	return true
 
 func take_damage(damage: float) -> void:
@@ -44,6 +49,7 @@ func take_damage(damage: float) -> void:
 
 	bank_took_damage.emit(damage, money_lost)
 	bank_money_changed.emit(bank_money)
+	label_3d.text = "${0}".format([bank_money])
 	_jiggle()
 
 	if bank_money <= 0:

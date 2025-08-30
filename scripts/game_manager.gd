@@ -741,5 +741,5 @@ func cash_out_bank() -> void:
 		var bank_amount = bank.bank_money
 		if bank_amount > 0:
 			player.money += bank_amount
-			bank.bank_money = int(bank_amount * 1.2)
+			bank.deposit_money(int(bank_amount * .2))
 			SFXManager.play_player_sfx(SFXManager.Type.CASHOUT)

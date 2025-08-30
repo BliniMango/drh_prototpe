@@ -1,10 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://tp01ugr0btve"]
+[gd_scene load_steps=4 format=3 uid="uid://tp01ugr0btve"]
 
 [ext_resource type="FontFile" uid="uid://bq5obgtgiy0su" path="res://assets/fonts/BoldPixels1.4.ttf" id="1_uqwrt"]
 [ext_resource type="Script" uid="uid://dw213r24fjxic" path="res://scripts/item_button.gd" id="1_wcc7j"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wcc7j"]
+bg_color = Color(1, 0, 0, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
 [node name="ItemButton" type="VBoxContainer"]
-custom_minimum_size = Vector2(100, 100)
+custom_minimum_size = Vector2(120, 100)
 offset_right = 36.0
 offset_bottom = 76.0
 script = ExtResource("1_wcc7j")
@@ -12,7 +19,9 @@ script = ExtResource("1_wcc7j")
 [node name="ItemNameLabel" type="Label" parent="."]
 layout_mode = 2
 size_flags_vertical = 6
+theme_override_colors/font_color = Color(1, 1, 0.137255, 1)
 theme_override_fonts/font = ExtResource("1_uqwrt")
+theme_override_font_sizes/font_size = 25
 text = "Name	"
 horizontal_alignment = 1
 
@@ -35,4 +44,5 @@ horizontal_alignment = 1
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_fonts/font = ExtResource("1_uqwrt")
+theme_override_styles/normal = SubResource("StyleBoxFlat_wcc7j")
 text = "Buy"

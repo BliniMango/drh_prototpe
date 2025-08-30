@@ -12,16 +12,6 @@ func _ready():
 	update_announce_text("Shop")  # Show initial text
 
 func _process(delta):
-	# Update bank money
-	if GameManager.bank and bank_money_label:
-		var current_money = GameManager.bank.bank_money
-		bank_money_label.text = "$Bank: %d" % current_money
-		if _prev_bank_money != -1 and current_money < _prev_bank_money:
-			# Flash red
-			bank_money_label.modulate = Color(1, 0, 0)
-			var tween = create_tween()
-			tween.tween_property(bank_money_label, "modulate", Color(1, 1, 1), 0.4)
-		_prev_bank_money = current_money
 	
 	# Update shop timer when in shop state
 	if GameManager.current_wave_state == GameManager.WaveState.SHOP:

@@ -385,11 +385,27 @@ func shoot():
 					get_tree().current_scene.add_child(decal)
 				
 				if result.collider.is_in_group("enemy"):
-					# Only hit each enemy once, even if multiple rays hit them
 					if not hit_enemies.has(result.collider):
 						var distance = camera.global_position.distance_to(result.position)
-						result.collider.take_damage(calculate_damage(distance))
-						hit_enemies[result.collider] = true
+						var enemy = result.collider
+						var hit_pos = result.position
+						var hit_normal = result.normal
+						
+						var knockback_dir = (enemy.global_position - camera.global_position).normalized()
+						knockback_dir.y = 0  
+						enemy.knockback_velocity = knockback_dir * 2.0  
+						
+						var travel_time = distance * 0.002  
+						get_tree().create_timer(travel_time).timeout.connect(func():
+							enemy.take_damage(calculate_damage(distance))
+							if Prefabs.BULLET_DECAL:
+								var decal = Prefabs.BULLET_DECAL.instantiate()
+								decal.global_position = hit_pos
+								decal.look_at(hit_pos + hit_normal, Vector3.UP)
+								decal.modulate = Color(0.8, 0.1, 0.1)
+								get_tree().current_scene.add_child(decal)
+						)
+						hit_enemies[enemy] = true
 		
 		if hit_enemies.size() > 0:
 			SFXManager.play_player_sfx(SFXManager.Type.PLAYER_BULLET_HIT)
@@ -420,22 +436,22 @@ func shoot():
 					closest_hit_pos = result.position
 					closest_hit_normal = result.normal
 		
-		# Only damage the closest enemy
 		if closest_enemy:
-			closest_enemy.take_damage(calculate_damage(closest_distance))
-			SFXManager.play_player_sfx(SFXManager.Type.PLAYER_BULLET_HIT)
-			
-			# Bullet decal on enemy hit (red)
-			if Prefabs.BULLET_DECAL and closest_hit_pos and closest_hit_normal:
-				var decal = Prefabs.BULLET_DECAL.instantiate()
-				decal.global_position = closest_hit_pos
-				decal.look_at(closest_hit_pos + closest_hit_normal, Vector3.UP)
-				# Red color for enemy hit
-				if decal.has_method("set_modulate"):
-					decal.set_modulate(Color(0.8, 0.1, 0.1))
-				elif "modulate" in decal:
+			var knockback_dir = (closest_enemy.global_position - camera.global_position).normalized()
+			knockback_dir.y = 0  
+			closest_enemy.knockback_velocity = knockback_dir * 2.0  
+			var travel_time = closest_distance * 0.002  
+			get_tree().create_timer(travel_time).timeout.connect(func():
+				closest_enemy.take_damage(calculate_damage(closest_distance))
+				SFXManager.play_player_sfx(SFXManager.Type.PLAYER_BULLET_HIT)
+				
+				if Prefabs.BULLET_DECAL and closest_hit_pos and closest_hit_normal:
+					var decal = Prefabs.BULLET_DECAL.instantiate()
+					decal.global_position = closest_hit_pos
+					decal.look_at(closest_hit_pos + closest_hit_normal, Vector3.UP)
 					decal.modulate = Color(0.8, 0.1, 0.1)
-				get_tree().current_scene.add_child(decal)
+					get_tree().current_scene.add_child(decal)
+			)
 
 	if muzzle_flash:
 		muzzle_flash.visible = true
@@ -489,7 +505,7 @@ func update_dynamite_ui() -> void:
 
 
 func update_ammo_ui() -> void:
-	ammo_label.text = str(current_weapon.current_ammo) + "/" + str(current_weapon.ammo_stock)
+	ammo_label.text = str(current_weapon.current_ammo) + " | " + str(current_weapon.ammo_stock)
 	if current_weapon.current_ammo == 0:
 		ammo_label.modulate = Color.RED
 	elif current_weapon.current_ammo <= 1:

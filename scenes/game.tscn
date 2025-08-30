@@ -59,6 +59,7 @@ vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
 [node name="BankMoneyLabel" type="Label" parent="UICanvas/HUD"]
+visible = false
 layout_mode = 1
 offset_left = 40.0
 offset_top = 42.0

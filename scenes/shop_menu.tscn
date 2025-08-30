@@ -16,7 +16,7 @@ size_flags_vertical = 3
 script = ExtResource("1_5pe57")
 
 [node name="ColorRect" type="ColorRect" parent="."]
-custom_minimum_size = Vector2(700, 500)
+custom_minimum_size = Vector2(800, 600)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5

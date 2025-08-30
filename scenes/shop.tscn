@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://c5r4ij7m3pluk"]
+[gd_scene load_steps=6 format=3 uid="uid://c5r4ij7m3pluk"]
 
 [ext_resource type="Script" uid="uid://cf27kcboubist" path="res://scripts/shop.gd" id="1_lx5au"]
+[ext_resource type="FontFile" uid="uid://bq5obgtgiy0su" path="res://assets/fonts/BoldPixels1.4.ttf" id="2_xfvoa"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bdmwb"]
 
@@ -27,3 +28,11 @@ collision_mask = 8
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="InteractArea"]
 shape = SubResource("SphereShape3D_bdmwb")
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2917, 0)
+billboard = 2
+modulate = Color(0.937419, 0.792164, 0, 1)
+text = "Shop"
+font = ExtResource("2_xfvoa")
+font_size = 100
