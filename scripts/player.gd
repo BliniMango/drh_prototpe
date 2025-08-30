@@ -208,7 +208,10 @@ func _process(delta) -> void:
 
 	if Input.is_action_pressed("shoot") and not is_reloading:
 		if current_weapon.current_ammo == 0:
-			start_reload()
+			if current_weapon.ammo_stock > 0:
+				start_reload()
+			else:
+				SFXManager.play_player_sfx(SFXManager.Type.NO_AMMO)
 			_update_visual_effects(delta)
 			return
 		if Input.is_action_just_pressed("shoot"):
@@ -332,9 +335,12 @@ func start_reload():
 	if is_reloading:
 		return
 	if current_weapon and current_weapon.current_ammo < current_weapon.max_ammo:
-		SFXManager.play_player_sfx(SFXManager.Type.PLAYER_RELOAD)
-		is_reloading = true
-		reload_timer = current_weapon.reload_time
+		if current_weapon.ammo_stock > 0:
+			SFXManager.play_player_sfx(SFXManager.Type.PLAYER_RELOAD)
+			is_reloading = true
+			reload_timer = current_weapon.reload_time
+		else:
+			SFXManager.play_player_sfx(SFXManager.Type.NO_AMMO)
 
 func cancel_reload():
 	if is_reloading:

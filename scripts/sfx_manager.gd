@@ -14,6 +14,7 @@ enum Type {
 	WAVE_START,
 	SHOP_TIMER,
 	CASHOUT,
+	NO_AMMO,
 
 	# spatial
 	BRUTE_ATTACK,
@@ -45,6 +46,7 @@ enum Type {
 	Type.WAVE_START: $WaveStart,
 	Type.SHOP_TIMER: $ShopTimer,
 	Type.CASHOUT: $Cashout,
+	Type.NO_AMMO: $NoAmmo,
 }
 
 @onready var spatial_audio = {

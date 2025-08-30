@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://dceq41df18pgl"]
+[gd_scene load_steps=21 format=3 uid="uid://dceq41df18pgl"]
 
 [ext_resource type="Script" uid="uid://4bs3ipw30rbe" path="res://scripts/sfx_manager.gd" id="1_wd8mt"]
 [ext_resource type="AudioStream" uid="uid://bdcagsadwsnhj" path="res://assets/sfx/bruteattack.wav" id="2_1yplg"]
@@ -19,6 +19,7 @@
 [ext_resource type="AudioStream" uid="uid://e60ps2kv4hpi" path="res://assets/sfx/271945__rodincoil__stingers-and-stabs-001.wav" id="17_5ngy1"]
 [ext_resource type="AudioStream" uid="uid://ds70yngdp4onn" path="res://assets/sfx/466427__keng-wai-chane-chick-te__clock_mechanical.wav" id="18_udoau"]
 [ext_resource type="AudioStream" uid="uid://bfnd3312jxxop" path="res://assets/sfx/75235__creek23__cha-ching.wav" id="19_a00ht"]
+[ext_resource type="AudioStream" uid="uid://doq4h4corofdi" path="res://assets/sfx/399122__fastson__magazinerelease_01.wav" id="20_udoau"]
 
 [node name="SFXManager" type="Node3D"]
 script = ExtResource("1_wd8mt")
@@ -91,3 +92,6 @@ stream = ExtResource("18_udoau")
 
 [node name="Cashout" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("19_a00ht")
+
+[node name="NoAmmo" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("20_udoau")
