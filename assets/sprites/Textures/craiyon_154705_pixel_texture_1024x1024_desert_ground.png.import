@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://df4wi8k0qxfm5"
-path.s3tc="res://.godot/imported/NPC\'s.png-4b3af7d5159b2909ddca4c8e49181be9.s3tc.ctex"
+uid="uid://c2qlofnqm06gp"
+path.s3tc="res://.godot/imported/craiyon_154705_pixel_texture_1024x1024_desert_ground.png-4aacd226662c3f24a7f0449f26065b9e.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/sprites/NPC/NPC's.png"
-dest_files=["res://.godot/imported/NPC\\'s.png-4b3af7d5159b2909ddca4c8e49181be9.s3tc.ctex"]
+source_file="res://assets/sprites/Textures/craiyon_154705_pixel_texture_1024x1024_desert_ground.png"
+dest_files=["res://.godot/imported/craiyon_154705_pixel_texture_1024x1024_desert_ground.png-4aacd226662c3f24a7f0449f26065b9e.s3tc.ctex"]
 
 [params]
 

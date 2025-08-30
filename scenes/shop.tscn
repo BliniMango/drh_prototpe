@@ -1,28 +1,34 @@
-[gd_scene load_steps=6 format=3 uid="uid://c5r4ij7m3pluk"]
+[gd_scene load_steps=14 format=3 uid="uid://c5r4ij7m3pluk"]
 
 [ext_resource type="Script" uid="uid://cf27kcboubist" path="res://scripts/shop.gd" id="1_lx5au"]
 [ext_resource type="FontFile" uid="uid://bq5obgtgiy0su" path="res://assets/fonts/BoldPixels1.4.ttf" id="2_xfvoa"]
+[ext_resource type="PackedScene" uid="uid://dxo3re31pe2yb" path="res://assets/models/Foundation A.glb" id="3_m4ofw"]
+[ext_resource type="PackedScene" uid="uid://2svpvp5fynbm" path="res://assets/models/Wall A.glb" id="4_heatd"]
+[ext_resource type="PackedScene" uid="uid://dp5epy3cenfun" path="res://assets/models/Wall Door A.glb" id="5_1v8qu"]
+[ext_resource type="PackedScene" uid="uid://bccjfvvicxajd" path="res://assets/models/Lantern.glb" id="6_44xle"]
+[ext_resource type="PackedScene" uid="uid://mquwtncdy3t" path="res://assets/models/Floor A.glb" id="7_24it5"]
+[ext_resource type="PackedScene" uid="uid://citund6hyt6ku" path="res://assets/models/Chair.glb" id="8_7mqwv"]
+[ext_resource type="PackedScene" uid="uid://1iu5jotgumyq" path="res://assets/models/Cell Door.glb" id="9_gobkm"]
+[ext_resource type="Texture2D" uid="uid://df4wi8k0qxfm5" path="res://assets/sprites/NPC/NPC's.png" id="10_heatd"]
+[ext_resource type="PackedScene" uid="uid://c5ktqpuep0wql" path="res://assets/models/Roof A.glb" id="11_1v8qu"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bdmwb"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_lx5au"]
+size = Vector3(4.95972, 3.83218, 5.00629)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_bdmwb"]
-radius = 1.0
+radius = 1.5
 
 [node name="Shop" type="StaticBody3D"]
+collision_layer = 16
+collision_mask = 0
 script = ExtResource("1_lx5au")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03479, 1.92989, 0.0153301)
 shape = SubResource("BoxShape3D_bdmwb")
 
-[node name="CSGMesh3D" type="CSGMesh3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-mesh = SubResource("BoxMesh_lx5au")
-
 [node name="InteractArea" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.847859, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25135, 2.19308)
 collision_layer = 0
 collision_mask = 8
 
@@ -30,9 +36,50 @@ collision_mask = 8
 shape = SubResource("SphereShape3D_bdmwb")
 
 [node name="Label3D" type="Label3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2917, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.36605, 0)
 billboard = 2
 modulate = Color(0.937419, 0.792164, 0, 1)
 text = "Shop"
 font = ExtResource("2_xfvoa")
-font_size = 100
+font_size = 300
+
+[node name="Root Scene" parent="." instance=ExtResource("3_m4ofw")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0.403492, 0)
+
+[node name="Root Scene2" parent="." instance=ExtResource("4_heatd")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 2.33387, 0.403492, -0.00884134)
+
+[node name="Root Scene3" parent="." instance=ExtResource("4_heatd")]
+transform = Transform3D(-1.5, 0, -2.26494e-07, 0, 1.5, 0, 2.26494e-07, 0, -1.5, -2.30561, 0.403492, -0.00884134)
+
+[node name="Root Scene4" parent="." instance=ExtResource("4_heatd")]
+transform = Transform3D(-6.55671e-08, 0, 1.5, 0, 1.5, 0, -1.5, 0, -6.55671e-08, -0.0172276, 0.403492, -2.32234)
+
+[node name="Root Scene5" parent="." instance=ExtResource("5_1v8qu")]
+transform = Transform3D(-6.55671e-08, 0, 1.5, 0, 1.5, 0, -1.5, 0, -6.55671e-08, 0.00063087, 0.403492, 2.25325)
+
+[node name="Root Scene6" parent="." instance=ExtResource("6_44xle")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -0.790088, 0.403492, 1.05207)
+
+[node name="Root Scene7" parent="." instance=ExtResource("7_24it5")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0.0242029, 3.49845, 0.0252056)
+
+[node name="Root Scene8" parent="." instance=ExtResource("8_7mqwv")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 1.08312, 1.33059, 0.813872)
+
+[node name="Root Scene9" parent="." instance=ExtResource("9_gobkm")]
+transform = Transform3D(-6.55671e-08, 0, -1.5, 0, 1.5, 0, 1.5, 0, -6.55671e-08, 0.52949, 0.403492, 2.18966)
+
+[node name="Root Scene10" parent="." instance=ExtResource("9_gobkm")]
+transform = Transform3D(-6.55671e-08, 0, -1.5, 0, 1.5, 0, 1.5, 0, -6.55671e-08, -0.635894, 0.403492, 2.18966)
+
+[node name="Root Scene11" parent="." instance=ExtResource("11_1v8qu")]
+transform = Transform3D(1.5, 0, 0, 0, 1, 0, 0, 0, 1.5, 0.0251051, 3.62219, 0.0731192)
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 1, 0, 1.41891, 1.78944)
+billboard = 2
+texture_filter = 0
+texture = ExtResource("10_heatd")
+region_enabled = true
+region_rect = Rect2(0, 0, 37.0322, 36.6145)
