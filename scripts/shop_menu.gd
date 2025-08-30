@@ -39,6 +39,10 @@ func _on_item_purchased(item_key: String) -> void:
 
 	player.money -= item_data.price
 	player.apply_item_effect(item_key)
+	player.update_ammo_ui()
+	player.update_dynamite_ui()
+	player.update_health_ui()
+	player.update_money_ui()
 
 	update_money_display()
 	for child in item_container.get_children():
