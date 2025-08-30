@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://yrn3clo4duwx"
-path.s3tc="res://.godot/imported/Death Explosion.png-810082d60f73dbe9dea1fa36caad7593.s3tc.ctex"
+uid="uid://bw06hlk1seckm"
+path.s3tc="res://.godot/imported/Coffin Side Sheet-fixed.png-5132650b89f115f4949e8635445fc6db.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/sprites/FX/Death Explosion.png"
-dest_files=["res://.godot/imported/Death Explosion.png-810082d60f73dbe9dea1fa36caad7593.s3tc.ctex"]
+source_file="res://assets/sprites/Mobs/Coffin/Coffin Side Sheet-fixed.png"
+dest_files=["res://.godot/imported/Coffin Side Sheet-fixed.png-5132650b89f115f4949e8635445fc6db.s3tc.ctex"]
 
 [params]
 

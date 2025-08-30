@@ -5,6 +5,8 @@ extends CanvasLayer
 @onready var bank_money_label: Label = $HUD/BankMoneyLabel
 @onready var shop_menu: Control = $Menus/ShopMenu
 
+var _prev_bank_money: int = -1
+
 func _ready():
 	add_to_group("ui")
 	update_announce_text("Shop")  # Show initial text
@@ -12,7 +14,14 @@ func _ready():
 func _process(delta):
 	# Update bank money
 	if GameManager.bank and bank_money_label:
-		bank_money_label.text = "$%d" % GameManager.bank.bank_money
+		var current_money = GameManager.bank.bank_money
+		bank_money_label.text = "$Bank: %d" % current_money
+		if _prev_bank_money != -1 and current_money < _prev_bank_money:
+			# Flash red
+			bank_money_label.modulate = Color(1, 0, 0)
+			var tween = create_tween()
+			tween.tween_property(bank_money_label, "modulate", Color(1, 1, 1), 0.4)
+		_prev_bank_money = current_money
 	
 	# Update shop timer when in shop state
 	if GameManager.current_wave_state == GameManager.WaveState.SHOP:

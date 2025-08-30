@@ -17,7 +17,7 @@ script = ExtResource("1_y25gk")
 shape = SubResource("SphereShape3D_y25gk")
 
 [node name="bullet" parent="." instance=ExtResource("1_mkf8s")]
-transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, -0.0752571, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.383958, 0)
 
 [node name="HitBox" type="Area3D" parent="."]
 collision_layer = 64

@@ -7,7 +7,7 @@ var damage : float = 10.0
 var knockback_force : float = 3.0
 var shooter : Node = null
 var target_group : String = ""
-var speed : float = 6.0
+var speed : float = 2.0
 var dir : Vector3 = Vector3.ZERO
 
 func _ready() -> void:

@@ -2,27 +2,26 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://yrn3clo4duwx"
-path.s3tc="res://.godot/imported/Death Explosion.png-810082d60f73dbe9dea1fa36caad7593.s3tc.ctex"
+uid="uid://dxkxvcxw5kio6"
+path="res://.godot/imported/Cactus Side Sheet-fixed.png-2601ecbaee01bc64e176d4d8cd432062.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/FX/Death Explosion.png"
-dest_files=["res://.godot/imported/Death Explosion.png-810082d60f73dbe9dea1fa36caad7593.s3tc.ctex"]
+source_file="res://assets/sprites/Mobs/Cactus/Cactus Side Sheet-fixed.png"
+dest_files=["res://.godot/imported/Cactus Side Sheet-fixed.png-2601ecbaee01bc64e176d4d8cd432062.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=true
+mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
@@ -32,4 +31,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1

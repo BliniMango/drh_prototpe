@@ -9,3 +9,6 @@ const DYNAMITE_BANDIT : PackedScene = preload("res://scenes/dynamite_bandit.tscn
 const DYNAMITE : PackedScene = preload("res://scenes/dynamite.tscn")
 const BULLET : PackedScene = preload("res://scenes/bullet.tscn")
 const PICKUP : PackedScene = preload("res://scenes/pickup.tscn")
+
+const BULLET_DECAL : PackedScene = preload("res://scenes/bullet_decal.tscn")
+const MUZZLE_FLASH : PackedScene = preload("res://scenes/muzzle_flash.tscn")

@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://ckbangr2vk3xg"]
+
+[ext_resource type="Script" uid="uid://bfvq048d1eb68" path="res://scripts/muzzle_flash.gd" id="1_r2kf7"]
+[ext_resource type="Texture2D" uid="uid://barc6nueayqwy" path="res://assets/sprites/muzzle-flash.png" id="1_r243d"]
+
+[node name="MuzzleFlash" type="Sprite3D"]
+billboard = 2
+texture = ExtResource("1_r243d")
+script = ExtResource("1_r2kf7")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.3
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

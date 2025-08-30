@@ -34,7 +34,7 @@ var throw_range : float = 17.0
 # knockback
 var knockback_velocity : Vector3 = Vector3.ZERO
 var knockback_decay : float = 50.0
-var knockback_force : float = 50.0
+var knockback_force : float = 25.0
 var is_stunned : bool = false
 var stun_duration : float = 0.0
 
@@ -138,7 +138,14 @@ func update_sprite_direction() -> void:
 
 func move_forward_and_rotate_toward_player(delta: float, player_vec: Vector3):
 	if nav_agent != null and current_target != null:
-		nav_agent.target_position = current_target.global_position
+		var target_pos = current_target.global_position
+		if current_target.is_in_group("bank"):
+			var bank_radius = 3.0  # Adjust to match your bank's size
+			var angle = randf() * TAU
+			var r = sqrt(randf()) * bank_radius
+			var offset = Vector3(cos(angle), 0, sin(angle)) * r
+			target_pos += offset
+		nav_agent.target_position = target_pos
 
 		var next_position = nav_agent.get_next_path_position()
 		var direction = (next_position - global_position).normalized()

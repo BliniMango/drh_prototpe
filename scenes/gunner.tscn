@@ -2,9 +2,9 @@
 
 [ext_resource type="PackedScene" uid="uid://c5aase6p6ftky" path="res://scenes/brute.tscn" id="1_nwf76"]
 [ext_resource type="Script" uid="uid://cr0ebp6qjr0ra" path="res://scripts/gunner.gd" id="2_58u8n"]
-[ext_resource type="Texture2D" uid="uid://bkqv6783a4hhp" path="res://assets/sprites/Mobs/Cactus/Cactus Front Sheet.png" id="3_ougl3"]
-[ext_resource type="Texture2D" uid="uid://j4q8cis86vji" path="res://assets/sprites/Mobs/Cactus/Cactus Back Sheet.png" id="4_u6qrg"]
-[ext_resource type="Texture2D" uid="uid://dyfp7yq2a870v" path="res://assets/sprites/Mobs/Cactus/Cactus Side Sheet.png" id="5_driy3"]
+[ext_resource type="Texture2D" uid="uid://0boy716m1k01" path="res://assets/sprites/Mobs/Cactus/Cactus Front Sheet-fixed.png" id="3_u6qrg"]
+[ext_resource type="Texture2D" uid="uid://bfctrutp7j45w" path="res://assets/sprites/Mobs/Cactus/Cactus Back Sheet-fixed.png" id="4_driy3"]
+[ext_resource type="Texture2D" uid="uid://dxkxvcxw5kio6" path="res://assets/sprites/Mobs/Cactus/Cactus Side Sheet-fixed.png" id="5_bxxvj"]
 
 [sub_resource type="Animation" id="Animation_5uy6h"]
 length = 0.001
@@ -116,17 +116,18 @@ _data = {
 
 [node name="Gunner" instance=ExtResource("1_nwf76")]
 script = ExtResource("2_58u8n")
-front_texture = ExtResource("3_ougl3")
-back_texture = ExtResource("4_u6qrg")
-side_texture = ExtResource("5_driy3")
+front_texture = ExtResource("3_u6qrg")
+back_texture = ExtResource("4_driy3")
+side_texture = ExtResource("5_bxxvj")
 speed = 4.0
 max_health = 100
 current_health = 100
 damage = 10.0
 
 [node name="Sprite3D" parent="." index="1"]
-transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 1, 0, 1.47471, 0)
-texture = ExtResource("3_ougl3")
+transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 1, 0, 0, 0)
+offset = Vector2(0, 16)
+texture = ExtResource("3_u6qrg")
 hframes = 11
 
 [node name="AnimationPlayer" parent="." index="4"]

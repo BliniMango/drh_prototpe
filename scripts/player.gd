@@ -12,9 +12,14 @@ signal player_died
 @onready var health_label: Label = $UICanvas/HUDRoot/HBoxContainer/VBoxContainer/HealthLabel
 @onready var ammo_label: Label = $UICanvas/HUDRoot/HBoxContainer/VBoxContainer2/AmmoLabel
 @onready var dynamite_label: Label = $UICanvas/HUDRoot/HBoxContainer/VBoxContainer3/DynamiteLabel
+@onready var player_money_label: Label = $UICanvas/HUDRoot/HBoxContainer/VBoxContainer4/PlayerMoneyLabel
 @onready var hurt_box: Area3D = $HurtBox
 @onready var muzzle: Marker3D = $Muzzle
 @onready var shoot_anim = $UICanvas/ShootAnim
+@onready var grenade_rethrow_label: Label = $UICanvas/GrenadeRethrowLabel
+@onready var muzzle_flash: AnimatedSprite2D = $UICanvas/MuzzleFlash
+
+var grenade_prompt_timer: float = 0.0
 
 var dash_input_pressed : bool = false
 var movement_input : Vector2 = Vector2.ZERO
@@ -25,7 +30,7 @@ var shoot_timer : float = 0.0
 var current_weapon : Weapon
 var is_reloading : bool = false
 var reload_timer : float = 0.0
-
+var overlapping_dynamite_areas: Array = []
 # UI sway/bob/recoil
 var _base_ui_pos = Vector2.ZERO
 var _yaw_prev = 0.0
@@ -45,6 +50,7 @@ var fov_move_add : float = 6.0
 var fov_dash_add : float = 10.0
 var fov_recover : float = 10.0
 var _target_fov : float = 70.0
+var fov_stun_reduce : float = 15.0 
 
 # Damage camera shake
 var shake_time : float = 0.0
@@ -60,6 +66,8 @@ var pendulum_scale_y : float = 6.0
 var pendulum_speed : float = 6.0
 var _pend_t : float = 0.0
 
+# Hacky work around
+var _prev_player_money: float = -1.0
 
 func _ready() -> void:
 	super._ready()
@@ -81,6 +89,7 @@ func _ready() -> void:
 	update_health_ui()
 	update_ammo_ui()
 	update_dynamite_ui()
+	update_money_ui()
 	GameManager.set_player()
 	hurt_box.area_entered.connect(_on_hurt_box_entered)
 
@@ -102,7 +111,7 @@ func _input(event) -> void:
 func _physics_process(delta) -> void:
 	if is_dead:
 		return
-
+	
 	# Dash start
 	if dash_speed == 0:
 		if Input.is_action_just_pressed("dash") and movement_input.length() > 0 and next_dash_time < Time.get_ticks_msec():
@@ -141,6 +150,29 @@ func _physics_process(delta) -> void:
 
 
 func _process(delta) -> void:
+	if grenade_prompt_timer > 0.0:
+		grenade_prompt_timer -= delta
+		if grenade_prompt_timer <= 0.0:
+			grenade_rethrow_label.visible = false
+			
+	if player_money_label:
+		player_money_label.text = "$" + str(int(money))
+		if _prev_player_money != -1.0:
+			if money > _prev_player_money:
+				# Flash green for increase
+				player_money_label.modulate = Color(0, 1, 0)
+				var tween = create_tween()
+				tween.tween_property(player_money_label, "modulate", Color(1, 1, 1), 0.4)
+			elif money < _prev_player_money:
+				# Flash red for decrease
+				player_money_label.modulate = Color(1, 0, 0)
+				var tween = create_tween()
+				tween.tween_property(player_money_label, "modulate", Color(1, 1, 1), 0.4)
+		_prev_player_money = money
+	update_health_ui()
+	update_ammo_ui()
+	update_dynamite_ui()
+	update_money_ui()
 	if is_stunned:
 		stun_duration -= delta
 		if stun_duration <= 0:
@@ -219,15 +251,23 @@ func _process(delta) -> void:
 
 
 func _update_visual_effects(delta: float) -> void:
-	# --- Motion FOV ---
-	var flat_speed = Vector2(velocity.x, velocity.z).length()
-	var move_ratio = clamp(flat_speed / max(1.0, speed), 0.0, 1.0)
-	var move_target = base_fov + fov_move_add * move_ratio
-	_target_fov = max(_target_fov, move_target)
+	if is_stunned:
+		# Worst FOV when stunned - tunnel vision
+		_target_fov = base_fov - fov_stun_reduce
+	elif dash_speed > 0:
+		# Best FOV when dashing
+		_target_fov = base_fov + fov_dash_add
+	elif movement_input.length() > 0:
+		# Medium FOV when moving
+		_target_fov = base_fov + fov_move_add
+	else:
+		# Base FOV when standing still
+		_target_fov = base_fov
+
 	if camera and "fov" in camera:
 		camera.fov = lerp(camera.fov, _target_fov, delta * fov_recover)
-		if abs(camera.fov - _target_fov) < 0.05:
-			_target_fov = base_fov
+	var flat_speed = Vector2(velocity.x, velocity.z).length()
+	var move_ratio = clamp(flat_speed / max(1.0, speed), 0.0, 1.0)
 
 	# --- Bob & sway (yaw-based) ---
 	_bob_t += delta * (bob_speed * move_ratio)
@@ -242,12 +282,10 @@ func _update_visual_effects(delta: float) -> void:
 	# --- Recoil recovery ---
 	_recoil = _recoil.lerp(Vector2.ZERO, delta * recoil_recover)
 
-	# --- Pendulum-on-parabola path for the gun sprite ---
 	_pend_t += delta * pendulum_speed * (0.5 + move_ratio)
 	var pend_x = sin(_pend_t) * pendulum_amp_x
 	var xn = pend_x / max(1.0, pendulum_amp_x)
-	# y is highest (negative = up) at ends, lowest (down) at center:
-	# py = -((x^2 - 0.5) * 2) * scale => ends up, middle down
+
 	var pend_y = -((xn * xn - 0.5) * 2.0) * pendulum_scale_y
 
 	# --- Damage camera shake ---
@@ -295,13 +333,11 @@ func start_reload():
 		is_reloading = true
 		reload_timer = current_weapon.reload_time
 
-
 func cancel_reload():
 	if is_reloading:
 		is_reloading = false
 		reload_timer = 0.0
 		SFXManager.stop_player_sfx(SFXManager.Type.PLAYER_RELOAD)
-
 
 func shoot():
 	if not current_weapon.can_shoot():
@@ -330,21 +366,40 @@ func shoot():
 			query.exclude = [self]
 
 			var result = space_state.intersect_ray(query)
-			if result and result.collider.is_in_group("enemy"):
-				# Only hit each enemy once, even if multiple rays hit them
-				if not hit_enemies.has(result.collider):
-					var distance = camera.global_position.distance_to(result.position)
-					result.collider.take_damage(calculate_damage(distance))
-					hit_enemies[result.collider] = true
+			if result:
+				# Bullet decal for any hit
+				if Prefabs.BULLET_DECAL:
+					var decal = Prefabs.BULLET_DECAL.instantiate()
+					decal.global_position = result.position
+					decal.look_at(result.position + result.normal, Vector3.UP)
+					
+					# Color the decal based on what was hit
+					var decal_color = Color(0.1, 0.1, 0.1)  # Black for surfaces
+					if result.collider.is_in_group("enemy"):
+						decal_color = Color(0.8, 0.1, 0.1)  # Red for enemies
+					
+					if decal.has_method("set_modulate"):
+						decal.set_modulate(decal_color)
+					elif "modulate" in decal:
+						decal.modulate = decal_color
+					get_tree().current_scene.add_child(decal)
+				
+				if result.collider.is_in_group("enemy"):
+					# Only hit each enemy once, even if multiple rays hit them
+					if not hit_enemies.has(result.collider):
+						var distance = camera.global_position.distance_to(result.position)
+						result.collider.take_damage(calculate_damage(distance))
+						hit_enemies[result.collider] = true
 		
 		if hit_enemies.size() > 0:
 			SFXManager.play_player_sfx(SFXManager.Type.PLAYER_BULLET_HIT)
 	else:
-		# Pistol: find the single closest enemy across all rays
 		var pistol_cone = deg_to_rad(5.6)
 		var ray_count = 10
 		var closest_enemy = null
 		var closest_distance = INF
+		var closest_hit_pos = null
+		var closest_hit_normal = null
 		
 		for i in range(ray_count):
 			var angle_offset = (float(i) / float(ray_count - 1) - 0.5) * pistol_cone
@@ -362,13 +417,38 @@ func shoot():
 				if distance < closest_distance:
 					closest_enemy = result.collider
 					closest_distance = distance
+					closest_hit_pos = result.position
+					closest_hit_normal = result.normal
 		
 		# Only damage the closest enemy
 		if closest_enemy:
 			closest_enemy.take_damage(calculate_damage(closest_distance))
 			SFXManager.play_player_sfx(SFXManager.Type.PLAYER_BULLET_HIT)
+			
+			# Bullet decal on enemy hit (red)
+			if Prefabs.BULLET_DECAL and closest_hit_pos and closest_hit_normal:
+				var decal = Prefabs.BULLET_DECAL.instantiate()
+				decal.global_position = closest_hit_pos
+				decal.look_at(closest_hit_pos + closest_hit_normal, Vector3.UP)
+				# Red color for enemy hit
+				if decal.has_method("set_modulate"):
+					decal.set_modulate(Color(0.8, 0.1, 0.1))
+				elif "modulate" in decal:
+					decal.modulate = Color(0.8, 0.1, 0.1)
+				get_tree().current_scene.add_child(decal)
 
-	# recoil
+	if muzzle_flash:
+		muzzle_flash.visible = true
+		
+		if current_weapon.weapon_type == Weapon.Type.SHOTGUN:
+			muzzle_flash.scale = Vector2(8, 8)
+			muzzle_flash.play("shotgun") 
+		else:  
+			muzzle_flash.scale = Vector2(6, 6)
+			muzzle_flash.play("revolver")  
+		
+		get_tree().create_timer(0.1).timeout.connect(func(): muzzle_flash.visible = false)
+
 	if current_weapon.weapon_type == Weapon.Type.SHOTGUN:
 		_recoil += recoil_kick * 1.3
 	else:
@@ -376,7 +456,6 @@ func shoot():
 
 	current_weapon.shoot()
 	update_ammo_ui()
-
 
 func calculate_damage(distance: float) -> float:
 	if distance > current_weapon.close_range:
@@ -394,6 +473,15 @@ func take_damage(amount: float) -> void:
 	shake_mag = clamp(amount / 40.0, 0.3, 1.2)
 	_shake_phase_x = randf() * TAU
 	_shake_phase_y = randf() * TAU
+
+	# Create red flash effect
+	var flash_overlay = ColorRect.new()
+	flash_overlay.color = Color(1, 0, 0, 0.3)
+	flash_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	$UICanvas.add_child(flash_overlay)
+	var tween = create_tween()
+	tween.tween_property(flash_overlay, "modulate:a", 0.0, 0.3)
+	tween.tween_callback(flash_overlay.queue_free)
 
 
 func update_dynamite_ui() -> void:
@@ -413,11 +501,26 @@ func update_ammo_ui() -> void:
 func update_health_ui() -> void:
 	health_label.text = str(current_health)
 
+func update_money_ui() -> void:	if player_money_label:
+	player_money_label.text = "$" + str(int(money))
+	if _prev_player_money != -1.0:
+		if money > _prev_player_money:
+			# Flash green for increase
+			player_money_label.modulate = Color(0, 1, 0)
+			var tween = create_tween()
+			tween.tween_property(player_money_label, "modulate", Color(1, 1, 1), 0.4)
+		elif money < _prev_player_money:
+			# Flash red for decrease
+			player_money_label.modulate = Color(1, 0, 0)
+			var tween = create_tween()
+			tween.tween_property(player_money_label, "modulate", Color(1, 1, 1), 0.4)
+	_prev_player_money = money
 
 func die() -> void:
 	super.die()
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	player_died.emit()
+	get_tree().reload_current_scene()
 
 
 func _on_hurt_box_entered(area: Area3D) -> void:
@@ -430,6 +533,14 @@ func _on_hurt_box_entered(area: Area3D) -> void:
 		if not is_stunned:
 			is_stunned = true
 			stun_duration = 1.5
+			# Create yellow stun flash effect
+			var stun_overlay = ColorRect.new()
+			stun_overlay.color = Color(1, 1, 0, 0.4)  # Yellow flash
+			stun_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+			$UICanvas.add_child(stun_overlay)
+			var stun_tween = create_tween()
+			stun_tween.tween_property(stun_overlay, "modulate:a", 0.0, 0.5)
+			stun_tween.tween_callback(stun_overlay.queue_free)
 
 	elif area.is_in_group("gunner"):
 		var enemy2 = area.get_parent()
@@ -459,17 +570,17 @@ func _on_hurt_box_entered(area: Area3D) -> void:
 func apply_item_effect(item_key):
 	match item_key:
 		"health_pack":
-			heal(max_health - current_health)
+			heal(20)
 		"ammo_refill":
-			current_weapon.reload()
+			current_weapon.ammo_stock += 10
 		"speed_demon":
-			speed *= 1.4
+			speed = speed * 1.1
 		"trigger_happy":
-			fire_rate *= 2.0
+			fire_rate = fire_rate * 1.2
 		"tank_mode":
-			max_health += 25
-			current_health += 25
-			speed *= 0.8
+			max_health += 5
+			current_health += 5
+			speed *= 0.95
 			update_health_ui()
 		"dash_master":
 			dash_cooldown = int(dash_cooldown * 0.5)
@@ -477,5 +588,22 @@ func apply_item_effect(item_key):
 			for i in range(3):
 				throwable_inventory.append(Prefabs.DYNAMITE)
 		"gunslinger":
-			if revolver:
-				revolver.reload_time = 0.1
+			current_weapon.reload_time /= 2
+		"deposit":
+			GameManager.bank.deposit_money(100)
+			update_money_ui()
+
+func pickup_flash() -> void:
+	# create green pickup flash effect
+	var pickup_overlay = ColorRect.new()
+	pickup_overlay.color = Color(0, 1, 0, 0.3)  # Green flash
+	pickup_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	$UICanvas.add_child(pickup_overlay)
+	var pickup_tween = create_tween()
+	pickup_tween.tween_property(pickup_overlay, "modulate:a", 0.0, 0.4)
+	pickup_tween.tween_callback(pickup_overlay.queue_free)
+	
+func show_grenade_prompt(show: bool, grenade_position: Vector3 = Vector3.ZERO) -> void:
+	if show:
+		grenade_rethrow_label.visible = true
+		grenade_prompt_timer = 1.0

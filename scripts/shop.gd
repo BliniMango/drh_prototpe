@@ -7,43 +7,48 @@ signal shop_interaction_requested(shop: Shop)
 
 var player_nearby : bool
 var shop_items = {
+	"deposit": {
+		"price": 100,
+		"name": "Deposit",
+		"description": "Risk more? Earn more?"
+	},
 	"health_pack": {
-		"price": 50, 
+		"price": 250, 
 		"name": "Health Pack",
 		"description": "Heal"
 	},
 	"ammo_refill": {
-		"price": 30, 
+		"price": 500, 
 		"name": "Ammo Refill",
 		"description": "Reload"
 	},
 	"speed_demon": {
-		"price": 75, 
+		"price": 2000, 
 		"name": "Speed Demon",
 		"description": "Speed+"
 	},
 	"trigger_happy": {
-		"price": 100, 
+		"price": 3000, 
 		"name": "Trigger Happy",
 		"description": "Fire Rate+"
 	},
 	"tank_mode": {
-		"price": 125, 
+		"price": 5000, 
 		"name": "Tank Mode",
 		"description": "Health+"
 	},
 	"dash_master": {
-		"price": 80, 
+		"price": 4000, 
 		"name": "Dash Master",
 		"description": "Dash+"
 	},
 	"dynamite_cache": {
-		"price": 60, 
+		"price": 800, 
 		"name": "Dynamite Cache",
 		"description": "Bombs"
 	},
 	"gunslinger": {
-		"price": 90, 
+		"price": 7000, 
 		"name": "Gunslinger",
 		"description": "Quick Reload"
 	}

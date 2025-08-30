@@ -10,16 +10,35 @@ var current_state : State
 var aim_time = 1.5
 var reload_time = 1.5
 
-var shoot_cooldown : float = 5000.0 # milisecond
+var shoot_cooldown : float = 1000.0 # milisecond
 var next_shoot_time : float = Time.get_ticks_msec()
 enum State { APPROACH, SHOOT }
 
 func _ready() -> void:
 	super._ready()
+	# Randomize strength
+	var is_strong = randf() < 0.15 # 15% chance to be strong
+	if is_strong:
+		max_health = int(max_health * randf_range(1.5, 2.2))
+		current_health = max_health
+		damage = int(damage * randf_range(1.3, 1.7))
+		speed *= randf_range(1.1, 1.3)
+		# Color modulation for strong enemies
+		if entity_sprite:
+			entity_sprite.modulate = Color(1.0, randf_range(0.2, 0.5), randf_range(0.2, 0.5))
+		var scale_factor = randf_range(1.2, 1.5)
+		scale = Vector3.ONE * scale_factor
+	else:
+		# Slight randomization for normal enemies
+		max_health = int(max_health * randf_range(0.9, 1.1))
+		current_health = max_health
+		damage = int(damage * randf_range(0.9, 1.1))
+		speed *= randf_range(0.95, 1.05)
 	super.setup_nav_agent()
 	add_to_group("enemy")
 	hit_box.add_to_group("gunner")
 	enter_state(State.APPROACH)
+	damage = 5
 
 func _physics_process(delta: float) -> void:
 	if not is_dead:

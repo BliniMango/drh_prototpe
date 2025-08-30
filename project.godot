@@ -12,7 +12,7 @@ config_version=5
 
 config/name="DRH_Prototpe"
 config/version="0.1"
-run/main_scene="uid://c6x0wtdypax3"
+run/main_scene="uid://cfcfi0jd7014y"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -103,6 +103,7 @@ interact={
 3d_physics/layer_7="ProjectileHitBox"
 3d_physics/layer_8="Pickup"
 3d_physics/layer_9="EnemyPhysicsCollision"
+3d_physics/layer_10="Dynamite"
 
 [rendering]
 

@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://cplwnu0kw60ii"]
+
+[ext_resource type="Texture2D" uid="uid://bji5o7cw6sdfg" path="res://assets/sprites/bullet-decal.png" id="1_n6lr6"]
+[ext_resource type="Script" uid="uid://dmgm0unwbecke" path="res://scripts/bullet_decal.gd" id="2_ryybo"]
+
+[node name="BulletDecal" type="Sprite3D"]
+billboard = 2
+texture = ExtResource("1_n6lr6")
+script = ExtResource("2_ryybo")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.8
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -12,11 +12,30 @@ enum State { APPROACH, THROW, SUICIDE_CHARGE, EXPLODE }
 
 func _ready() -> void:
 	super._ready()
+	# Randomize strength
+	var is_strong = randf() < 0.15 # 15% chance to be strong
+	if is_strong:
+		max_health = int(max_health * randf_range(1.5, 2.2))
+		current_health = max_health
+		damage = int(damage * randf_range(1.3, 1.7))
+		speed *= randf_range(1.1, 1.3)
+		# Color modulation for strong enemies
+		if entity_sprite:
+			entity_sprite.modulate = Color(randf_range(0.2), randf_range(0.2, 0.5), 1.0)
+		var scale_factor = randf_range(1.2, 1.5)
+		scale = Vector3.ONE * scale_factor
+	else:
+		# Slight randomization for normal enemies
+		max_health = int(max_health * randf_range(0.9, 1.1))
+		current_health = max_health
+		damage = int(damage * randf_range(0.9, 1.1))
+		speed *= randf_range(0.95, 1.05)
 	super.setup_nav_agent()
 	add_to_group("enemy")
 	hit_box.add_to_group("bomber")
 	dash_cooldown = 5000.0 # 5 seconds
 	enter_state(State.APPROACH)
+	damage = 15
 
 func _physics_process(delta: float) -> void:
 	if not is_dead:
@@ -67,7 +86,7 @@ func throw_dynamite() -> void:
 	dynamite.global_position = start
 	dynamite.linear_velocity = vxz + Vector3(0, vy, 0)
 	dynamite.thrower = self
-	dynamite.fuse_duration = T
+	dynamite.fuse_duration = T + 4
 	get_tree().current_scene.add_child(dynamite)
 	next_throw_time = Time.get_ticks_msec() + throw_cooldown
 

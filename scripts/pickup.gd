@@ -68,8 +68,8 @@ func _on_area_entered(area: Area3D) -> void:
 				player.current_weapon.ammo_stock += 5
 				player.update_ammo_ui()
 
+		player.pickup_flash()
 		queue_free()
-
 
 func set_pickup_type(type: Type) -> void:
 	pickup_type = type

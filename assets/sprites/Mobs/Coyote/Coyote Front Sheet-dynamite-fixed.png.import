@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://yrn3clo4duwx"
-path.s3tc="res://.godot/imported/Death Explosion.png-810082d60f73dbe9dea1fa36caad7593.s3tc.ctex"
+uid="uid://e08snuafvhun"
+path.s3tc="res://.godot/imported/Coyote Front Sheet-dynamite-fixed.png-df8d4acfb4a37f6a4a91252b20d33938.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/sprites/FX/Death Explosion.png"
-dest_files=["res://.godot/imported/Death Explosion.png-810082d60f73dbe9dea1fa36caad7593.s3tc.ctex"]
+source_file="res://assets/sprites/Mobs/Coyote/Coyote Front Sheet-dynamite-fixed.png"
+dest_files=["res://.godot/imported/Coyote Front Sheet-dynamite-fixed.png-df8d4acfb4a37f6a4a91252b20d33938.s3tc.ctex"]
 
 [params]
 
