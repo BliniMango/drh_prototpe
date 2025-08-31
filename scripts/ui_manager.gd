@@ -27,7 +27,7 @@ func _process(delta):
 		GameManager.WaveState.SHOP:
 			update_announce_text("Shop")
 		GameManager.WaveState.TRANSITION:
-			update_announce_text("Wave %d Complete!" % (GameManager.current_wave - 1))
+			update_announce_text("Wave %d Complete!" % (GameManager.current_wave))
 
 func update_announce_text(text: String):
 	if announce_label:
