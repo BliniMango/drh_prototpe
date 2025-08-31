@@ -91,4 +91,7 @@ layout_mode = 1
 
 [node name="MainLevel" parent="StageManager" instance=ExtResource("2_yqjtg")]
 
+[node name="Player" parent="StageManager/MainLevel" index="2"]
+transform = Transform3D(-0.757291, 0.00041034, -0.653077, 0, 1, 0.000628318, 0.653077, 0.00047582, -0.757291, 20.7326, 0.394248, -9.43634)
+
 [editable path="StageManager/MainLevel"]

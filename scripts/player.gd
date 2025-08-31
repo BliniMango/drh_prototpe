@@ -100,6 +100,11 @@ func _ready() -> void:
 func _input(event) -> void:
 	if is_dead:
 		return
+	
+	# Always try to capture mouse if it's not captured (unless dead)
+	if Input.get_mouse_mode() != Input.MOUSE_MODE_CAPTURED:
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	
 	if event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 		rotate_y(-event.relative.x * mouse_sensitivity)
 		camera.rotation.x = 0.0  # hard lock
@@ -238,6 +243,12 @@ func _process(delta) -> void:
 
 	if Input.is_action_just_pressed("reload"):
 		start_reload()
+
+	if Input.is_action_just_pressed("interact") and overlapping_dynamite_areas.size() > 0:
+		var closest_dynamite = overlapping_dynamite_areas[0]
+		if closest_dynamite and is_instance_valid(closest_dynamite):
+			closest_dynamite.throw_dynamite(self)
+			overlapping_dynamite_areas.erase(closest_dynamite)
 
 	if throwable_inventory.size() > 0 and Input.is_action_just_pressed("throw"):
 		var throwable : PackedScene = throwable_inventory.pop_back()

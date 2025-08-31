@@ -68,26 +68,33 @@ func explode() -> void:
 func _on_pickup_area_area_entered(area: Area3D) -> void:
 	var player = area.get_parent()
 	if player.is_in_group("player") and thrower != player and not has_exploded:
-		thrower = player
-		set_collision_stuff()
 		player.show_grenade_prompt(true, global_position)
-		if player.has_node("Muzzle"):
-			global_position = player.get_node("Muzzle").global_position
-		linear_velocity = Vector3.ZERO
-		var camera = player.get_node("Camera3D") if player.has_node("Camera3D") else null
-		var fwd = -camera.global_transform.basis.z if camera else -global_transform.basis.z
-		fwd.y = 0
-		fwd = fwd.normalized()
-		var throw_speed = 8.0  
-		var upward_velocity = 6.0
-		linear_velocity = fwd * throw_speed
-		linear_velocity.y = upward_velocity
-		linear_velocity += Vector3(player.velocity.x, 0.0, player.velocity.z) * 0.4
-		look_at(global_position + fwd, Vector3.UP)
-		SFXManager.play_player_sfx(SFXManager.Type.PLAYER_PICKUP)
+		player.overlapping_dynamite_areas.append(self)
 
 
 func _on_pickup_area_area_exited(area: Area3D) -> void:
 	var player = area.get_parent()
 	if player.is_in_group("player") and thrower != player and not has_exploded:
 		player.show_grenade_prompt(false)
+		player.overlapping_dynamite_areas.erase(self)
+
+func throw_dynamite(player: Node) -> void:
+	if has_exploded:
+		return
+	thrower = player
+	set_collision_stuff()
+	if player.has_node("Muzzle"):
+		global_position = player.get_node("Muzzle").global_position
+	linear_velocity = Vector3.ZERO
+	var camera = player.get_node("Camera3D") if player.has_node("Camera3D") else null
+	var fwd = -camera.global_transform.basis.z if camera else -global_transform.basis.z
+	fwd.y = 0
+	fwd = fwd.normalized()
+	var throw_speed = 8.0  
+	var upward_velocity = 6.0
+	linear_velocity = fwd * throw_speed
+	linear_velocity.y = upward_velocity
+	linear_velocity += Vector3(player.velocity.x, 0.0, player.velocity.z) * 0.4
+	look_at(global_position + fwd, Vector3.UP)
+	SFXManager.play_player_sfx(SFXManager.Type.PLAYER_PICKUP)
+	player.show_grenade_prompt(false)

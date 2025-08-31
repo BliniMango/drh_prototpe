@@ -6,11 +6,11 @@
 [ext_resource type="Texture2D" uid="uid://yrn3clo4duwx" path="res://assets/sprites/FX/Death Explosion.png" id="4_sbdca"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_ys8y4"]
-height = 0.33
-radius = 0.03
+height = 1.19629
+radius = 0.24707
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_ys8y4"]
-radius = 3.0
+radius = 7.0
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_l6oux"]
 radius = 1.0
@@ -114,7 +114,7 @@ collision_mask = 8
 shape = SubResource("SphereShape3D_l6oux")
 
 [node name="Explosion" type="AnimatedSprite3D" parent="."]
-transform = Transform3D(15, 0, 0, 0, 15, 0, 0, 0, 15, 0, 0, 0)
+transform = Transform3D(43, 0, 0, 0, 43, 0, 0, 0, 43, 0, 0, 0)
 billboard = 2
 texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_0uglm")
