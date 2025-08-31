@@ -46,7 +46,7 @@ func take_damage(damage: float) -> void:
 	var money_lost := int(damage * damage_to_money_ratio)
 	money_lost = min(money_lost, bank_money)
 	bank_money -= money_lost
-
+	SFXManager.play_spatial_sfx(SFXManager.Type.BANK_DAMAGE, global_position)
 	bank_took_damage.emit(damage, money_lost)
 	bank_money_changed.emit(bank_money)
 	label_3d.text = "${0}".format([bank_money])

@@ -419,6 +419,7 @@ func shoot():
 						var travel_time = distance * 0.002  
 						get_tree().create_timer(travel_time).timeout.connect(func():
 							enemy.take_damage(calculate_damage(distance))
+							money += 10
 							if Prefabs.BULLET_DECAL:
 								var decal = Prefabs.BULLET_DECAL.instantiate()
 								decal.global_position = hit_pos
@@ -464,6 +465,7 @@ func shoot():
 			var travel_time = closest_distance * 0.002  
 			get_tree().create_timer(travel_time).timeout.connect(func():
 				closest_enemy.take_damage(calculate_damage(closest_distance))
+				money += 10
 				SFXManager.play_player_sfx(SFXManager.Type.PLAYER_BULLET_HIT)
 				
 				if Prefabs.BULLET_DECAL and closest_hit_pos and closest_hit_normal:
@@ -618,11 +620,12 @@ func apply_item_effect(item_key):
 		"health_pack":
 			heal(20)
 		"ammo_refill":
-			current_weapon.ammo_stock += 10
+			shotgun.ammo_stock += 10
+			revolver.ammo_stock += 10
 		"speed_demon":
-			speed = speed * 1.1
+			speed = speed * 1.03
 		"trigger_happy":
-			fire_rate = fire_rate * 1.2
+			fire_rate = fire_rate * 1.03
 		"tank_mode":
 			max_health += 5
 			current_health += 5
@@ -634,7 +637,8 @@ func apply_item_effect(item_key):
 			for i in range(3):
 				throwable_inventory.append(Prefabs.DYNAMITE)
 		"gunslinger":
-			current_weapon.reload_time /= 2
+			shotgun.reload_time = shotgun.reload_time * .95
+			revolver.reload_time = revolver.reload_time * .95
 		"deposit":
 			GameManager.bank.deposit_money(100)
 			update_money_ui()

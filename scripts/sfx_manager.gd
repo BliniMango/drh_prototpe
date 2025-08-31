@@ -15,6 +15,7 @@ enum Type {
 	SHOP_TIMER,
 	CASHOUT,
 	NO_AMMO,
+	
 
 	# spatial
 	BRUTE_ATTACK,
@@ -30,7 +31,9 @@ enum Type {
 	BOMBER_HURT,
 
 	EXPLOSION,
-	FUSE
+	FUSE,
+	
+	BANK_DAMAGE,
 }
 
 @onready var player_audio = {
@@ -61,6 +64,7 @@ enum Type {
 	Type.BOMBER_HURT: $BomberHurt,
 	Type.EXPLOSION: $Explosion,
 	Type.FUSE: $Fuse,
+	Type.BANK_DAMAGE: $BankDamage
 }
 
 func play_player_sfx(sfx_type: Type, volume: float = 0.0) -> void:

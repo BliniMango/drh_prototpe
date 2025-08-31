@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cfcfi0jd7014y"]
+[gd_scene load_steps=8 format=3 uid="uid://cfcfi0jd7014y"]
 
 [ext_resource type="Script" uid="uid://dolnn2n7q5pv0" path="res://scripts/ui_manager.gd" id="1_u5sy4"]
 [ext_resource type="FontFile" uid="uid://bq5obgtgiy0su" path="res://assets/fonts/BoldPixels1.4.ttf" id="2_lnu2h"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cbsmnx7wbcdtm" path="res://scenes/shop_menu.tscn" id="3_iywne"]
 [ext_resource type="PackedScene" uid="uid://c76d7l0yriuks" path="res://scenes/pause_menu.tscn" id="4_p57ef"]
 [ext_resource type="AudioStream" uid="uid://b755lwmcvhju4" path="res://assets/sfx/05 - Here's To The Pioneers (Loop Version).mp3" id="6_p57ef"]
+[ext_resource type="Script" uid="uid://bufjfe2g1yva8" path="res://scripts/loop_audiostream.gd" id="7_u5sy4"]
 
 [node name="Game" type="Node3D"]
 
@@ -100,5 +101,8 @@ stream = ExtResource("6_p57ef")
 autoplay = true
 bus = &"music"
 parameters/looping = true
+script = ExtResource("7_u5sy4")
+
+[connection signal="finished" from="Music" to="Music" method="_on_finished"]
 
 [editable path="StageManager/MainLevel"]

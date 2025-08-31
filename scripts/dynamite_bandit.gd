@@ -57,7 +57,6 @@ func die() -> void:
 		get_tree().current_scene.add_child(pickup)
 	super.create_death_effect()
 
-
 func throw_dynamite() -> void:
 	if GameManager.player == null:
 		printerr("[dynamite_bandit.gd] player is null")

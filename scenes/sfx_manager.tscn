@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://dceq41df18pgl"]
+[gd_scene load_steps=22 format=3 uid="uid://dceq41df18pgl"]
 
 [ext_resource type="Script" uid="uid://4bs3ipw30rbe" path="res://scripts/sfx_manager.gd" id="1_wd8mt"]
 [ext_resource type="AudioStream" uid="uid://bdcagsadwsnhj" path="res://assets/sfx/bruteattack.wav" id="2_1yplg"]
@@ -13,6 +13,7 @@
 [ext_resource type="AudioStream" uid="uid://boao8etianyhx" path="res://assets/sfx/734057__dthetech__dd-shotgun-2.wav" id="7_df6my"]
 [ext_resource type="AudioStream" uid="uid://phdqbok65oyp" path="res://assets/sfx/Hit75.wav" id="7_h2k0q"]
 [ext_resource type="AudioStream" uid="uid://drcsvgd7ykeyq" path="res://assets/sfx/231248__augustsandberg__smith-wesson-686-plus-4-inch-barrel.wav" id="7_ymotv"]
+[ext_resource type="AudioStream" uid="uid://dapvj4gd8jtk0" path="res://assets/sfx/662055__daawesomeprieto__coins-dropping.wav" id="9_a00ht"]
 [ext_resource type="AudioStream" uid="uid://crujx7gpu065m" path="res://assets/sfx/714258__qubodup__cloud-poof.wav" id="9_sglhd"]
 [ext_resource type="AudioStream" uid="uid://bih7dbn2lff2i" path="res://assets/sfx/159450__twisterman__weaponswap-custom-sound-effect.mp3" id="9_xl5ak"]
 [ext_resource type="AudioStream" uid="uid://cwfv1m16lojnd" path="res://assets/sfx/276962__gfl7__mp7-reload-sound.mp3" id="11_ymotv"]
@@ -26,36 +27,51 @@ script = ExtResource("1_wd8mt")
 
 [node name="BruteAttack" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("2_1yplg")
+unit_size = 16.42
 
 [node name="BruteDie" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("3_vapnd")
+unit_size = 16.42
 
 [node name="BruteHurt" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("4_fqu3m")
+unit_size = 16.42
 
 [node name="GunnerShoot" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("5_5ngy1")
+unit_size = 16.42
 
 [node name="GunnerDie" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("3_vapnd")
+unit_size = 16.42
 
 [node name="GunnerHurt" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("4_fqu3m")
+unit_size = 16.42
 
 [node name="BomberThrow" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("6_udoau")
+unit_size = 16.42
 
 [node name="BomberDie" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("3_vapnd")
+unit_size = 16.42
 
 [node name="BomberHurt" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("4_fqu3m")
+unit_size = 16.42
 
 [node name="Explosion" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("4_byfxn")
+unit_size = 16.42
 
 [node name="Fuse" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("4_4unml")
+unit_size = 16.42
+
+[node name="BankDamage" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("9_a00ht")
+unit_size = 100.0
 
 [node name="PlayerBulletHit" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_phwnr")

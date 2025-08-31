@@ -46,3 +46,7 @@ func show_shop(shop: Shop):
 			shop_menu.setup_shop(shop)
 		shop_menu.show()
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
+
+func _on_music_finished() -> void:
+	pass # Replace with function body.

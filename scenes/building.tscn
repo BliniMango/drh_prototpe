@@ -1,0 +1,111 @@
+[gd_scene load_steps=10 format=3 uid="uid://dhtbq3clsf3j3"]
+
+[ext_resource type="PackedScene" uid="uid://dturqn10l1jck" path="res://assets/models/Foundation B.glb" id="1_f5uvq"]
+[ext_resource type="PackedScene" uid="uid://cto15r4wqa1ff" path="res://assets/models/Wall D.glb" id="2_gof7m"]
+[ext_resource type="PackedScene" uid="uid://bbfmj12ol1uod" path="res://assets/models/Door and Window A.glb" id="3_g3pb6"]
+[ext_resource type="PackedScene" uid="uid://dhkedxob7mgcm" path="res://assets/models/Door B.glb" id="4_8lqx8"]
+[ext_resource type="PackedScene" uid="uid://djkpp2tqw72k8" path="res://assets/models/Wall C.glb" id="5_iwd2d"]
+[ext_resource type="PackedScene" uid="uid://c5ktqpuep0wql" path="res://assets/models/Roof A.glb" id="6_7huw0"]
+[ext_resource type="PackedScene" uid="uid://c3y3pcl7hsf2q" path="res://assets/models/Trough B.glb" id="7_g3pb6"]
+[ext_resource type="PackedScene" uid="uid://cpslinx7yenbo" path="res://assets/models/Hitching Post.glb" id="8_8lqx8"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g3pb6"]
+size = Vector3(3.31427, 3.00635, 3.33942)
+
+[node name="Building" type="Node3D"]
+transform = Transform3D(3, 0, 0, 0, 1, 0, 0, 0, 3, 0, 0, 0)
+
+[node name="Root Scene" parent="." instance=ExtResource("1_f5uvq")]
+transform = Transform3D(0.5, 0, 0, 0, 1, 0, 0, 0, 0.5, -0.841647, -2.53662, -0.870726)
+
+[node name="Root Scene2" parent="." instance=ExtResource("1_f5uvq")]
+transform = Transform3D(0.5, 0, 0, 0, 1, 0, 0, 0, 0.5, 0.805387, -2.53662, -0.870726)
+
+[node name="Root Scene3" parent="." instance=ExtResource("1_f5uvq")]
+transform = Transform3D(0.5, 0, 0, 0, 1, 0, 0, 0, 0.5, -0.841647, -2.53662, 0.778306)
+
+[node name="Root Scene4" parent="." instance=ExtResource("1_f5uvq")]
+transform = Transform3D(0.5, 0, 0, 0, 1, 0, 0, 0, 0.5, 0.805387, -2.53662, 0.778306)
+
+[node name="Root Scene5" parent="." instance=ExtResource("2_gof7m")]
+transform = Transform3D(0.279654, 0, 0.27632, 0, 1.2, 0, -0.41448, 0, 0.186436, 1.63673, -2.52991, 0.724972)
+metadata/_edit_group_ = true
+
+[node name="Root Scene6" parent="." instance=ExtResource("2_gof7m")]
+transform = Transform3D(0.279654, 0, 0.27632, 0, 1.2, 0, -0.41448, 0, 0.186436, 1.64687, -2.52991, -0.844567)
+metadata/_edit_group_ = true
+
+[node name="Root Scene7" parent="." instance=ExtResource("2_gof7m")]
+transform = Transform3D(-0.27872, 0, -0.276739, 0, 1.2, 0, 0.415108, 0, -0.185814, -1.61538, -2.52991, -0.844576)
+metadata/_edit_group_ = true
+
+[node name="Root Scene8" parent="." instance=ExtResource("2_gof7m")]
+transform = Transform3D(-0.27872, 0, -0.276739, 0, 1.2, 0, 0.415108, 0, -0.185814, -1.62198, -2.52991, 0.724982)
+metadata/_edit_group_ = true
+
+[node name="Wall" parent="." instance=ExtResource("2_gof7m")]
+transform = Transform3D(-0.416398, 0, 0.184527, 0, 1.2, 0, -0.27679, 0, -0.277599, 0.815294, -2.52991, -1.69826)
+metadata/_edit_group_ = true
+
+[node name="Wall2" parent="." instance=ExtResource("2_gof7m")]
+transform = Transform3D(-0.416398, 0, 0.184527, 0, 1.2, 0, -0.27679, 0, -0.277599, 0.815294, 0.138292, -1.69826)
+metadata/_edit_group_ = true
+
+[node name="Wall3" parent="." instance=ExtResource("2_gof7m")]
+transform = Transform3D(-0.416398, 0, 0.184527, 0, 1.2, 0, -0.27679, 0, -0.277599, -0.762905, 0.138292, -1.69826)
+metadata/_edit_group_ = true
+
+[node name="Wall4" parent="." instance=ExtResource("2_gof7m")]
+transform = Transform3D(0.41406, 0, -0.186851, 0, 1.2, 0, 0.280276, 0, 0.27604, -0.762877, 0.138292, 1.53893)
+metadata/_edit_group_ = true
+
+[node name="Wall5" parent="." instance=ExtResource("2_gof7m")]
+transform = Transform3D(0.41406, 0, -0.186851, 0, 1.2, 0, 0.280276, 0, 0.27604, 0.815266, 0.138292, 1.55218)
+metadata/_edit_group_ = true
+
+[node name="Wall6" parent="." instance=ExtResource("2_gof7m")]
+transform = Transform3D(0.279162, 0, 0.276541, 0, 1.2, 0, -0.414812, 0, 0.186108, 1.6486, 0.138292, 0.755035)
+metadata/_edit_group_ = true
+
+[node name="Wall7" parent="." instance=ExtResource("2_gof7m")]
+transform = Transform3D(0.279162, 0, 0.276541, 0, 1.2, 0, -0.414812, 0, 0.186108, 1.6576, 0.138292, -0.823138)
+metadata/_edit_group_ = true
+
+[node name="Wall8" parent="." instance=ExtResource("2_gof7m")]
+transform = Transform3D(-0.274642, 0, -0.278546, 0, 1.2, 0, 0.417818, 0, -0.183095, -1.63636, 0.138292, -0.873059)
+metadata/_edit_group_ = true
+
+[node name="Wall9" parent="." instance=ExtResource("2_gof7m")]
+transform = Transform3D(-0.274642, 0, -0.278546, 0, 1.2, 0, 0.417818, 0, -0.183095, -1.62823, 0.138292, 0.705119)
+metadata/_edit_group_ = true
+
+[node name="Root Scene10" parent="." instance=ExtResource("2_gof7m")]
+transform = Transform3D(-0.416398, 0, 0.184527, 0, 1.2, 0, -0.27679, 0, -0.277599, -0.754278, -2.52991, -1.69757)
+metadata/_edit_group_ = true
+
+[node name="Root Scene11" parent="." instance=ExtResource("3_g3pb6")]
+transform = Transform3D(-1.74846e-08, 0, -0.333333, 0, 1.2, 0, 0.4, 0, -1.45705e-08, 0.846578, -2.51093, 1.56367)
+
+[node name="Root Scene12" parent="." instance=ExtResource("4_8lqx8")]
+transform = Transform3D(-1.45705e-08, 0, -0.333333, 0, 1.2, 0, 0.333333, 0, -1.45705e-08, -0.110125, -2.47018, 1.59837)
+
+[node name="Root Scene13" parent="." instance=ExtResource("5_iwd2d")]
+transform = Transform3D(-1.74846e-08, 0, -0.433333, 0, 1.2, 0, 0.4, 0, -1.89416e-08, -0.975246, -2.51864, 1.56416)
+
+[node name="Roof" parent="." instance=ExtResource("6_7huw0")]
+
+[node name="Roof2" parent="." instance=ExtResource("6_7huw0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.66548, 0)
+
+[node name="Root Scene15" parent="." instance=ExtResource("7_g3pb6")]
+transform = Transform3D(0.0123818, 0, -0.499847, 0, 1, 0, 0.499847, 0, 0.0123818, -1.03409, -2.49793, 2.00263)
+
+[node name="Root Scene16" parent="." instance=ExtResource("8_8lqx8")]
+transform = Transform3D(0.0187753, 0, -0.499647, 0, 1, 0, 0.499647, 0, 0.0187753, -1.05194, -2.17522, 2.22941)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_layer = 16
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00662231, -1.36155, -0.0647888)
+shape = SubResource("BoxShape3D_g3pb6")

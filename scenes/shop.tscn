@@ -83,3 +83,10 @@ texture_filter = 0
 texture = ExtResource("10_heatd")
 region_enabled = true
 region_rect = Rect2(0, 0, 37.0322, 36.6145)
+
+[node name="InteractText" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.76659, 3.01982)
+visible = false
+billboard = 2
+text = "Press E to interact during the shop phase."
+font = ExtResource("2_xfvoa")

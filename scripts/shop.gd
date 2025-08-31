@@ -4,6 +4,7 @@ extends StaticBody3D
 signal shop_interaction_requested(shop: Shop)
 
 @onready var interact_area: Area3D = $InteractArea
+@onready var interact_text: Label3D = $InteractText
 
 var player_nearby : bool
 var shop_items = {
@@ -13,12 +14,12 @@ var shop_items = {
 		"description": "Risk more? Earn more?"
 	},
 	"health_pack": {
-		"price": 250, 
+		"price": 150, 
 		"name": "Health Pack",
 		"description": "Heal"
 	},
 	"ammo_refill": {
-		"price": 500, 
+		"price": 250, 
 		"name": "Ammo Refill",
 		"description": "Reload"
 	},
@@ -38,17 +39,17 @@ var shop_items = {
 		"description": "Health+"
 	},
 	"dash_master": {
-		"price": 4000, 
+		"price": 3000, 
 		"name": "Dash Master",
 		"description": "Dash+"
 	},
 	"dynamite_cache": {
-		"price": 800, 
+		"price": 400, 
 		"name": "Dynamite Cache",
 		"description": "Bombs"
 	},
 	"gunslinger": {
-		"price": 7000, 
+		"price": 5000, 
 		"name": "Gunslinger",
 		"description": "Quick Reload"
 	}
@@ -67,11 +68,13 @@ func _on_player_entered(area: Area3D):
 	var entity = area.get_parent()
 	if entity.is_in_group("player"):
 		player_nearby = true
-
+	interact_text.visible = true
 
 func _on_player_exited(area: Area3D):
 	if area.is_in_group("player"):
 		player_nearby = false
+	interact_text.visible = false
+
 
 func open_shop():
 	if GameManager.current_wave_state == GameManager.WaveState.SHOP:
