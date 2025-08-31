@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://cfcfi0jd7014y"]
+[gd_scene load_steps=7 format=3 uid="uid://cfcfi0jd7014y"]
 
 [ext_resource type="Script" uid="uid://dolnn2n7q5pv0" path="res://scripts/ui_manager.gd" id="1_u5sy4"]
 [ext_resource type="FontFile" uid="uid://bq5obgtgiy0su" path="res://assets/fonts/BoldPixels1.4.ttf" id="2_lnu2h"]
 [ext_resource type="PackedScene" uid="uid://demh0rtg15j6j" path="res://scenes/main_level.tscn" id="2_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://cbsmnx7wbcdtm" path="res://scenes/shop_menu.tscn" id="3_iywne"]
 [ext_resource type="PackedScene" uid="uid://c76d7l0yriuks" path="res://scenes/pause_menu.tscn" id="4_p57ef"]
+[ext_resource type="AudioStream" uid="uid://b755lwmcvhju4" path="res://assets/sfx/05 - Here's To The Pioneers (Loop Version).mp3" id="6_p57ef"]
 
 [node name="Game" type="Node3D"]
 
@@ -93,5 +94,11 @@ layout_mode = 1
 
 [node name="Player" parent="StageManager/MainLevel" index="2"]
 transform = Transform3D(-0.757291, 0.00041034, -0.653077, 0, 1, 0.000628318, 0.653077, 0.00047582, -0.757291, 20.7326, 0.394248, -9.43634)
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_p57ef")
+autoplay = true
+bus = &"music"
+parameters/looping = true
 
 [editable path="StageManager/MainLevel"]

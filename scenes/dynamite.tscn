@@ -83,7 +83,7 @@ animations = [{
 disable_mode = 2
 collision_layer = 512
 collision_mask = 18
-mass = 15.0
+mass = 25.0
 script = ExtResource("2_sbdca")
 damage = 15.0
 

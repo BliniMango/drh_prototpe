@@ -19,9 +19,6 @@ func _ready() -> void:
 		current_health = max_health
 		damage = int(damage * randf_range(1.3, 1.7))
 		speed *= randf_range(1.1, 1.3)
-		# Color modulation for strong enemies
-		if entity_sprite:
-			entity_sprite.modulate = Color(randf_range(0.2, 0.5), randf_range(0.2, 0.5), 1.0)
 		var scale_factor = randf_range(1.2, 1.5)
 		scale = Vector3.ONE * scale_factor
 	else:

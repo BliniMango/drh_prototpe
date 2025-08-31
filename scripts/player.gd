@@ -80,6 +80,7 @@ func _ready() -> void:
 	revolver = Weapon.create_revolver()
 	shotgun = Weapon.create_shotgun()
 	current_weapon = revolver
+	GameManager.unpause_game()
 
 	apply_weapon_anim()
 	_base_ui_pos = shoot_anim.position
@@ -563,6 +564,8 @@ func die() -> void:
 	super.die()
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	player_died.emit()
+	# Reset game state before reloading
+	GameManager.reset_game()
 	get_tree().reload_current_scene()
 
 

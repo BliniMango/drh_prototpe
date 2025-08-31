@@ -14,8 +14,10 @@ func setup_shop(shop: Shop) -> void:
 	update_money_display()
 	populate_items()
 	show()
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	player.set_physics_process(false)
 	player.set_process(false)
+	player.set_process_mode(Node.PROCESS_MODE_DISABLED)
 	close_button.pressed.connect(_on_close_button_pressed)
 
 func populate_items() -> void:
@@ -53,3 +55,4 @@ func _on_close_button_pressed() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	player.set_physics_process(true)
 	player.set_process(true)
+	player.set_process_mode(Node.PROCESS_MODE_INHERIT)

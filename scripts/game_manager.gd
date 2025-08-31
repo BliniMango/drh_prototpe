@@ -2,6 +2,8 @@ extends Node3D
 
 enum WaveState { COMBAT, SHOP, TRANSITION }
 
+var is_paused: bool = true
+
 var current_num_enemies: int
 var current_shop: Shop
 var bank: Bank
@@ -9,7 +11,7 @@ var player: Player
 
 var current_wave : int = 1
 var current_wave_state : WaveState = WaveState.SHOP
-var shop_timer : float = 30.0
+var shop_timer : float = 15.0
 
 var wave_start_time : float = 0.0
 var current_wave_time : float = 0.0
@@ -17,11 +19,10 @@ var wave_events_completed : Array[int] = []
 
 var wave_timelines := {
 	1: [
-		{"time": 0.0, "spawner": "left", "enemy": "bomber", "count": 5},
-		#{"time": 0.0, "spawner": "left",  "enemy": "gunner", "count": 3},
-		#{"time": 2.0, "spawner": "right", "enemy": "gunner", "count": 2},
-		#{"time": 5.0, "spawner": "left",  "enemy": "gunner", "count": 2},
-		#{"time": 10.0,"spawner": "right", "enemy": "brute",  "count": 1}
+		{"time": 0.0, "spawner": "left",  "enemy": "gunner", "count": 1},
+		{"time": 2.0, "spawner": "right", "enemy": "gunner", "count": 1},
+		{"time": 5.0, "spawner": "left",  "enemy": "gunner", "count": 1},
+		{"time": 11.0, "spawner": "left", "enemy": "bomber", "count": 1},
 	],
 	2: [
 		{"time": 0.0, "spawner": "left",  "enemy": "gunner", "count": 3},
@@ -611,7 +612,7 @@ func _ready() -> void:
 	set_player()
 	current_wave_state = WaveState.SHOP
 	shop_timer = 0.0
-	
+
 	call_deferred("setup_shop_connection")
 
 func setup_shop_connection():
@@ -625,6 +626,8 @@ func setup_shop_connection():
 		setup_shop_connection()
 
 func _process(delta: float) -> void:
+	if is_paused: return
+
 	match current_wave_state:
 		WaveState.COMBAT:
 			check_wave_completion()
@@ -655,7 +658,7 @@ func change_state(state: WaveState) -> void:
 			SFXManager.play_player_sfx(SFXManager.Type.WAVE_START)
 		WaveState.SHOP:
 			stop_spawners()
-			shop_timer = 30.0
+			shop_timer = 15.0
 			SFXManager.play_player_sfx(SFXManager.Type.SHOP_TIMER)
 		WaveState.TRANSITION:
 			stop_spawners()
@@ -743,3 +746,48 @@ func cash_out_bank() -> void:
 			player.money += bank_amount
 			bank.deposit_money(int(bank_amount * .2))
 			SFXManager.play_player_sfx(SFXManager.Type.CASHOUT)
+
+func reset_game() -> void:
+	current_wave = 1
+	current_wave_state = WaveState.SHOP
+	shop_timer = 15.0
+	
+	wave_start_time = 0.0
+	current_wave_time = 0.0
+	wave_events_completed.clear()
+	
+	current_num_enemies = 0
+	
+	stop_spawners()
+	
+	var enemies = get_tree().get_nodes_in_group("enemy")
+	for enemy in enemies:
+		if is_instance_valid(enemy):
+			enemy.queue_free()
+	
+	if bank:
+		bank.bank_money = 0
+	
+	set_player()
+	
+	call_deferred("setup_shop_connection")
+
+func pause_game() -> void:
+	is_paused = true
+	var spawners = get_tree().get_nodes_in_group("spawner")
+	for spawner in spawners:
+		if spawner.has_method("pause"):
+			spawner.pause()
+
+func unpause_game() -> void:
+	is_paused = false
+	var spawners = get_tree().get_nodes_in_group("spawner")
+	for spawner in spawners:
+		if spawner.has_method("unpause"):
+			spawner.unpause()
+
+func toggle_pause() -> void:
+	if is_paused:
+		unpause_game()
+	else:
+		pause_game()

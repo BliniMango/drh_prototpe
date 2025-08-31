@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://b755lwmcvhju4"
+path="res://.godot/imported/05 - Here's To The Pioneers (Loop Version).mp3-853fa9bacdda1eaba078cf2c2ac8eec3.mp3str"
+
+[deps]
+
+source_file="res://assets/sfx/05 - Here's To The Pioneers (Loop Version).mp3"
+dest_files=["res://.godot/imported/05 - Here's To The Pioneers (Loop Version).mp3-853fa9bacdda1eaba078cf2c2ac8eec3.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
