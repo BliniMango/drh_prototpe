@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://btafwlsx0dd4k"
-path="res://.godot/imported/pistol-export.png-d217a301d755fb8a0075d211a0ab22d7.ctex"
+uid="uid://bqhp6vs18q71o"
+path="res://.godot/imported/Cactus Front Sheet-fixed-export.png-c31fc7e035cd5b5a8f6c16a5449359fb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ui/pistol-export.png"
-dest_files=["res://.godot/imported/pistol-export.png-d217a301d755fb8a0075d211a0ab22d7.ctex"]
+source_file="res://assets/sprites/Mobs/Cactus/Cactus Front Sheet-fixed-export.png"
+dest_files=["res://.godot/imported/Cactus Front Sheet-fixed-export.png-c31fc7e035cd5b5a8f6c16a5449359fb.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://btafwlsx0dd4k"
-path="res://.godot/imported/pistol-export.png-d217a301d755fb8a0075d211a0ab22d7.ctex"
+uid="uid://bi0rckqd24inp"
+path="res://.godot/imported/Coyote Front Sheet-dynamite-fixed-export.png-afebf4504f1a457976c1665aeb875686.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ui/pistol-export.png"
-dest_files=["res://.godot/imported/pistol-export.png-d217a301d755fb8a0075d211a0ab22d7.ctex"]
+source_file="res://assets/sprites/Mobs/Coyote/Coyote Front Sheet-dynamite-fixed-export.png"
+dest_files=["res://.godot/imported/Coyote Front Sheet-dynamite-fixed-export.png-afebf4504f1a457976c1665aeb875686.ctex"]
 
 [params]
 

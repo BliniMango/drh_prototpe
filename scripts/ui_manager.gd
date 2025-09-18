@@ -10,6 +10,7 @@ var _prev_bank_money: int = -1
 func _ready():
 	add_to_group("ui")
 	update_announce_text("Shop")  # Show initial text
+	GameManager.start_game()  # Start the wave system
 
 func _process(delta):
 	

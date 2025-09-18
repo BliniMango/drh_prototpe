@@ -3,6 +3,7 @@ extends Node3D
 enum WaveState { COMBAT, SHOP, TRANSITION }
 
 var is_paused: bool = true
+var game_started: bool = false
 
 var current_num_enemies: int
 var current_shop: Shop
@@ -626,7 +627,8 @@ func setup_shop_connection():
 		setup_shop_connection()
 
 func _process(delta: float) -> void:
-	if is_paused: return
+	if is_paused or not game_started: 
+		return
 
 	match current_wave_state:
 		WaveState.COMBAT:
@@ -748,6 +750,10 @@ func cash_out_bank() -> void:
 			SFXManager.play_player_sfx(SFXManager.Type.CASHOUT)
 
 func reset_game() -> void:
+	# Stop the game manager
+	stop_game()
+	
+	# Reset wave progression
 	current_wave = 1
 	current_wave_state = WaveState.SHOP
 	shop_timer = 15.0
@@ -791,3 +797,13 @@ func toggle_pause() -> void:
 		unpause_game()
 	else:
 		pause_game()
+
+func start_game() -> void:
+	game_started = true
+	is_paused = false
+	print("Game started - wave timer is now active")
+
+func stop_game() -> void:
+	game_started = false
+	is_paused = true
+	print("Game stopped - wave timer is now paused")

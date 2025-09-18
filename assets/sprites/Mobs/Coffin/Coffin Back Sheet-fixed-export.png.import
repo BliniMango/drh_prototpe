@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://btafwlsx0dd4k"
-path="res://.godot/imported/pistol-export.png-d217a301d755fb8a0075d211a0ab22d7.ctex"
+uid="uid://blyxdgnlb5jc3"
+path="res://.godot/imported/Coffin Back Sheet-fixed-export.png-db4190d563484cac0b6546ff8c8eb3d1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ui/pistol-export.png"
-dest_files=["res://.godot/imported/pistol-export.png-d217a301d755fb8a0075d211a0ab22d7.ctex"]
+source_file="res://assets/sprites/Mobs/Coffin/Coffin Back Sheet-fixed-export.png"
+dest_files=["res://.godot/imported/Coffin Back Sheet-fixed-export.png-db4190d563484cac0b6546ff8c8eb3d1.ctex"]
 
 [params]
 

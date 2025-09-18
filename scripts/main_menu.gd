@@ -12,6 +12,7 @@ func _ready():
 	setting_menu.visible = false
 
 func _on_start_button_pressed():
+	GameManager.stop_game()  # Ensure clean state
 	get_tree().change_scene_to_file("res://scenes/game.tscn")
 
 func _on_settings_button_pressed():

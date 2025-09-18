@@ -19,12 +19,14 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -48.0
-offset_top = -50.5
-offset_right = 48.0
-offset_bottom = 50.5
+offset_left = -657.0
+offset_top = -103.0
+offset_right = -561.0
+offset_bottom = -2.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(2.2236567, 2.2236567)
+theme_override_constants/separation = 20
 
 [node name="StartButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
@@ -51,6 +53,7 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(1.5538688, 1.5538688)
 script = ExtResource("2_ij7vn")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SettingMenu"]

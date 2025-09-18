@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://c5aase6p6ftky"]
+[gd_scene load_steps=13 format=3 uid="uid://c5aase6p6ftky"]
 
 [ext_resource type="PackedScene" uid="uid://dwji84q36xvaa" path="res://scenes/enemy.tscn" id="1_xg6qc"]
 [ext_resource type="Script" uid="uid://bbkukloibdsi4" path="res://scripts/brute.gd" id="2_16csq"]
 [ext_resource type="Texture2D" uid="uid://c68j6n7s1ww05" path="res://assets/sprites/Mobs/Coffin/Coffin Front Sheet-fixed.png" id="3_jqsto"]
-[ext_resource type="Texture2D" uid="uid://dxw5aqg57dhu4" path="res://assets/sprites/Mobs/Coffin/Coffin Back Sheet-fixed.png" id="4_jqsto"]
-[ext_resource type="Texture2D" uid="uid://bw06hlk1seckm" path="res://assets/sprites/Mobs/Coffin/Coffin Side Sheet-fixed.png" id="5_opy8e"]
+[ext_resource type="Texture2D" uid="uid://dkdptumd5vwkg" path="res://assets/sprites/Mobs/Coffin/Coffin Front Sheet-fixed-export.png" id="3_opy8e"]
+[ext_resource type="Texture2D" uid="uid://blyxdgnlb5jc3" path="res://assets/sprites/Mobs/Coffin/Coffin Back Sheet-fixed-export.png" id="4_jr8ks"]
+[ext_resource type="Texture2D" uid="uid://dnlodqr5xbw26" path="res://assets/sprites/Mobs/Coffin/Coffin Side Sheet-fixed-export.png" id="5_t30v1"]
 
 [sub_resource type="Animation" id="Animation_k2fxb"]
 length = 0.001
@@ -97,9 +98,9 @@ _data = {
 
 [node name="Brute" instance=ExtResource("1_xg6qc")]
 script = ExtResource("2_16csq")
-front_texture = ExtResource("3_jqsto")
-back_texture = ExtResource("4_jqsto")
-side_texture = ExtResource("5_opy8e")
+front_texture = ExtResource("3_opy8e")
+back_texture = ExtResource("4_jr8ks")
+side_texture = ExtResource("5_t30v1")
 speed = 2.0
 max_health = 250
 current_health = 250

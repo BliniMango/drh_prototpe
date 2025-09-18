@@ -9,6 +9,8 @@ var shooter : Node = null
 var target_group : String = ""
 var speed : float = 2.0
 var dir : Vector3 = Vector3.ZERO
+var lifetime : float = 5.0  # Bullet lives for 5 seconds
+var age : float = 0.0
 
 func _ready() -> void:
 	add_to_group("bullet")
@@ -22,8 +24,15 @@ func _ready() -> void:
 
 	hit_box.area_entered.connect(_on_area_entered)
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	linear_velocity = speed * dir
+	
+	# Update bullet age
+	age += delta
+	
+	# Destroy bullet if it's too old
+	if age >= lifetime:
+		queue_free()
 	
 # on impact effects
 func _on_area_entered(area: Area3D) -> void:
